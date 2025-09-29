@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://bauhhjaxsi0jn"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_m2p35"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchor_right = 1.5000001
+anchor_bottom = 1.5000001
+offset_right = -0.00012207031
+offset_bottom = -0.00012207031
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = SubResource("CanvasTexture_m2p35")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 506.0
+offset_right = 279.0
+offset_bottom = 542.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 26
+text = "Van Gogh Game Test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 581.0
+offset_right = 61.0
+offset_bottom = 621.0
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Jogar"
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Opções"
+
+[node name="Button3" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Sair"
