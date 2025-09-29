@@ -3,7 +3,8 @@
 .nomedia
 
 # Godot-specific ignores
-.import/
+*.import/
+*.png.import
 export.cfg
 export_credentials.cfg
 
@@ -14,3 +15,7 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+*.exe
+van-gogh-game/Assets/Scenarios/Buildings/Design sem nome.png.import
+van-gogh-game/Assets/Scenarios/Buildings/Design sem nome.png.import

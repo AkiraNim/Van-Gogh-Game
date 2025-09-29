@@ -1,0 +1,216 @@
+[gd_scene load_steps=22 format=3 uid="uid://byea2f83c6rla"]
+
+[ext_resource type="Script" uid="uid://c3vkj25ibvp3j" path="res://Scripts/Test_Scripts/player_test2.gd" id="1_f3fd5"]
+[ext_resource type="Script" uid="uid://h386q5qytbjv" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
+[ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://Assets/Characters/Player/player_sprite_frame.tres" id="1_iqs5x"]
+[ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
+[ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
+[ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_h6hbo"]
+
+[sub_resource type="Environment" id="Environment_vtuy8"]
+ambient_light_source = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s7h03"]
+size = Vector3(1.5345465, 2.34198, 0.81996906)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7l53c"]
+size = Vector3(1.4542406, 2.34198, 1.7857708)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_usxod"]
+size = Vector3(1, 0.22705078, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_htqfr"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iqs5x"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ew6fa"]
+size = Vector3(1, 0.4215088, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3fd5"]
+radius = 0.11035156
+height = 0.44779205
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6hbo"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pt8oq"]
+material = SubResource("StandardMaterial3D_h6hbo")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h6hbo"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pt8oq"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tu0tt"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6q37k"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5bl01"]
+size = Vector3(4.0394287, 3.7212524, 4.039345)
+
+[node name="TestScene2" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vtuy8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.78908396, -0.57386786, -0.21913882, 0, -0.35673794, 0.93420434, -0.6142851, -0.7371658, -0.28149623, 0, 3.600955, 0)
+layers = 2
+light_energy = 0.67
+shadow_enabled = true
+shadow_opacity = 0.85
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(0.86890346, 0.010376781, 0.4948728, -0.29194367, 0.8181104, 0.49544346, -0.39971948, -0.5749675, 0.7138884, -3.7002563, 0.8326516, -4.7178955)
+
+[node name="Sprite3D2" type="Sprite3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 2.9802322e-08, 2.9802322e-08, 0.99999994, 0, -5.9604645e-08, 0, 1, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture = ExtResource("1_s7h03")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(0.896958, -0.375361, 0.23363787, 0.4415391, 0.78796285, -0.42914703, -0.023014694, 0.4880839, 0.8724942, 0.20437646, -0.26374412, 0.027636051)
+shape = SubResource("BoxShape3D_s7h03")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(0.89902616, -0.43345335, 0.062443495, 0.40291345, 0.7628284, -0.5057476, 0.17158318, 0.47983643, 0.8604231, 0.044855714, 0.27794337, -0.89432526)
+shape = SubResource("BoxShape3D_7l53c")
+
+[node name="Sprite3D3" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 4.590726, 0.75343406, -5.5870066)
+alpha_cut = 2
+texture = ExtResource("1_s7h03")
+
+[node name="Camera3D2" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -2.9464598, 5.89448, 2.1835012)
+projection = 1
+size = 4.563
+far = 611.26
+
+[node name="floor2" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14233398, 0)
+shape = SubResource("BoxShape3D_usxod")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor2"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.0001514554, 0)
+material_override = SubResource("StandardMaterial3D_htqfr")
+mesh = SubResource("PlaneMesh_iqs5x")
+skeleton = NodePath("../../floor2")
+
+[node name="floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20691067, 0)
+shape = SubResource("BoxShape3D_ew6fa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_iqs5x")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.22067964, -0.54956055)
+script = ExtResource("1_f3fd5")
+
+[node name="Camera3D" parent="CharacterBody3D" instance=ExtResource("3_h6hbo")]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0.234, 5.683316, 8.839263)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.009311676, 0)
+shape = SubResource("CapsuleShape3D_f3fd5")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="CharacterBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+sprite_frames = ExtResource("1_iqs5x")
+animation = &"walking_down_left"
+frame_progress = 0.86712366
+
+[node name="Cenario" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cenario"]
+transform = Transform3D(-2.1855695e-09, 20, -2.1855695e-09, 0, -8.742278e-07, -0.05, -0.05, -8.742278e-07, 9.553427e-17, 0, 0, 0)
+mesh = SubResource("BoxMesh_pt8oq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cenario"]
+transform = Transform3D(0.05, 0, 0, 0, -8.742278e-07, -0.05, 0, 20, -2.1855695e-09, 0, 0, 0)
+mesh = SubResource("BoxMesh_pt8oq")
+skeleton = NodePath("../..")
+
+[node name="Sprite3D" type="Sprite3D" parent="Cenario"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5836394, 1.1929512, -0.6807351)
+visible = false
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("2_c5kmp")
+
+[node name="Zonas" type="Node3D" parent="." node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
+script = ExtResource("1_h6hbo")
+world_environment = NodePath("../WorldEnvironment")
+directional_light = NodePath("../DirectionalLight3D")
+cor_zona_vermelha = Color(0.22745098, 0.039215688, 0.039215688, 1)
+cor_zona_azul = Color(0.0627451, 0.14117648, 0.29411766, 1)
+cor_zona_verde = Color(0.051678214, 0.26028818, 0.06808573, 1)
+cor_zona_amarela = Color(0.31380656, 0.30086884, 0.07122386, 1)
+cor_neutra = Color(0.003921569, 0.007843138, 0.003921569, 1)
+cor_padrao = Color(0.003921569, 0.007843138, 0.003921569, 1)
+rotacao_zona_vermelha = Vector3(-45, 37.9, 0)
+rotacao_zona_azul = Vector3(-110.9, -25.3, 0)
+rotacao_zona_verde = Vector3(-110.9, 37.9, 0)
+rotacao_zona_amarela = Vector3(-45, -45, 0)
+rotacao_neutra = Vector3(-46.6, -57.6, 0)
+zona_vermelha = NodePath("ZonaVermelha")
+zona_azul = NodePath("ZonaAzul")
+zona_verde = NodePath("ZonaVerde")
+zona_amarela = NodePath("ZonaAmarela")
+zona_neutra = NodePath("ZonaNeutra")
+
+[node name="ZonaVermelha" type="Area3D" parent="Zonas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0018616, 0, -5.017602)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zonas/ZonaVermelha"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
+shape = SubResource("BoxShape3D_h6hbo")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="ZonaAzul" type="Area3D" parent="Zonas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0018616, 0, 4.999892)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zonas/ZonaAzul"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
+shape = SubResource("BoxShape3D_pt8oq")
+debug_color = Color(0, 0, 1, 0.41960785)
+
+[node name="ZonaVerde" type="Area3D" parent="Zonas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.998123, 0, 4.999892)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zonas/ZonaVerde"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
+shape = SubResource("BoxShape3D_tu0tt")
+debug_color = Color(0, 1, 0, 0.41960785)
+
+[node name="ZonaAmarela" type="Area3D" parent="Zonas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0004425, 0, -4.168215)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zonas/ZonaAmarela"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.96985435, 1.7264099, -0.8890314)
+shape = SubResource("BoxShape3D_6q37k")
+debug_color = Color(0.87058824, 1, 0, 0.41960785)
+
+[node name="ZonaNeutra" type="Area3D" parent="Zonas"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zonas/ZonaNeutra"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
+shape = SubResource("BoxShape3D_5bl01")
+debug_color = Color(0.6666667, 0, 1, 0.41960785)
