@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bauhhjaxsi0jn"]
+[gd_scene load_steps=5 format=3 uid="uid://bauhhjaxsi0jn"]
+
+[ext_resource type="Shader" uid="uid://dwl85yfj0oh1d" path="res://Shaders/Test/main_menu_test.gdshader" id="1_rhw2h"]
+[ext_resource type="PackedScene" uid="uid://byea2f83c6rla" path="res://Scenes/Test_Scenes/test_scene2.tscn" id="1_y48hc"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_m2p35"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vfexa"]
+shader = ExtResource("1_rhw2h")
+shader_parameter/fade_color = Color(0.7497805, 0.7497799, 0.74977994, 1)
+shader_parameter/radius = 0.6950000330125
+shader_parameter/softness = 0.5
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -16,6 +25,18 @@ layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 texture = SubResource("CanvasTexture_m2p35")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_vfexa")
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+size = Vector2i(1280, 720)
+
+[node name="TestScene2" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_y48hc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.835762, 0.23278809, -0.13537598)
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
