@@ -55,9 +55,8 @@ size = Vector3(4.0394287, 3.7212524, 4.039345)
 environment = SubResource("Environment_vtuy8")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.78908396, -0.57386786, -0.21913882, 0, -0.35673794, 0.93420434, -0.6142851, -0.7371658, -0.28149623, 0, 3.600955, 0)
+transform = Transform3D(0.62932026, -0.36364973, 0.6868148, 0, 0.88376546, 0.46792972, -0.77714586, -0.2944777, 0.5561716, 0, 3.600955, 0)
 layers = 2
-light_energy = 0.67
 shadow_enabled = true
 shadow_opacity = 0.85
 
@@ -158,11 +157,12 @@ cor_zona_verde = Color(0.051678214, 0.26028818, 0.06808573, 1)
 cor_zona_amarela = Color(0.31380656, 0.30086884, 0.07122386, 1)
 cor_neutra = Color(0.003921569, 0.007843138, 0.003921569, 1)
 cor_padrao = Color(0.003921569, 0.007843138, 0.003921569, 1)
-rotacao_zona_vermelha = Vector3(-45, 37.9, 0)
-rotacao_zona_azul = Vector3(-110.9, -25.3, 0)
-rotacao_zona_verde = Vector3(-110.9, 37.9, 0)
-rotacao_zona_amarela = Vector3(-45, -45, 0)
-rotacao_neutra = Vector3(-46.6, -57.6, 0)
+rotacao_zona_vermelha = Vector3(-29.3, 45.7, 0)
+rotacao_zona_azul = Vector3(-29.3, 45.7, 0)
+rotacao_zona_verde = Vector3(-29.3, 45.7, 0)
+rotacao_zona_amarela = Vector3(-29.3, 45.7, 0)
+rotacao_neutra = Vector3(-29.3, 45.7, 0)
+rotacao_padrao = Vector3(-29.3, 45.7, 0)
 zona_vermelha = NodePath("ZonaVermelha")
 zona_azul = NodePath("ZonaAzul")
 zona_verde = NodePath("ZonaVerde")
