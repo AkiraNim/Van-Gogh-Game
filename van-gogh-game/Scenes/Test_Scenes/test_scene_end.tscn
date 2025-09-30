@@ -1,13 +1,24 @@
-[gd_scene load_steps=21 format=3 uid="uid://byea2f83c6rla"]
+[gd_scene load_steps=26 format=3 uid="uid://bqpxlrb0bmweg"]
 
-[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
-[ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
-[ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
-[ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_h6hbo"]
-[ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_h6hbo"]
-[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
+[ext_resource type="Texture2D" uid="uid://fvobcosftj8r" path="res://Assets/Scenarios/Sky/Test/anime_skybox.jpg" id="1_3xnic"]
+[ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_ccvm2"]
+[ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_e8pul"]
+[ext_resource type="Texture2D" uid="uid://bb3dj3pwf2my8" path="res://Assets/Scenarios/Sky/Test/ChatGPT Image 30 de set. de 2025, 17_21_33.png" id="2_pjiqm"]
+[ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_p0t22"]
+[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_3xnic"]
+[ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_pjiqm"]
+[ext_resource type="Script" uid="uid://bt2vxq72duyxb" path="res://Scripts/Test_Scripts/camera_3d_2.gd" id="5_ssfkb"]
+[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="6_ssfkb"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hf300"]
+panorama = ExtResource("1_3xnic")
+
+[sub_resource type="Sky" id="Sky_8pboq"]
+sky_material = SubResource("PanoramaSkyMaterial_hf300")
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
+background_mode = 2
+sky = SubResource("Sky_8pboq")
 ambient_light_source = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s7h03"]
@@ -51,14 +62,22 @@ size = Vector3(4.0394287, 3.7212524, 4.039345)
 
 [node name="TestScene2" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Sky" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky"]
 environment = SubResource("Environment_vtuy8")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Sky"]
 transform = Transform3D(0.62932026, -0.36364973, 0.6868148, 0, 0.88376546, 0.46792972, -0.77714586, -0.2944777, 0.5561716, 0, 3.600955, 0)
 layers = 2
 shadow_enabled = true
 shadow_opacity = 0.85
+
+[node name="Sprite3D" type="Sprite3D" parent="Sky"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.861844, -48.67729)
+visible = false
+texture_filter = 2
+texture = ExtResource("2_pjiqm")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -3.7002563, 0.8326516, -4.7178955)
@@ -72,12 +91,12 @@ transform = Transform3D(1, 0, 2.9802322e-08, 2.9802317e-08, 0.99999976, 0, -5.96
 billboard = 1
 shaded = true
 alpha_cut = 2
-texture = ExtResource("1_s7h03")
+texture = ExtResource("1_ccvm2")
 
 [node name="Sprite3D3" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 4.590726, 0.75343406, -5.5870066)
 alpha_cut = 2
-texture = ExtResource("1_s7h03")
+texture = ExtResource("1_ccvm2")
 
 [node name="Camera3D2" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -2.9464598, 5.89448, 2.1835012)
@@ -107,12 +126,21 @@ shape = SubResource("BoxShape3D_ew6fa")
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 mesh = SubResource("PlaneMesh_iqs5x")
 
+[node name="Camera3D" parent="." instance=ExtResource("3_p0t22")]
+transform = Transform3D(1, 0, 0, 0, 0.98713624, 0.15988119, 0, -0.15988119, 0.98713624, -1.5, 0.687, 0.788)
+size = 1.3963398
+script = ExtResource("5_ssfkb")
+rotation_a = Vector3(-9.2, 0, 0)
+rotation_b = Vector3(36.4, 0, 0)
+smoothness = 0.5
+
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.30379337, -0.54956055)
-script = ExtResource("2_h6hbo")
+script = ExtResource("2_e8pul")
 
-[node name="Camera3D" parent="CharacterBody3D" instance=ExtResource("3_h6hbo")]
+[node name="Camera3D" parent="CharacterBody3D" instance=ExtResource("3_p0t22")]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0.234, 5.683316, 8.839263)
+current = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.009311676, 0)
@@ -124,7 +152,7 @@ billboard = 1
 shaded = true
 alpha_cut = 2
 texture_filter = 2
-sprite_frames = ExtResource("4_h6hbo")
+sprite_frames = ExtResource("4_3xnic")
 animation = &"idle_down_left"
 frame_progress = 0.7074317
 
@@ -145,12 +173,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5836394, 1.1929512, -0.6807
 visible = false
 alpha_cut = 2
 texture_filter = 2
-texture = ExtResource("2_c5kmp")
+texture = ExtResource("5_pjiqm")
 
 [node name="Zonas" type="Node3D" parent="." node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
-script = ExtResource("1_h6hbo")
-world_environment = NodePath("../WorldEnvironment")
-directional_light = NodePath("../DirectionalLight3D")
+script = ExtResource("6_ssfkb")
+world_environment = NodePath("../Sky/WorldEnvironment")
+directional_light = NodePath("../Sky/DirectionalLight3D")
 cor_zona_vermelha = Color(0.22745098, 0.039215688, 0.039215688, 1)
 cor_zona_azul = Color(0.0627451, 0.14117648, 0.29411766, 1)
 cor_zona_verde = Color(0.051678214, 0.26028818, 0.06808573, 1)

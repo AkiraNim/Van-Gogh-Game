@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d4j4651t7jbdm"]
 
 [ext_resource type="Script" uid="uid://56kgnjxn61mu" path="res://Scripts/Test_Scripts/player_test1.gd" id="1_6mnq3"]
-[ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://Assets/Characters/Player/player_sprite_frame.tres" id="2_13gw0"]
+[ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://SpriteFrames/player_sprite_frame.tres" id="2_13gw0"]
 [ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="3_6mnq3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6mnq3"]

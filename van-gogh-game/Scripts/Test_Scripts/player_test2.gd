@@ -32,7 +32,6 @@ func _physics_process(delta):
 
 func _update_animation(dir: Vector3) -> void:
 	
-
 	# Diagonais
 	if dir.x > 0 and dir.z < 0:
 		anim_sprite.play("walking_up_right") # diagonal up-right

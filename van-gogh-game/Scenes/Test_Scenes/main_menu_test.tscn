@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="2_01u15"]
 [ext_resource type="Script" uid="uid://chxg5f7wf5jjh" path="res://Scripts/Test_Scripts/player_follow.gd" id="3_8bvnj"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_o02hk"]
-[ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://Assets/Characters/Player/player_sprite_frame.tres" id="4_8bvnj"]
+[ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://SpriteFrames/player_sprite_frame.tres" id="4_8bvnj"]
 [ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_e1ivv"]
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="6_ylnes"]
 [ext_resource type="Script" uid="uid://bbde0kyu1k1bp" path="res://Scripts/Test_Scripts/camera_3d.gd" id="7_8bvnj"]
@@ -265,7 +265,7 @@ transform = Transform3D(1, 0, -1.192096e-07, 0, 1, 0, 1.192096e-07, 0, 1, 0, -0.
 shape = SubResource("CapsuleShape3D_8bvnj")
 
 [node name="TimerPatrulha" type="Timer" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D"]
-wait_time = 16.341
+wait_time = 50.0
 one_shot = true
 
 [node name="TimerPausa" type="Timer" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D"]
