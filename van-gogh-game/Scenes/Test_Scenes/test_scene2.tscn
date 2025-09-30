@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://byea2f83c6rla"]
 
 [ext_resource type="Script" uid="uid://c3vkj25ibvp3j" path="res://Scripts/Test_Scripts/player_test2.gd" id="1_f3fd5"]
-[ext_resource type="Script" uid="uid://h386q5qytbjv" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
+[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
 [ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://Assets/Characters/Player/player_sprite_frame.tres" id="1_iqs5x"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
 [ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]

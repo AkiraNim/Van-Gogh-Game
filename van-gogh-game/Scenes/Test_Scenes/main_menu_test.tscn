@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_o02hk"]
 [ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://Assets/Characters/Player/player_sprite_frame.tres" id="4_8bvnj"]
 [ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_e1ivv"]
-[ext_resource type="Script" uid="uid://h386q5qytbjv" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="6_ylnes"]
+[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="6_ylnes"]
 [ext_resource type="Script" uid="uid://bbde0kyu1k1bp" path="res://Scripts/Test_Scripts/camera_3d.gd" id="7_8bvnj"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_m2p35"]
@@ -14,8 +14,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vfexa"]
 shader = ExtResource("1_rhw2h")
 shader_parameter/fade_color = Color(0.7497805, 0.7497799, 0.74977994, 1)
-shader_parameter/radius = 0.6950000330125
-shader_parameter/softness = 0.70000003325
+shader_parameter/radius = 0.59200002812
+shader_parameter/softness = 1.0
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
 ambient_light_source = 2
@@ -231,12 +231,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_5bl01")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
 
-[node name="Player" type="Node3D" parent="SubViewportContainer/SubViewport/TestScene2" node_paths=PackedStringArray("camera") groups=["player"]]
+[node name="Player" type="Node3D" parent="SubViewportContainer/SubViewport/TestScene2" node_paths=PackedStringArray("camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.056292474, 0)
 script = ExtResource("3_8bvnj")
 camera = NodePath("Path3D/Camera3D2")
 
-[node name="Path3D" type="Path3D" parent="SubViewportContainer/SubViewport/TestScene2/Player" groups=["player"]]
+[node name="Path3D" type="Path3D" parent="SubViewportContainer/SubViewport/TestScene2/Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.40027428, 0)
 curve = SubResource("Curve3D_e1ivv")
 
@@ -259,7 +259,6 @@ animation = &"walking_down_left"
 frame_progress = 0.86712366
 
 [node name="Area3D" type="Area3D" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D/PathFollow3D"]
-collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D/PathFollow3D/Area3D"]
 transform = Transform3D(1, 0, -1.192096e-07, 0, 1, 0, 1.192096e-07, 0, 1, 0, -0.027985185, -0.010314822)
