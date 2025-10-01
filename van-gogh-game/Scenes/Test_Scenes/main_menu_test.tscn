@@ -1,13 +1,13 @@
-[gd_scene load_steps=26 format=3 uid="uid://bauhhjaxsi0jn"]
+[gd_scene load_steps=28 format=3 uid="uid://bauhhjaxsi0jn"]
 
 [ext_resource type="Shader" uid="uid://dwl85yfj0oh1d" path="res://Shaders/Test/main_menu_test.gdshader" id="1_rhw2h"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="2_01u15"]
+[ext_resource type="Texture2D" uid="uid://cge3tladpec5o" path="res://Assets/Scenarios/Sky/Test/Gemini_Generated_Image_glydl6glydl6glyd.png" id="2_8bvnj"]
 [ext_resource type="Script" uid="uid://chxg5f7wf5jjh" path="res://Scripts/Test_Scripts/player_follow.gd" id="3_8bvnj"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_o02hk"]
-[ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://SpriteFrames/player_sprite_frame.tres" id="4_8bvnj"]
 [ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_e1ivv"]
+[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="5_ylnes"]
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="6_ylnes"]
-[ext_resource type="Script" uid="uid://bbde0kyu1k1bp" path="res://Scripts/Test_Scripts/camera_3d.gd" id="7_8bvnj"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_m2p35"]
 
@@ -17,11 +17,19 @@ shader_parameter/fade_color = Color(0.7497805, 0.7497799, 0.74977994, 1)
 shader_parameter/radius = 0.59200002812
 shader_parameter/softness = 1.0
 
-[sub_resource type="Environment" id="Environment_vtuy8"]
-ambient_light_source = 2
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hf300"]
+panorama = ExtResource("2_8bvnj")
+filter = false
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_s7h03"]
-size = Vector3(1.8698254, 1.4350586, 2.6168108)
+[sub_resource type="Sky" id="Sky_8pboq"]
+sky_material = SubResource("PanoramaSkyMaterial_hf300")
+process_mode = 1
+
+[sub_resource type="Environment" id="Environment_vtuy8"]
+background_mode = 2
+sky = SubResource("Sky_8pboq")
+sky_rotation = Vector3(0, 2.7925267, 0)
+ambient_light_source = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_usxod"]
 size = Vector3(1, 0.22705078, 1)
@@ -40,6 +48,9 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_pt8oq"]
 material = SubResource("StandardMaterial3D_h6hbo")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_s7h03"]
+size = Vector3(1.8698254, 1.4350586, 2.6168108)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_h6hbo"]
 size = Vector3(9.97998, 3.7212524, 9.982086)
 
@@ -55,17 +66,17 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bl01"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
-[sub_resource type="Curve3D" id="Curve3D_e1ivv"]
+[sub_resource type="Curve3D" id="Curve3D_8bvnj"]
 closed = true
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.2499037, -0.23279381, -1.4588542, 0, 0, 0, 0, 0, 0, -1.4625635, -0.23279381, -3.221204, 0, 0, 0, 0, 0, 0, -5.0671825, -0.23279381, -2.936254, 0, 0, 0, 0, 0, 0, -6.8623686, -0.23279381, 0.15545502, 0, 0, 0, 0, 0, 0, -7.184987, -0.23279381, 3.8103533, 0, 0, 0, 0, 0, 0, -4.7150116, -0.23279381, 7.009278, 0, 0, 0, 0, 0, 0, 3.8968751, -0.23279381, 7.369963, 0, 0, 0, 0, 0, 0, 6.235911, -0.23279381, 3.7595687, 0, 0, 0, 0, 0, 0, 1.7420734, -0.23279381, -1.4731016),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.5478821, 0, -0.25162616, 0, 0, 0, 0, 0, 0, -1.4868813, 0, -1.9748837, 0, 0, 0, 0, 0, 0, -5.0706477, 0, -2.737387, 0, 0, 0, 0, 0, 0, -6.4126534, 0, 3.2101393),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
 }
-point_count = 9
+point_count = 4
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8bvnj"]
-radius = 0.1459961
-height = 0.4065323
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3fd5"]
+radius = 0.11035156
+height = 0.44779205
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -94,35 +105,17 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="TestScene2" type="Node3D" parent="SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.835762, 0.23278809, -0.13537598)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/TestScene2"]
+[node name="Sky" type="Node3D" parent="SubViewportContainer/SubViewport/TestScene2"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/TestScene2/Sky"]
 environment = SubResource("Environment_vtuy8")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/TestScene2"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/TestScene2/Sky"]
 transform = Transform3D(0.62932026, -0.36364973, 0.6868148, 0, 0.88376546, 0.46792972, -0.77714586, -0.2944777, 0.5561716, 0, 3.600955, 0)
 layers = 2
 shadow_enabled = true
 shadow_opacity = 0.85
-
-[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport/TestScene2"]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -3.7002563, 0.8326516, -4.7178955)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/StaticBody3D"]
-transform = Transform3D(0.8333878, 0, 0.55268866, 0, 0.9999942, 0, -0.5526829, 0, 0.833382, -0.0037686825, -0.2175293, -0.55882406)
-shape = SubResource("BoxShape3D_s7h03")
-
-[node name="Sprite3D2" type="Sprite3D" parent="SubViewportContainer/SubViewport/TestScene2/StaticBody3D"]
-transform = Transform3D(1, 0, 2.9802322e-08, 2.9802317e-08, 0.99999976, 0, -5.9604634e-08, 0, 0.9999998, 0, 0, 0)
-billboard = 1
-shaded = true
-alpha_cut = 2
-texture = ExtResource("2_01u15")
-
-[node name="Sprite3D3" type="Sprite3D" parent="SubViewportContainer/SubViewport/TestScene2"]
-transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 4.590726, 0.75343406, -5.5870066)
-alpha_cut = 2
-texture = ExtResource("2_01u15")
 
 [node name="floor2" type="StaticBody3D" parent="SubViewportContainer/SubViewport/TestScene2"]
 
@@ -148,6 +141,11 @@ mesh = SubResource("PlaneMesh_iqs5x")
 
 [node name="Cenario" type="Node3D" parent="SubViewportContainer/SubViewport/TestScene2"]
 
+[node name="Sprite3D3" type="Sprite3D" parent="SubViewportContainer/SubViewport/TestScene2/Cenario"]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 4.590726, 0.75343406, -5.5870066)
+alpha_cut = 2
+texture = ExtResource("2_01u15")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/TestScene2/Cenario"]
 transform = Transform3D(-2.1855695e-09, 20, -2.1855695e-09, 0, -8.742278e-07, -0.05, -0.05, -8.742278e-07, 9.553427e-17, 0, 0, 0)
 mesh = SubResource("BoxMesh_pt8oq")
@@ -165,10 +163,24 @@ alpha_cut = 2
 texture_filter = 2
 texture = ExtResource("5_e1ivv")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport/TestScene2/Cenario"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -3.7002563, 0.8326516, -4.7178955)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Cenario/StaticBody3D"]
+transform = Transform3D(0.8333878, 0, 0.55268866, 0, 0.9999942, 0, -0.5526829, 0, 0.833382, -0.0037686825, -0.2175293, -0.55882406)
+shape = SubResource("BoxShape3D_s7h03")
+
+[node name="Sprite3D2" type="Sprite3D" parent="SubViewportContainer/SubViewport/TestScene2/Cenario/StaticBody3D"]
+transform = Transform3D(1, 0, 2.9802322e-08, 2.9802317e-08, 0.99999976, 0, -5.9604634e-08, 0, 0.9999998, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture = ExtResource("2_01u15")
+
 [node name="Zonas" type="Node3D" parent="SubViewportContainer/SubViewport/TestScene2" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
 script = ExtResource("6_ylnes")
-world_environment = NodePath("../WorldEnvironment")
-directional_light = NodePath("../DirectionalLight3D")
+world_environment = NodePath("../Sky/WorldEnvironment")
+directional_light = NodePath("../Sky/DirectionalLight3D")
 cor_zona_vermelha = Color(0.22745098, 0.039215688, 0.039215688, 1)
 cor_zona_azul = Color(0.0627451, 0.14117648, 0.29411766, 1)
 cor_zona_verde = Color(0.051678214, 0.26028818, 0.06808573, 1)
@@ -189,7 +201,6 @@ zona_neutra = NodePath("ZonaNeutra")
 
 [node name="ZonaVermelha" type="Area3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0018616, 0, -5.017602)
-collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas/ZonaVermelha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
@@ -198,7 +209,6 @@ debug_color = Color(1, 0, 0, 0.41960785)
 
 [node name="ZonaAzul" type="Area3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0018616, 0, 4.999892)
-collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas/ZonaAzul"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
@@ -207,7 +217,6 @@ debug_color = Color(0, 0, 1, 0.41960785)
 
 [node name="ZonaVerde" type="Area3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.998123, 0, 4.999892)
-collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas/ZonaVerde"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
@@ -216,7 +225,6 @@ debug_color = Color(0, 1, 0, 0.41960785)
 
 [node name="ZonaAmarela" type="Area3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0004425, 0, -4.168215)
-collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas/ZonaAmarela"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.96985435, 1.7264099, -0.8890314)
@@ -224,52 +232,54 @@ shape = SubResource("BoxShape3D_6q37k")
 debug_color = Color(0.87058824, 1, 0, 0.41960785)
 
 [node name="ZonaNeutra" type="Area3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas"]
-collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Zonas/ZonaNeutra"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_5bl01")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
 
-[node name="Player" type="Node3D" parent="SubViewportContainer/SubViewport/TestScene2" node_paths=PackedStringArray("camera")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.056292474, 0)
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TestScene2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.95129395, 2, -0.59262085)
+light_color = Color(1, 1, 0.56078434, 1)
+light_energy = 0.631
+shadow_enabled = true
+
+[node name="Path3D" type="Path3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("camera")]
+curve = SubResource("Curve3D_8bvnj")
 script = ExtResource("3_8bvnj")
-camera = NodePath("Path3D/Camera3D2")
+camera = NodePath("PathFollow3D/CharacterBody3D/Camera3D")
 
-[node name="Path3D" type="Path3D" parent="SubViewportContainer/SubViewport/TestScene2/Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.40027428, 0)
-curve = SubResource("Curve3D_e1ivv")
+[node name="PathFollow3D" type="PathFollow3D" parent="SubViewportContainer/SubViewport/Path3D"]
+transform = Transform3D(0.99937403, 0, -0.035376396, 0, 1, 0, 0.035376396, 0, 0.99937403, -1.5478821, 0, -0.25162616)
 
-[node name="Camera3D2" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D" node_paths=PackedStringArray("alvo") instance=ExtResource("3_o02hk")]
-transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0.23399997, 5.683316, 8.839263)
-script = ExtResource("7_8bvnj")
-alvo = NodePath("../PathFollow3D/AnimatedSprite3D")
+[node name="Camera3D" parent="SubViewportContainer/SubViewport/Path3D/PathFollow3D" instance=ExtResource("3_o02hk")]
+transform = Transform3D(1, 0, 0, 0, 0.9871363, 0.1598812, 0, -0.1598812, 0.9871363, -1.5, 1.1709666, 3.480124)
+size = 1.9042615
 
-[node name="PathFollow3D" type="PathFollow3D" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D"]
-transform = Transform3D(0.9927909, 0, 0.11979842, 0, 0.99999994, 0, -0.11979842, 0, 0.9927909, -1.2499037, -0.23279381, -1.4588542)
+[node name="CharacterBody3D" type="CharacterBody3D" parent="SubViewportContainer/SubViewport/Path3D/PathFollow3D" groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.32255808, -0.54956055)
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D/PathFollow3D"]
+[node name="Camera3D" parent="SubViewportContainer/SubViewport/Path3D/PathFollow3D/CharacterBody3D" instance=ExtResource("3_o02hk")]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0.234, 5.683316, 8.839263)
+current = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Path3D/PathFollow3D/CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.009311676, 0)
+shape = SubResource("CapsuleShape3D_f3fd5")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="SubViewportContainer/SubViewport/Path3D/PathFollow3D/CharacterBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 billboard = 1
 shaded = true
 alpha_cut = 2
 texture_filter = 2
-sprite_frames = ExtResource("4_8bvnj")
-animation = &"walking_down_left"
-frame_progress = 0.86712366
+sprite_frames = ExtResource("5_ylnes")
+animation = &"idle_down"
+autoplay = "idle_down"
 
-[node name="Area3D" type="Area3D" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D/PathFollow3D"]
+[node name="TimerPatrulha" type="Timer" parent="SubViewportContainer/SubViewport/Path3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D/PathFollow3D/Area3D"]
-transform = Transform3D(1, 0, -1.192096e-07, 0, 1, 0, 1.192096e-07, 0, 1, 0, -0.027985185, -0.010314822)
-shape = SubResource("CapsuleShape3D_8bvnj")
-
-[node name="TimerPatrulha" type="Timer" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D"]
-wait_time = 50.0
-one_shot = true
-
-[node name="TimerPausa" type="Timer" parent="SubViewportContainer/SubViewport/TestScene2/Player/Path3D"]
-wait_time = 4.0
+[node name="TimerPausa" type="Timer" parent="SubViewportContainer/SubViewport/Path3D"]
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
@@ -304,6 +314,3 @@ text = "Opções"
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Sair"
-
-[connection signal="timeout" from="SubViewportContainer/SubViewport/TestScene2/Player/Path3D/TimerPatrulha" to="SubViewportContainer/SubViewport/TestScene2/Player" method="_on_timer_patrulha_timeout"]
-[connection signal="timeout" from="SubViewportContainer/SubViewport/TestScene2/Player/Path3D/TimerPausa" to="SubViewportContainer/SubViewport/TestScene2/Player" method="_on_timer_pausa_timeout"]

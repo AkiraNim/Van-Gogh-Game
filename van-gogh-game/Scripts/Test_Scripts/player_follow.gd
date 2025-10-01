@@ -9,10 +9,10 @@ const DURACAO_PAUSA: float = 4.0
 @export var camera: Camera3D
 
 # --- Referências aos Nós ---
-@onready var path_follow: PathFollow3D = $Path3D/PathFollow3D
-@onready var timer_patrulha: Timer = $Path3D/TimerPatrulha
-@onready var timer_pausa: Timer = $Path3D/TimerPausa
-@onready var sprite: AnimatedSprite3D = $Path3D/PathFollow3D/AnimatedSprite3D
+@onready var path_follow: PathFollow3D = $PathFollow3D
+@onready var timer_patrulha: Timer = $TimerPatrulha
+@onready var timer_pausa: Timer = $TimerPausa
+@onready var sprite: AnimatedSprite3D =$PathFollow3D/CharacterBody3D/AnimatedSprite3D
 
 # --- Controle de Estados ---
 enum Estado { MOVENDO, PAUSADO }
