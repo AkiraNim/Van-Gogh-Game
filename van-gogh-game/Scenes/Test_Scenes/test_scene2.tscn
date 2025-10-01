@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://byea2f83c6rla"]
+[gd_scene load_steps=22 format=3 uid="uid://byea2f83c6rla"]
 
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
-[ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
+[ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
 [ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_h6hbo"]
+[ext_resource type="Texture2D" uid="uid://d3d00n2geeqw8" path="res://Assets/Scenarios/Buildings/Test/church-removebg-preview.png" id="2_pt8oq"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_h6hbo"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
 
@@ -75,9 +76,10 @@ alpha_cut = 2
 texture = ExtResource("1_s7h03")
 
 [node name="Sprite3D3" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 4.590726, 0.75343406, -5.5870066)
+transform = Transform3D(2, 0, 0, 0, 1.7197045, 1.0210859, 0, -1.0210859, 1.7197045, 4.591, 2, -5.587)
 alpha_cut = 2
-texture = ExtResource("1_s7h03")
+texture_filter = 2
+texture = ExtResource("2_pt8oq")
 
 [node name="Camera3D2" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -2.9464598, 5.89448, 2.1835012)
