@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bb3dj3pwf2my8" path="res://Assets/Scenarios/Sky/Test/ChatGPT Image 30 de set. de 2025, 17_21_33.png" id="2_pjiqm"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_p0t22"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_3xnic"]
-[ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_pjiqm"]
+[ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_pjiqm"]
 [ext_resource type="Script" uid="uid://bt2vxq72duyxb" path="res://Scripts/Test_Scripts/camera_3d_2.gd" id="5_ssfkb"]
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="6_ssfkb"]
 
@@ -77,6 +77,7 @@ shadow_opacity = 0.85
 
 [node name="Sprite3D" type="Sprite3D" parent="Sky"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.861844, -48.67729)
+visible = false
 texture_filter = 2
 texture = ExtResource("2_pjiqm")
 
@@ -235,3 +236,9 @@ debug_color = Color(0.87058824, 1, 0, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_5bl01")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.95129395, 2, -0.59262085)
+light_color = Color(1, 1, 0.56078434, 1)
+light_energy = 0.631
+shadow_enabled = true
