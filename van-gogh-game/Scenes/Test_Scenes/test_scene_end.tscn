@@ -1,8 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://bqpxlrb0bmweg"]
+[gd_scene load_steps=25 format=3 uid="uid://bqpxlrb0bmweg"]
 
 [ext_resource type="Texture2D" uid="uid://cge3tladpec5o" path="res://Assets/Scenarios/Sky/Test/Gemini_Generated_Image_glydl6glydl6glyd.png" id="1_3xnic"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_ccvm2"]
-[ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_e8pul"]
 [ext_resource type="Texture2D" uid="uid://bb3dj3pwf2my8" path="res://Assets/Scenarios/Sky/Test/ChatGPT Image 30 de set. de 2025, 17_21_33.png" id="2_pjiqm"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_p0t22"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_3xnic"]
@@ -78,7 +77,6 @@ shadow_opacity = 0.85
 
 [node name="Sprite3D" type="Sprite3D" parent="Sky"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.861844, -48.67729)
-visible = false
 texture_filter = 2
 texture = ExtResource("2_pjiqm")
 
@@ -119,8 +117,7 @@ rotation_b = Vector3(36.4, 0, 0)
 smoothness = 0.2
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.30379337, -0.54956055)
-script = ExtResource("2_e8pul")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.32255808, -0.54956055)
 
 [node name="Camera3D" parent="CharacterBody3D" instance=ExtResource("3_p0t22")]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0.234, 5.683316, 8.839263)
@@ -137,8 +134,8 @@ shaded = true
 alpha_cut = 2
 texture_filter = 2
 sprite_frames = ExtResource("4_3xnic")
-animation = &"idle_down_left"
-frame_progress = 0.7074317
+animation = &"idle_down"
+autoplay = "idle_down"
 
 [node name="Cenario" type="Node3D" parent="."]
 
