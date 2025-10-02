@@ -40,4 +40,7 @@ projection = 1
 size = 4.563
 far = 611.26
 script = ExtResource("1_ym0q5")
-save_directory = "C:\\Users\\aluno.fsa\\Desktop\\Ayanami Programas\\Van-Gogh-Game\\van-gogh-game\\Assets\\Scenarios\\Buildings\\Test\\Prints\\Simple Buildings"
+save_directory = "C:\\Users\\Campneus\\Documents\\GitHub\\Van-Gogh-Game\\van-gogh-game\\Assets\\Scenarios\\Buildings\\Test\\Prints\\Simple Farm"
+
+[node name="Buildings" type="Node3D" parent="."]
+transform = Transform3D(-7.7714586, 0, -6.2932053, 0, 10, 0, 6.2932053, 0, -7.7714586, -3, 2.795, 0)
