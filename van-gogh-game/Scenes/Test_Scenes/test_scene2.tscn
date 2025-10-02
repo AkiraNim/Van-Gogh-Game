@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
 [ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
 [ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_h6hbo"]
-[ext_resource type="Texture2D" uid="uid://d3d00n2geeqw8" path="res://Assets/Scenarios/Buildings/Test/church-removebg-preview.png" id="2_pt8oq"]
+[ext_resource type="Texture2D" uid="uid://d3da12vixdgex" path="res://Assets/Scenarios/Buildings/Test/Captura de tela 2025-09-28 011707.png" id="2_pt8oq"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_h6hbo"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
 
