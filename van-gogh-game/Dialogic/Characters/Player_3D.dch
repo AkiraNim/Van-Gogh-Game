@@ -8,21 +8,22 @@
 "sound_moods": {},
 "style": ""
 },
-&"default_portrait": "AnimatedSprite3D-removebg-preview",
+&"default_portrait": "scot t1",
 &"description": "",
 &"display_name": "Player_3D",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
 &"portraits": {
-"AnimatedSprite3D-removebg-preview": {
+"scot t1": {
 "export_overrides": {
-"image": "\"res://Dialogic/Portraits/AnimatedSprite3D-removebg-preview.png\""
+"image": "\"res://Dialogic/Portraits/Main_character/scot t1.png\""
 },
+"ignore_char_scale": false,
 "mirror": false,
-"offset": Vector2(0, 0),
-"scale": 1,
-"scene": ""
+"offset": Vector2(0, 80),
+"scale": 1.9,
+"scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
 }
 },
 &"scale": 1.0

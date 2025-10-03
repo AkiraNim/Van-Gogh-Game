@@ -50,7 +50,7 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bl01"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
-[node name="TestScene2" type="Node3D" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra", "camera_principal", "camera_dialogo")]
+[node name="TestScene2" type="Node3D" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
 script = ExtResource("1_h6hbo")
 world_environment = NodePath("Sky/WorldEnvironment")
 directional_light = NodePath("Sky/DirectionalLight3D")
@@ -61,8 +61,6 @@ zona_azul = NodePath("Zonas/ZonaAzul")
 zona_verde = NodePath("Zonas/ZonaVerde")
 zona_amarela = NodePath("Zonas/ZonaAmarela")
 zona_neutra = NodePath("Zonas/ZonaNeutra")
-camera_principal = NodePath("Player_3D/Camera3D_Principal")
-camera_dialogo = NodePath("Camera3D_Dialogo")
 
 [node name="Sky" type="Node3D" parent="."]
 
@@ -72,12 +70,14 @@ environment = SubResource("Environment_vtuy8")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Sky"]
 transform = Transform3D(0.6293204, -0.3636498, 0.6868149, 0, 0.88376564, 0.4679298, -0.777146, -0.29447776, 0.5561717, 0, 3.600955, 0)
 layers = 2
+light_energy = 0.835
 shadow_enabled = true
 shadow_opacity = 0.85
 
 [node name="Camera3D_Dialogo" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -1.5109355, 0.58813906, -0.26939154)
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -1.5109355, 0.58813906, -0.04739356)
 projection = 1
+current = true
 size = 0.531065
 far = 611.26
 
@@ -123,6 +123,7 @@ script = ExtResource("2_h6hbo")
 
 [node name="Camera3D_Principal" parent="Player_3D" instance=ExtResource("3_h6hbo")]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.683, 8.839)
+current = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.009311676, 0)
@@ -161,18 +162,8 @@ texture = ExtResource("2_c5kmp")
 script = ExtResource("1_h6hbo")
 world_environment = NodePath("../Sky/WorldEnvironment")
 directional_light = NodePath("../Sky/DirectionalLight3D")
-cor_zona_vermelha = Color(0.22745098, 0.039215688, 0.039215688, 1)
-cor_zona_azul = Color(0.0627451, 0.14117648, 0.29411766, 1)
 cor_zona_verde = Color(0.051678214, 0.26028818, 0.06808573, 1)
-cor_zona_amarela = Color(0.31380656, 0.30086884, 0.07122386, 1)
-cor_neutra = Color(0.003921569, 0.007843138, 0.003921569, 1)
-cor_padrao = Color(0.003921569, 0.007843138, 0.003921569, 1)
-rotacao_zona_vermelha = Vector3(-29.3, 45.7, 0)
-rotacao_zona_azul = Vector3(-29.3, 45.7, 0)
-rotacao_zona_verde = Vector3(-29.3, 45.7, 0)
-rotacao_zona_amarela = Vector3(-29.3, 45.7, 0)
-rotacao_neutra = Vector3(-29.3, 45.7, 0)
-rotacao_padrao = Vector3(-29.3, 45.7, 0)
+cor_neutra = Color(0.0003288339, 0.0006576678, 0.0003288339, 1)
 zona_vermelha = NodePath("ZonaVermelha")
 zona_azul = NodePath("ZonaAzul")
 zona_verde = NodePath("ZonaVerde")
@@ -220,6 +211,7 @@ debug_color = Color(0.6666667, 0, 1, 0.41960785)
 
 [node name="NPC_Teste" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -2.2573533, 0.29660276, -0.59170896)
+modulate = Color(0, 1, 1, 1)
 billboard = 1
 shaded = true
 alpha_cut = 2
