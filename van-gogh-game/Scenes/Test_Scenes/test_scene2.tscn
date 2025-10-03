@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
 [ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
 [ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_h6hbo"]
-[ext_resource type="Texture2D" uid="uid://d3da12vixdgex" path="res://Assets/Scenarios/Buildings/Test/Captura de tela 2025-09-28 011707.png" id="2_pt8oq"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_h6hbo"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
+[ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://addons/dialogic/Modules/DefaultLayoutParts/Base_Default/default_layout_base.tscn" id="7_pt8oq"]
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
 ambient_light_source = 2
@@ -50,16 +50,36 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bl01"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
-[node name="TestScene2" type="Node3D"]
+[node name="TestScene2" type="Node3D" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra", "camera_principal", "camera_dialogo")]
+script = ExtResource("1_h6hbo")
+world_environment = NodePath("Sky/WorldEnvironment")
+directional_light = NodePath("Sky/DirectionalLight3D")
+cor_neutra = Color(0.3770668, 0.3770668, 0.3112189, 1)
+cor_padrao = Color(0.44203168, 0.44203168, 0.44203168, 1)
+zona_vermelha = NodePath("Zonas/ZonaVermelha")
+zona_azul = NodePath("Zonas/ZonaAzul")
+zona_verde = NodePath("Zonas/ZonaVerde")
+zona_amarela = NodePath("Zonas/ZonaAmarela")
+zona_neutra = NodePath("Zonas/ZonaNeutra")
+camera_principal = NodePath("Player_3D/Camera3D_Principal")
+camera_dialogo = NodePath("Camera3D_Dialogo")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Sky" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky"]
 environment = SubResource("Environment_vtuy8")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.62932026, -0.36364973, 0.6868148, 0, 0.88376546, 0.46792972, -0.77714586, -0.2944777, 0.5561716, 0, 3.600955, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Sky"]
+transform = Transform3D(0.6293204, -0.3636498, 0.6868149, 0, 0.88376564, 0.4679298, -0.777146, -0.29447776, 0.5561717, 0, 3.600955, 0)
 layers = 2
 shadow_enabled = true
 shadow_opacity = 0.85
+
+[node name="Camera3D_Dialogo" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -1.5109355, 0.58813906, -0.26939154)
+projection = 1
+size = 0.531065
+far = 611.26
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -3.7002563, 0.8326516, -4.7178955)
@@ -74,18 +94,6 @@ billboard = 1
 shaded = true
 alpha_cut = 2
 texture = ExtResource("1_s7h03")
-
-[node name="Sprite3D3" type="Sprite3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 1.7197045, 1.0210859, 0, -1.0210859, 1.7197045, 4.591, 2, -5.587)
-alpha_cut = 2
-texture_filter = 2
-texture = ExtResource("2_pt8oq")
-
-[node name="Camera3D2" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -2.9464598, 5.89448, 2.1835012)
-projection = 1
-size = 4.563
-far = 611.26
 
 [node name="floor2" type="StaticBody3D" parent="."]
 
@@ -109,18 +117,18 @@ shape = SubResource("BoxShape3D_ew6fa")
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 mesh = SubResource("PlaneMesh_iqs5x")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." groups=["player"]]
+[node name="Player_3D" type="CharacterBody3D" parent="." groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.30379337, -0.54956055)
 script = ExtResource("2_h6hbo")
 
-[node name="Camera3D" parent="CharacterBody3D" instance=ExtResource("3_h6hbo")]
+[node name="Camera3D_Principal" parent="Player_3D" instance=ExtResource("3_h6hbo")]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.683, 8.839)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.009311676, 0)
 shape = SubResource("CapsuleShape3D_f3fd5")
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="CharacterBody3D"]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player_3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 billboard = 1
 shaded = true
@@ -151,8 +159,8 @@ texture = ExtResource("2_c5kmp")
 
 [node name="Zonas" type="Node3D" parent="." node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
 script = ExtResource("1_h6hbo")
-world_environment = NodePath("../WorldEnvironment")
-directional_light = NodePath("../DirectionalLight3D")
+world_environment = NodePath("../Sky/WorldEnvironment")
+directional_light = NodePath("../Sky/DirectionalLight3D")
 cor_zona_vermelha = Color(0.22745098, 0.039215688, 0.039215688, 1)
 cor_zona_azul = Color(0.0627451, 0.14117648, 0.29411766, 1)
 cor_zona_verde = Color(0.051678214, 0.26028818, 0.06808573, 1)
@@ -209,3 +217,17 @@ debug_color = Color(0.87058824, 1, 0, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_5bl01")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
+
+[node name="NPC_Teste" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -2.2573533, 0.29660276, -0.59170896)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+sprite_frames = ExtResource("4_h6hbo")
+animation = &"idle_down_right"
+autoplay = "idle_down_right"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DefaultLayoutBase" parent="CanvasLayer" instance=ExtResource("7_pt8oq")]
