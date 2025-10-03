@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cb4g22g8dvd6y"]
+[gd_scene load_steps=6 format=3 uid="uid://cb4g22g8dvd6y"]
 
 [ext_resource type="Script" uid="uid://ta1d0v2y2rco" path="res://Scripts/Test_Scripts/screenshot.gd" id="1_ym0q5"]
+[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_ym0q5"]
 
 [sub_resource type="Environment" id="Environment_cv4w0"]
 background_mode = 2
@@ -40,7 +41,18 @@ projection = 1
 size = 4.563
 far = 611.26
 script = ExtResource("1_ym0q5")
-save_directory = "C:\\Users\\Campneus\\Documents\\GitHub\\Van-Gogh-Game\\van-gogh-game\\Assets\\Scenarios\\Buildings\\Test\\Prints\\Simple Farm"
+save_directory = "C:\\Users\\Akira\\Desktop\\Atividades\\Van-Gogh-Game\\van-gogh-game\\Dialogic\\Portraits"
 
 [node name="Buildings" type="Node3D" parent="."]
 transform = Transform3D(-7.7714586, 0, -6.2932053, 0, 10, 0, 6.2932053, 0, -7.7714586, -3, 2.795, 0)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Buildings"]
+transform = Transform3D(2.0000002, 0, -2.9802322e-07, 0, 2, 0, 2.9802322e-07, 0, 2.0000002, -0.015011579, 0, 0.01853776)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+sprite_frames = ExtResource("2_ym0q5")
+animation = &"idle_down_left"
+frame = 3
+frame_progress = 0.70351315
