@@ -1,4 +1,4 @@
-# camera_manager.gd (ou DialogManager.gd)
+# DialogManager.gd
 extends Node3D
 
 signal dialogo_iniciou
@@ -34,7 +34,7 @@ func _ready():
 		camera_dialogo.size = zoom_inicial
 
 
-# --- FUNÇÃO PÚBLICA (ESSA É A QUE ESTAVA FALTANDO!) ---
+# --- FUNÇÕES PÚBLICAS ---
 func iniciar_dialogo(nome_timeline: String):
 	Dialogic.start(nome_timeline)
 

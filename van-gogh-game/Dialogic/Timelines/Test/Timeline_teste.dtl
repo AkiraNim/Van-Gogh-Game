@@ -1,2 +1,5 @@
+join Player_3D right
 Player_3D: Oi eu sou o player
+leave Player_3D
+join NPC_Teste right
 NPC_Teste: Oi eu sou o Npc

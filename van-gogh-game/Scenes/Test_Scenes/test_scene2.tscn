@@ -55,23 +55,23 @@ material = SubResource("StandardMaterial3D_h6hbo")
 
 [node name="MainManager" type="Node3D" parent="." node_paths=PackedStringArray("zone_manager", "dialog_manager")]
 script = ExtResource("1_h6hbo")
-zone_manager = NodePath("ZoneManager")
-dialog_manager = NodePath("DialogManager")
+zone_manager = NodePath("../ZoneManager")
+dialog_manager = NodePath("../DialogManager")
 
-[node name="ZoneManager" type="Node3D" parent="MainManager" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
+[node name="ZoneManager" type="Node3D" parent="." node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
 script = ExtResource("2_tu0tt")
-world_environment = NodePath("../../Sky/WorldEnvironment")
-directional_light = NodePath("../../Sky/DirectionalLight3D")
-zona_vermelha = NodePath("../../Zonas/ZonaVermelha")
-zona_azul = NodePath("../../Zonas/ZonaAzul")
-zona_verde = NodePath("../../Zonas/ZonaVerde")
-zona_amarela = NodePath("../../Zonas/ZonaAmarela")
-zona_neutra = NodePath("../../Zonas/ZonaNeutra")
+world_environment = NodePath("../Sky/WorldEnvironment")
+directional_light = NodePath("../Sky/DirectionalLight3D")
+zona_vermelha = NodePath("../Zonas/ZonaVermelha")
+zona_azul = NodePath("../Zonas/ZonaAzul")
+zona_verde = NodePath("../Zonas/ZonaVerde")
+zona_amarela = NodePath("../Zonas/ZonaAmarela")
+zona_neutra = NodePath("../Zonas/ZonaNeutra")
 
-[node name="DialogManager" type="Node3D" parent="MainManager" node_paths=PackedStringArray("camera_principal", "camera_dialogo")]
+[node name="DialogManager" type="Node3D" parent="." node_paths=PackedStringArray("camera_principal", "camera_dialogo")]
 script = ExtResource("3_6q37k")
-camera_principal = NodePath("../../Player_3D/Camera3D_Principal")
-camera_dialogo = NodePath("../../Camera3D_Dialogo")
+camera_principal = NodePath("../Player_3D/Camera3D_Principal")
+camera_dialogo = NodePath("../Camera3D_Dialogo")
 
 [node name="Sky" type="Node3D" parent="."]
 
