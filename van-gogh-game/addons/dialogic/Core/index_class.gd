@@ -78,7 +78,7 @@ func list_dir(subdir:='') -> Array:
 func list_special_resources(subdir:='', extension:="") -> Dictionary:
 	var dict := {}
 	for i in list_dir(subdir):
-		if extension.is_empty() or i.ends_with(extension):
+		if extension.is_empty() or i.ends_with(extension) or (extension == ".gd" and i.ends_with(".gdc")):
 			dict[DialogicUtil.pretty_name(i).to_lower()] = {"path":i}
 	return dict
 
@@ -86,7 +86,7 @@ func list_special_resources(subdir:='', extension:="") -> Dictionary:
 func list_animations(subdir := "") -> Dictionary:
 	var full_animation_list := {}
 	for path in list_dir(subdir):
-		if not path.ends_with(".gd"):
+		if not path.ends_with(".gd") and not path.ends_with(".gdc"):
 			continue
 		var anim_object: DialogicAnimation = load(path).new()
 		var versions := anim_object._get_named_variations()

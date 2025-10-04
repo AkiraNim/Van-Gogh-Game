@@ -25,7 +25,8 @@ QuestManager="*res://addons/quest_manager/QuestManager.gd"
 directories/dch_directory={
 "NPC_Teste": "res://Dialogic/Characters/NPC_Teste.dch",
 "Player_3D": "res://Dialogic/Characters/Player_3D.dch",
-"test_character": "res://Dialogic/Characters/test_character.dch"
+"test_character": "res://Dialogic/Characters/test_character.dch",
+"unit_test_character": "res://Tests/Resources/unit_test_character.dch"
 }
 directories/dtl_directory={
 "Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl",
@@ -54,6 +55,10 @@ save/encryption_on_exports_only=true
 text/autopauses={}
 glossary/default_case_sensitive=true
 variables={}
+layout/style_directory={
+"": "res://Dialogic/Themes/Test/New_File.tres",
+"New_File": "res://Dialogic/Themes/Test/New_File.tres"
+}
 
 [display]
 
