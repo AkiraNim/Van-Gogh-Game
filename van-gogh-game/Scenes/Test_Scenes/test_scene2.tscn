@@ -1,9 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://byea2f83c6rla"]
+[gd_scene load_steps=23 format=3 uid="uid://byea2f83c6rla"]
 
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
 [ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
 [ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_h6hbo"]
+[ext_resource type="Script" uid="uid://gws0ci2k3lac" path="res://Scripts/Test_Scripts/zone_manager.gd" id="2_tu0tt"]
+[ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Scripts/Test_Scripts/camera_manager.gd" id="3_6q37k"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
 [ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://addons/dialogic/Modules/DefaultLayoutParts/Base_Default/default_layout_base.tscn" id="7_pt8oq"]
 
@@ -28,12 +30,6 @@ size = Vector3(1, 0.4215088, 1)
 radius = 0.11035156
 height = 0.44779205
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6hbo"]
-albedo_color = Color(0, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_pt8oq"]
-material = SubResource("StandardMaterial3D_h6hbo")
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_h6hbo"]
 size = Vector3(9.97998, 3.7212524, 9.982086)
 
@@ -49,24 +45,33 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bl01"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
-[node name="TestScene2" type="Node3D" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra", "camera_principal", "camera_dialogo")]
-script = ExtResource("1_h6hbo")
-world_environment = NodePath("Sky/WorldEnvironment")
-directional_light = NodePath("Sky/DirectionalLight3D")
-cor_neutra = Color(0.3770668, 0.3770668, 0.3112189, 1)
-cor_padrao = Color(0.44203168, 0.44203168, 0.44203168, 1)
-zona_vermelha = NodePath("Zonas/ZonaVermelha")
-zona_azul = NodePath("Zonas/ZonaAzul")
-zona_verde = NodePath("Zonas/ZonaVerde")
-zona_amarela = NodePath("Zonas/ZonaAmarela")
-zona_neutra = NodePath("Zonas/ZonaNeutra")
-camera_principal = NodePath("Player_3D/Camera3D_Principal")
-camera_dialogo = NodePath("Camera3D_Dialogo")
-zoom_inicial = 1.5
-zoom_final = 0.8
-zoom_duracao = 0.5
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6hbo"]
+albedo_color = Color(0, 0, 0, 1)
 
-[node name="CameraManager" type="Node3D" parent="."]
+[sub_resource type="BoxMesh" id="BoxMesh_pt8oq"]
+material = SubResource("StandardMaterial3D_h6hbo")
+
+[node name="TestScene2" type="Node3D"]
+
+[node name="MainManager" type="Node3D" parent="." node_paths=PackedStringArray("zone_manager", "dialog_manager")]
+script = ExtResource("1_h6hbo")
+zone_manager = NodePath("ZoneManager")
+dialog_manager = NodePath("DialogManager")
+
+[node name="ZoneManager" type="Node3D" parent="MainManager" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
+script = ExtResource("2_tu0tt")
+world_environment = NodePath("../../Sky/WorldEnvironment")
+directional_light = NodePath("../../Sky/DirectionalLight3D")
+zona_vermelha = NodePath("../../Zonas/ZonaVermelha")
+zona_azul = NodePath("../../Zonas/ZonaAzul")
+zona_verde = NodePath("../../Zonas/ZonaVerde")
+zona_amarela = NodePath("../../Zonas/ZonaAmarela")
+zona_neutra = NodePath("../../Zonas/ZonaNeutra")
+
+[node name="DialogManager" type="Node3D" parent="MainManager" node_paths=PackedStringArray("camera_principal", "camera_dialogo")]
+script = ExtResource("3_6q37k")
+camera_principal = NodePath("../../Player_3D/Camera3D_Principal")
+camera_dialogo = NodePath("../../Camera3D_Dialogo")
 
 [node name="Sky" type="Node3D" parent="."]
 
@@ -147,36 +152,7 @@ sprite_frames = ExtResource("4_h6hbo")
 animation = &"idle_down_left"
 frame_progress = 0.7074317
 
-[node name="Cenario" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Cenario"]
-transform = Transform3D(-2.1855695e-09, 20, -2.1855695e-09, 0, -8.742278e-07, -0.05, -0.05, -8.742278e-07, 9.553427e-17, 0, 0, 0)
-mesh = SubResource("BoxMesh_pt8oq")
-skeleton = NodePath("../..")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cenario"]
-transform = Transform3D(0.05, 0, 0, 0, -8.742278e-07, -0.05, 0, 20, -2.1855695e-09, 0, 0, 0)
-mesh = SubResource("BoxMesh_pt8oq")
-skeleton = NodePath("../..")
-
-[node name="Sprite3D" type="Sprite3D" parent="Cenario"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5836394, 1.1929512, -0.6807351)
-visible = false
-alpha_cut = 2
-texture_filter = 2
-texture = ExtResource("2_c5kmp")
-
-[node name="Zonas" type="Node3D" parent="." node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
-script = ExtResource("1_h6hbo")
-world_environment = NodePath("../Sky/WorldEnvironment")
-directional_light = NodePath("../Sky/DirectionalLight3D")
-cor_zona_verde = Color(0.051678214, 0.26028818, 0.06808573, 1)
-cor_neutra = Color(0.0003288339, 0.0006576678, 0.0003288339, 1)
-zona_vermelha = NodePath("ZonaVermelha")
-zona_azul = NodePath("ZonaAzul")
-zona_verde = NodePath("ZonaVerde")
-zona_amarela = NodePath("ZonaAmarela")
-zona_neutra = NodePath("ZonaNeutra")
+[node name="Zonas" type="Node3D" parent="."]
 
 [node name="ZonaVermelha" type="Area3D" parent="Zonas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0018616, 0, -5.017602)
@@ -216,6 +192,25 @@ debug_color = Color(0.87058824, 1, 0, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_5bl01")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
+
+[node name="Cenario" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cenario"]
+transform = Transform3D(-2.1855695e-09, 20, -2.1855695e-09, 0, -8.742278e-07, -0.05, -0.05, -8.742278e-07, 9.553427e-17, 0, 0, 0)
+mesh = SubResource("BoxMesh_pt8oq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cenario"]
+transform = Transform3D(0.05, 0, 0, 0, -8.742278e-07, -0.05, 0, 20, -2.1855695e-09, 0, 0, 0)
+mesh = SubResource("BoxMesh_pt8oq")
+skeleton = NodePath("../..")
+
+[node name="Sprite3D" type="Sprite3D" parent="Cenario"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5836394, 1.1929512, -0.6807351)
+visible = false
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("2_c5kmp")
 
 [node name="NPC_Teste" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -2.2573533, 0.29660276, -0.59170896)
