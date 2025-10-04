@@ -1,10 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://byea2f83c6rla"]
+[gd_scene load_steps=21 format=3 uid="uid://byea2f83c6rla"]
 
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
 [ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
 [ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_h6hbo"]
-[ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_h6hbo"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
 [ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://addons/dialogic/Modules/DefaultLayoutParts/Base_Default/default_layout_base.tscn" id="7_pt8oq"]
 
@@ -50,7 +49,7 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bl01"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
-[node name="TestScene2" type="Node3D" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
+[node name="TestScene2" type="Node3D" node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra", "camera_principal", "camera_dialogo")]
 script = ExtResource("1_h6hbo")
 world_environment = NodePath("Sky/WorldEnvironment")
 directional_light = NodePath("Sky/DirectionalLight3D")
@@ -61,6 +60,13 @@ zona_azul = NodePath("Zonas/ZonaAzul")
 zona_verde = NodePath("Zonas/ZonaVerde")
 zona_amarela = NodePath("Zonas/ZonaAmarela")
 zona_neutra = NodePath("Zonas/ZonaNeutra")
+camera_principal = NodePath("Player_3D/Camera3D_Principal")
+camera_dialogo = NodePath("Camera3D_Dialogo")
+zoom_inicial = 1.5
+zoom_final = 0.8
+zoom_duracao = 0.5
+
+[node name="CameraManager" type="Node3D" parent="."]
 
 [node name="Sky" type="Node3D" parent="."]
 
@@ -77,7 +83,6 @@ shadow_opacity = 0.85
 [node name="Camera3D_Dialogo" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -1.5109355, 0.58813906, -0.04739356)
 projection = 1
-current = true
 size = 0.531065
 far = 611.26
 
@@ -117,13 +122,16 @@ shape = SubResource("BoxShape3D_ew6fa")
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 mesh = SubResource("PlaneMesh_iqs5x")
 
-[node name="Player_3D" type="CharacterBody3D" parent="." groups=["player"]]
+[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.30379337, -0.54956055)
 script = ExtResource("2_h6hbo")
+anim_sprite = NodePath("AnimatedSprite3D")
 
-[node name="Camera3D_Principal" parent="Player_3D" instance=ExtResource("3_h6hbo")]
+[node name="Camera3D_Principal" type="Camera3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.683, 8.839)
-current = false
+projection = 1
+size = 4.563
+far = 611.26
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.009311676, 0)

@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 @export var speed: float = 2.0
 
-@onready var anim_sprite: AnimatedSprite3D = $AnimatedSprite3D
+@export var anim_sprite: AnimatedSprite3D
 
 # Variável para guardar a última direção de movimento.
 # O valor inicial define a animação idle_down como padrão ao iniciar o jogo.

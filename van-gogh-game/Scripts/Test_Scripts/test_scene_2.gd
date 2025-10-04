@@ -1,8 +1,7 @@
 extends Node3D
 
-# Arraste o nó WorldEnvironment aqui pelo inspetor
+# --- NÓS EXTERNOS ---
 @export var world_environment: WorldEnvironment
-# Arraste o nó DirectionalLight3D aqui pelo inspetor
 @export var directional_light: DirectionalLight3D
 
 # --- CORES ---
@@ -14,7 +13,7 @@ extends Node3D
 @export var cor_neutra: Color = Color("010201")
 @export var cor_padrao: Color = Color("010201")
 
-# --- ROTAÇÕES DA LUZ (EM GRAUS) ---
+# --- ROTAÇÕES DA LUZ ---
 @export_group("Rotações da DirectionalLight (em Graus)")
 @export var rotacao_zona_vermelha: Vector3 = Vector3(-29.3, 45.7, 0)
 @export var rotacao_zona_azul: Vector3 = Vector3(-29.3, 45.7, 0)
@@ -31,36 +30,134 @@ extends Node3D
 @export var zona_amarela: Area3D
 @export var zona_neutra: Area3D
 
-# Variáveis internas
-var zonas_atuais: Array[Area3D] = []
+# --- DIALOGIC ---
+@export_group("Dialogic")
+@export var camera_principal: Camera3D
+@export var camera_dialogo: Camera3D
+@export var zoom_inicial: float = 10.0
+@export var zoom_final: float = 5.0
+@export var zoom_duracao: float = 1.2
+@export var offset_camera: Vector3 = Vector3(0, 1.6, 2.8)
+@export var velocidade_foco: float = 0.6
+
+# --- VARIÁVEIS INTERNAS ---
+var zoom_tween: Tween
+var foco_tween: Tween
 var cor_tween: Tween
 var rotacao_tween: Tween
+var zonas_atuais: Array[Area3D] = []
 
-
+# --- INICIALIZAÇÃO ---
 func _ready():
 	var todas_as_zonas = [zona_vermelha, zona_azul, zona_verde, zona_amarela, zona_neutra]
 	for zona in todas_as_zonas:
 		if zona:
 			zona.body_entered.connect(_on_body_entered.bind(zona))
 			zona.body_exited.connect(_on_body_exited.bind(zona))
-	Dialogic.start("Timeline_teste")
+
+	if not Dialogic.timeline_started.is_connected(_on_dialogo_iniciado):
+		Dialogic.timeline_started.connect(_on_dialogo_iniciado)
+	if not Dialogic.timeline_ended.is_connected(_on_dialogo_finalizado):
+		Dialogic.timeline_ended.connect(_on_dialogo_finalizado)
+	if not Dialogic.event_handled.is_connected(_on_evento_dialogic):
+		Dialogic.event_handled.connect(_on_evento_dialogic)
+
+	call_deferred("_inicializar_cameras")
 
 
+func _inicializar_cameras():
+	if camera_principal and camera_dialogo:
+		camera_principal.current = true
+		camera_dialogo.current = false
+		camera_dialogo.size = zoom_inicial
+		Dialogic.start("Timeline_teste")
+
+
+# --- CONTROLES DO DIALOGIC ---
+func _on_dialogo_iniciado():
+	if not camera_dialogo or not camera_principal:
+		return
+	camera_principal.current = false
+	camera_dialogo.current = true
+	call_deferred("_iniciar_zoom_ortografico")
+	print("Diálogo iniciado.")
+
+
+func _on_dialogo_finalizado():
+	if not camera_dialogo or not camera_principal:
+		return
+	camera_dialogo.current = false
+	camera_principal.current = true
+	camera_dialogo.size = zoom_inicial
+	print("Diálogo finalizado.")
+
+
+func _on_evento_dialogic(event_resource):
+	if "character" in event_resource:
+		var character_resource = event_resource.character
+		
+		if character_resource:
+			var char_name_string = character_resource.display_name
+			
+			if char_name_string != "":
+				print("Personagem falando: '", char_name_string, "'. Focando a câmera.")
+				_focar_personagem(char_name_string)
+
+
+# --- FUNÇÕES DE CÂMERA ---
+func _iniciar_zoom_ortografico():
+	if not camera_dialogo:
+		return
+	if zoom_tween and zoom_tween.is_running():
+		zoom_tween.kill()
+
+	zoom_tween = create_tween()
+	zoom_tween.tween_property(
+		camera_dialogo,
+		"size",
+		zoom_final,
+		zoom_duracao
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+func _focar_personagem(nome: String):
+	# PROTEÇÃO ADICIONADA: Se a câmera de diálogo não foi definida, a função para aqui.
+	if not camera_dialogo:
+		print("ERRO: A variável 'camera_dialogo' não foi definida no inspetor.")
+		return
+
+	var char_node = get_tree().get_current_scene().get_node_or_null(nome)
+	
+	if not (char_node and char_node is Node3D):
+		print("AVISO: Personagem '", nome, "' não encontrado na cena.")
+		return
+
+	var pos_alvo = char_node.global_transform.origin + char_node.global_transform.basis * offset_camera
+
+	if foco_tween and foco_tween.is_running():
+		foco_tween.kill()
+
+	foco_tween = create_tween()
+	foco_tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	foco_tween.tween_property(camera_dialogo, "global_position", pos_alvo, velocidade_foco)
+	foco_tween.tween_callback(camera_dialogo.look_at.bind(char_node.global_position))
+
+
+# --- CONTROLES DAS ZONAS DE AMBIENTE (Sem alterações) ---
+# (O resto do código permanece o mesmo)
 func _on_body_entered(body, zona: Area3D):
-	if body.is_in_group("player"):
-		if not zonas_atuais.has(zona):
-			zonas_atuais.push_back(zona)
+	if body.is_in_group("player") and not zonas_atuais.has(zona):
+		zonas_atuais.push_back(zona)
 		_atualizar_estado_ambiente()
+		Dialogic.start("Timeline_teste")
 
 
 func _on_body_exited(body, zona: Area3D):
-	if body.is_in_group("player"):
-		if zonas_atuais.has(zona):
-			zonas_atuais.erase(zona)
+	if body.is_in_group("player") and zonas_atuais.has(zona):
+		zonas_atuais.erase(zona)
 		_atualizar_estado_ambiente()
 
 
-# A função principal foi renomeada para refletir que ela faz mais do que só mudar a cor
 func _atualizar_estado_ambiente():
 	if zonas_atuais.has(zona_neutra):
 		_iniciar_transicao(cor_neutra, rotacao_neutra)
@@ -76,7 +173,6 @@ func _atualizar_estado_ambiente():
 		_iniciar_transicao(cor_padrao, rotacao_padrao)
 
 
-# Esta nova função central inicia AMBAS as transições
 func _iniciar_transicao(cor_alvo: Color, rotacao_alvo_graus: Vector3):
 	_transicionar_cor(cor_alvo)
 	_transicionar_rotacao(rotacao_alvo_graus)
@@ -85,28 +181,24 @@ func _iniciar_transicao(cor_alvo: Color, rotacao_alvo_graus: Vector3):
 func _transicionar_cor(cor_alvo: Color):
 	if cor_tween and cor_tween.is_running():
 		cor_tween.kill()
-	
 	cor_tween = create_tween()
 	cor_tween.tween_property(
-		world_environment.environment, 
-		"ambient_light_color", 
-		cor_alvo, 
-		1.5 # Duração da transição
+		world_environment.environment,
+		"ambient_light_color",
+		cor_alvo,
+		1.5
 	).set_trans(Tween.TRANS_SINE)
 
 
-# Nova função específica para animar a rotação da DirectionalLight3D
 func _transicionar_rotacao(rotacao_alvo_graus: Vector3):
-	if not directional_light: return # Não faz nada se a luz não for definida
-
+	if not directional_light:
+		return
 	if rotacao_tween and rotacao_tween.is_running():
 		rotacao_tween.kill()
-	
 	rotacao_tween = create_tween()
-	# Usamos "rotation_degrees" para poder usar ângulos em graus, que são mais fáceis
 	rotacao_tween.tween_property(
-		directional_light, 
-		"rotation_degrees", 
-		rotacao_alvo_graus, 
-		1.5 # Duração da transição
+		directional_light,
+		"rotation_degrees",
+		rotacao_alvo_graus,
+		1.5
 	).set_trans(Tween.TRANS_SINE)
