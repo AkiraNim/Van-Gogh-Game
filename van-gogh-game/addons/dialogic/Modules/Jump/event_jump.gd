@@ -19,17 +19,13 @@ var label_name := ""
 var timeline_identifier := "":
 	get:
 		if timeline:
-			var identifier := timeline.get_identifier()
+			var identifier := DialogicResourceUtil.get_unique_identifier(timeline.resource_path)
 			if not identifier.is_empty():
 				return identifier
 		return timeline_identifier
 	set(value):
 		timeline_identifier = value
 		timeline = DialogicResourceUtil.get_timeline_resource(value)
-		if (not timeline_identifier in DialogicResourceUtil.get_label_cache().keys()
-				or not label_name in DialogicResourceUtil.get_label_cache()[timeline_identifier]):
-			label_name = ""
-			ui_update_needed.emit()
 
 
 ################################################################################
@@ -95,7 +91,7 @@ func get_shortcode_parameters() -> Dictionary:
 	return {
 		#param_name 	: property_info
 		"timeline"		: {"property": "timeline_identifier", 	"default": null,
-							"suggestions": get_timeline_suggestions, "ext_file":true},
+							"suggestions": get_timeline_suggestions},
 		"label"			: {"property": "label_name", 		"default": ""},
 	}
 
@@ -109,7 +105,7 @@ func build_event_editor() -> void:
 		'file_extension': '.dtl',
 		'mode'			: 2,
 		'suggestions_func': get_timeline_suggestions,
-		'icon'	: load("res://addons/dialogic/Editor/Images/Resources/timeline.svg"),
+		'editor_icon'	: ["TripleBar", "EditorIcons"],
 		'empty_text'	: '(this timeline)',
 		'autofocus'		: true,
 		})
@@ -134,9 +130,6 @@ func get_label_suggestions(_filter:String="") -> Dictionary:
 	if timeline_identifier in DialogicResourceUtil.get_label_cache().keys():
 		for label in DialogicResourceUtil.get_label_cache()[timeline_identifier]:
 			suggestions[label] = {'value': label, 'tooltip':label, 'editor_icon': ["ArrowRight", "EditorIcons"]}
-	if _filter.begins_with("{"):
-		for var_path in DialogicUtil.list_variables(DialogicUtil.get_default_variables()):
-			suggestions["{"+var_path+"}"] = {'value':"{"+var_path+"}", 'icon':load("res://addons/dialogic/Editor/Images/Pieces/variable.svg")}
 	return suggestions
 
 
@@ -147,8 +140,6 @@ func _get_code_completion(CodeCompletionHelper:Node, TextNode:TextEdit, line:Str
 	if symbol == ' ' and line.count(' ') == 1:
 		CodeCompletionHelper.suggest_labels(TextNode, '', '\n', event_color.lerp(TextNode.syntax_highlighter.normal_color, 0.6))
 		CodeCompletionHelper.suggest_timelines(TextNode, CodeEdit.KIND_MEMBER, event_color.lerp(TextNode.syntax_highlighter.normal_color, 0.6))
-	if symbol == "{":
-		CodeCompletionHelper.suggest_variables(TextNode)
 	if symbol == '/':
 		CodeCompletionHelper.suggest_labels(TextNode, line.strip_edges().trim_prefix('jump ').trim_suffix('/'+String.chr(0xFFFF)).strip_edges(), '\n', event_color.lerp(TextNode.syntax_highlighter.normal_color, 0.6))
 
