@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://gws0ci2k3lac" path="res://Scripts/Test_Scripts/zone_manager.gd" id="2_tu0tt"]
 [ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Scripts/Test_Scripts/camera_manager.gd" id="3_6q37k"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
-[ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://addons/dialogic/Modules/DefaultLayoutParts/Base_Default/default_layout_base.tscn" id="7_pt8oq"]
+[ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://Dialogic/Themes/Test/CustomNewFile/custom_new_file.tscn" id="7_pt8oq"]
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
 ambient_light_source = 2
