@@ -25,11 +25,12 @@ QuestManager="*res://addons/quest_manager/QuestManager.gd"
 directories/dch_directory={
 "NPC_Teste": "res://Dialogic/Characters/NPC_Teste.dch",
 "Player_3D": "res://Dialogic/Characters/Player_3D.dch",
+"character": "res://Dialogic/Characters/character.dch",
 "test_character": "res://Dialogic/Characters/test_character.dch"
 }
 directories/dtl_directory={
-"Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl",
-"test_inicial": "res://Dialogic/Timelines/Test/test_inicial.dtl"
+"Player_item": "res://Dialogic/Timelines/Test/Player_item.dtl",
+"Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl"
 }
 layout/style_list=["res://Dialogic/Themes/Test/New_File.tres"]
 layout/default_style="res://Dialogic/Themes/Test/New_File.tres"
@@ -69,6 +70,8 @@ enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/ques
 [global_group]
 
 player=""
+coletaveis=""
+estrelas=""
 
 [input]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://byea2f83c6rla"]
+[gd_scene load_steps=40 format=3 uid="uid://byea2f83c6rla"]
 
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
@@ -7,7 +7,8 @@
 [ext_resource type="Script" uid="uid://gws0ci2k3lac" path="res://Scripts/Test_Scripts/zone_manager.gd" id="2_tu0tt"]
 [ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Scripts/Test_Scripts/camera_manager.gd" id="3_6q37k"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
-[ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://Dialogic/Themes/Test/CustomNewFile/custom_new_file.tscn" id="7_pt8oq"]
+[ext_resource type="Script" uid="uid://6pxdffo0qo62" path="res://Scripts/Test_Scripts/area_3d.gd" id="8_tu0tt"]
+[ext_resource type="Texture2D" uid="uid://by2fj1cm3tesq" path="res://Assets/Items/Star.png" id="9_6q37k"]
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
 ambient_light_source = 2
@@ -30,6 +31,10 @@ size = Vector3(1, 0.4215088, 1)
 radius = 0.11035156
 height = 0.44779205
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pt8oq"]
+radius = 0.16845703
+height = 0.7380371
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_h6hbo"]
 size = Vector3(9.97998, 3.7212524, 9.982086)
 
@@ -51,14 +56,115 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_pt8oq"]
 material = SubResource("StandardMaterial3D_h6hbo")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_tu0tt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bl01"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7h03"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7l53c"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_usxod"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyfe8"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkna6"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w81hg"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ida3x"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs2cp"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8sdx"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hufdu"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8vwr"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oet2i"]
+atlas = ExtResource("9_6q37k")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ult6n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bl01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7h03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7l53c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_usxod")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cyfe8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkna6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w81hg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ida3x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs2cp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8sdx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hufdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8vwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oet2i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="TestScene2" type="Node3D"]
 
-[node name="MainManager" type="Node3D" parent="." node_paths=PackedStringArray("zone_manager", "dialog_manager")]
+[node name="MainManager" type="Node3D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_h6hbo")
-zone_manager = NodePath("../ZoneManager")
-dialog_manager = NodePath("../DialogManager")
 
 [node name="ZoneManager" type="Node3D" parent="." node_paths=PackedStringArray("world_environment", "directional_light", "zona_vermelha", "zona_azul", "zona_verde", "zona_amarela", "zona_neutra")]
+unique_name_in_owner = true
 script = ExtResource("2_tu0tt")
 world_environment = NodePath("../Sky/WorldEnvironment")
 directional_light = NodePath("../Sky/DirectionalLight3D")
@@ -69,9 +175,14 @@ zona_amarela = NodePath("../Zonas/ZonaAmarela")
 zona_neutra = NodePath("../Zonas/ZonaNeutra")
 
 [node name="DialogManager" type="Node3D" parent="." node_paths=PackedStringArray("camera_principal", "camera_dialogo")]
+unique_name_in_owner = true
 script = ExtResource("3_6q37k")
 camera_principal = NodePath("../Player_3D/Camera3D_Principal")
 camera_dialogo = NodePath("../Camera3D_Dialogo")
+zoom_inicial = 5.0
+zoom_final = 3.0
+zoom_duracao = 0.4
+velocidade_foco = 0.2
 
 [node name="Sky" type="Node3D" parent="."]
 
@@ -127,10 +238,16 @@ shape = SubResource("BoxShape3D_ew6fa")
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 mesh = SubResource("PlaneMesh_iqs5x")
 
-[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite") groups=["player"]]
+[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima", "spotlight_item") groups=["player"]]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.30379337, -0.54956055)
 script = ExtResource("2_h6hbo")
 anim_sprite = NodePath("AnimatedSprite3D")
+ponto_item_acima = NodePath("Marker3D")
+spotlight_item = NodePath("SpotLight3D")
+
+[node name="Marker3D" type="Marker3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45917076, 0)
 
 [node name="Camera3D_Principal" type="Camera3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.683, 8.839)
@@ -151,6 +268,20 @@ texture_filter = 2
 sprite_frames = ExtResource("4_h6hbo")
 animation = &"idle_down_left"
 frame_progress = 0.7074317
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 0.46728188, 0.88410836, 0, -0.88410836, 0.46728188, -8.85725e-05, 1.5505934, 0.48858678)
+light_color = Color(1, 1, 0, 1)
+light_energy = 1.495
+shadow_enabled = true
+spot_range = 2.1029348
+spot_angle = 39.45476
+
+[node name="AreaColeta" type="Area3D" parent="Player_3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D/AreaColeta"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0035429597, 0)
+shape = SubResource("CapsuleShape3D_pt8oq")
 
 [node name="Zonas" type="Node3D" parent="."]
 
@@ -223,6 +354,32 @@ sprite_frames = ExtResource("4_h6hbo")
 animation = &"idle_down_right"
 autoplay = "idle_down_right"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Area3D" type="Area3D" parent="." groups=["coletaveis", "estrelas"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7016304, 0.025352359, -0.54742026)
+script = ExtResource("8_tu0tt")
 
-[node name="DefaultLayoutBase" parent="CanvasLayer" instance=ExtResource("7_pt8oq")]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_tu0tt")
+debug_color = Color(0.9411765, 0, 1, 1)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20568192, 0)
+shaded = true
+texture_filter = 4
+sprite_frames = SubResource("SpriteFrames_ult6n")
+autoplay = "default"
+
+[node name="Area3D2" type="Area3D" parent="." groups=["coletaveis", "estrelas"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.113797, 0.025352359, -0.54742026)
+script = ExtResource("8_tu0tt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]
+shape = SubResource("SphereShape3D_tu0tt")
+debug_color = Color(0.9411765, 0, 1, 1)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Area3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20568192, 0)
+shaded = true
+texture_filter = 4
+sprite_frames = SubResource("SpriteFrames_ult6n")
+autoplay = "default"

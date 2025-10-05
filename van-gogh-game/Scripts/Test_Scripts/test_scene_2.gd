@@ -1,28 +1,29 @@
-# Main.gd (Versão final e limpa)
 extends Node3D
 
-@export var zone_manager: Node3D
-@export var dialog_manager: Node3D
-
-# A função _ready agora é 'assíncrona' para podermos usar 'await'
 func _ready() -> void:
-	# Pausa a execução por um frame para garantir que tudo na cena esteja pronto
 	await get_tree().process_frame
 
-	# Verificação de segurança
-	if not zone_manager or not dialog_manager:
-		print("ERRO CRÍTICO no Main.gd: Nós ZoneManager ou DialogManager não foram conectados no inspetor.")
-		return
-
-	# Conecta os sinais
-	
-	zone_manager.player_entrou_na_zona.connect(_on_player_entrou_na_zona)
-	print("Managers conectados com sucesso!")
+	%ZoneManager.player_entrou_na_zona.connect(_on_player_entrou_na_zona)
+	%Player_3D.item_coletado.connect(_on_player_item_coletado)
+	%DialogManager.animacao_coleta_terminou.connect(_on_animacao_coleta_terminou)
+	print("Managers e Player conectados com sucesso via Nomes Únicos!")
 
 
 func _on_player_entrou_na_zona(nome_da_zona: String):
-	print("Player entrou na zona: ", nome_da_zona)
 	
-	match nome_da_zona:
-		"neutra":
-			dialog_manager.iniciar_dialogo("Timeline_teste")
+	return
+
+
+func _on_player_item_coletado(item_node):
+	print("MainManager notificado que o jogador pegou: ", item_node.name)
+	
+	%Player_3D.segurar_item(item_node)
+	%Player_3D.acender_spotlight()
+	
+	await %DialogManager.iniciar_animacao_de_coleta(%Player_3D, "Player_item")
+	
+
+func _on_animacao_coleta_terminou():
+	%Player_3D.apagar_spotlight()
+	%Player_3D.destruir_item_segurado()
+	%Player_3D.adicionar_estrela()
