@@ -29,6 +29,7 @@ directories/dch_directory={
 "test_character": "res://Dialogic/Characters/test_character.dch"
 }
 directories/dtl_directory={
+"Player_NPC_item": "res://Dialogic/Timelines/Test/Player_NPC_item.dtl",
 "Player_item": "res://Dialogic/Timelines/Test/Player_item.dtl",
 "Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl"
 }

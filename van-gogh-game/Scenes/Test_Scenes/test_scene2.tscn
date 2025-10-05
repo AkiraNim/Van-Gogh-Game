@@ -1,14 +1,16 @@
-[gd_scene load_steps=40 format=3 uid="uid://byea2f83c6rla"]
+[gd_scene load_steps=27 format=3 uid="uid://byea2f83c6rla"]
 
-[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/test_scene_2.gd" id="1_h6hbo"]
+[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/main.gd" id="1_h6hbo"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
 [ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
-[ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player_test2(16x32).gd" id="2_h6hbo"]
+[ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player.gd" id="2_h6hbo"]
 [ext_resource type="Script" uid="uid://gws0ci2k3lac" path="res://Scripts/Test_Scripts/zone_manager.gd" id="2_tu0tt"]
-[ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Scripts/Test_Scripts/camera_manager.gd" id="3_6q37k"]
+[ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Scripts/Test_Scripts/dialog_manager.gd" id="3_6q37k"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
-[ext_resource type="Script" uid="uid://6pxdffo0qo62" path="res://Scripts/Test_Scripts/area_3d.gd" id="8_tu0tt"]
-[ext_resource type="Texture2D" uid="uid://by2fj1cm3tesq" path="res://Assets/Items/Star.png" id="9_6q37k"]
+[ext_resource type="Script" uid="uid://d4b0u5fxew2w0" path="res://Scripts/Test_Scripts/npc_script.gd" id="8_usxod"]
+[ext_resource type="Script" uid="uid://cqw52m0yuh7ia" path="res://Scripts/Test_Scripts/item_data.gd" id="9_cyfe8"]
+[ext_resource type="Resource" uid="uid://nj8lhv52hxbi" path="res://Resources/Items/estrela.tres" id="10_mkna6"]
+[ext_resource type="PackedScene" uid="uid://u87qhguhwgf5" path="res://Scenes/Test_Scenes/Items/estrela.tscn" id="11_w81hg"]
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
 ambient_light_source = 2
@@ -55,107 +57,6 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_pt8oq"]
 material = SubResource("StandardMaterial3D_h6hbo")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_tu0tt"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5bl01"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s7h03"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7l53c"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_usxod"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cyfe8"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(128, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mkna6"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(160, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w81hg"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(192, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ida3x"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(224, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qs2cp"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(256, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t8sdx"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(288, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hufdu"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(320, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l8vwr"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(352, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_oet2i"]
-atlas = ExtResource("9_6q37k")
-region = Rect2(384, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ult6n"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5bl01")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s7h03")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7l53c")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_usxod")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cyfe8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mkna6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w81hg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ida3x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qs2cp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t8sdx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hufdu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l8vwr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_oet2i")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [node name="TestScene2" type="Node3D"]
 
@@ -240,7 +141,7 @@ mesh = SubResource("PlaneMesh_iqs5x")
 
 [node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima", "spotlight_item") groups=["player"]]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5379577, 0.30379337, -0.54956055)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7645767, 0.30379337, -0.54956055)
 script = ExtResource("2_h6hbo")
 anim_sprite = NodePath("AnimatedSprite3D")
 ponto_item_acima = NodePath("Marker3D")
@@ -271,6 +172,7 @@ frame_progress = 0.7074317
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 0.46728188, 0.88410836, 0, -0.88410836, 0.46728188, -8.85725e-05, 1.5505934, 0.48858678)
+visible = false
 light_color = Color(1, 1, 0, 1)
 light_energy = 1.495
 shadow_enabled = true
@@ -354,32 +256,18 @@ sprite_frames = ExtResource("4_h6hbo")
 animation = &"idle_down_right"
 autoplay = "idle_down_right"
 
-[node name="Area3D" type="Area3D" parent="." groups=["coletaveis", "estrelas"]]
+[node name="NPCTesteNode" type="Node3D" parent="NPC_Teste" node_paths=PackedStringArray("ponto_de_drop")]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.1286767, -0.14830138, 0.29585448)
+script = ExtResource("8_usxod")
+inventario = Array[ExtResource("9_cyfe8")]([ExtResource("10_mkna6")])
+ponto_de_drop = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="NPC_Teste/NPCTesteNode"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1.5245051, 0.18494403, -0.6012636)
+
+[node name="estrela2" parent="." instance=ExtResource("11_w81hg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.4032607, 0.050704718, -1.0948405)
+
+[node name="estrela" parent="." instance=ExtResource("11_w81hg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7016304, 0.025352359, -0.54742026)
-script = ExtResource("8_tu0tt")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_tu0tt")
-debug_color = Color(0.9411765, 0, 1, 1)
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20568192, 0)
-shaded = true
-texture_filter = 4
-sprite_frames = SubResource("SpriteFrames_ult6n")
-autoplay = "default"
-
-[node name="Area3D2" type="Area3D" parent="." groups=["coletaveis", "estrelas"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.113797, 0.025352359, -0.54742026)
-script = ExtResource("8_tu0tt")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]
-shape = SubResource("SphereShape3D_tu0tt")
-debug_color = Color(0.9411765, 0, 1, 1)
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Area3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20568192, 0)
-shaded = true
-texture_filter = 4
-sprite_frames = SubResource("SpriteFrames_ult6n")
-autoplay = "default"
