@@ -1,16 +1,57 @@
-# Godot 4+ specific ignores
-.godot/
-.nomedia
+# =============== #
+#      GODOT      #
+# =============== #
 
-# Godot-specific ignores
-.import/
-export.cfg
+## Godot 4+ (Essential)
+# The .godot/ directory contains all project cache, including asset import data,
+# shader cache, and resource UIDs (uid_cache.bin).
+# Ignoring this single directory covers your requests for "cache", "import", and "uid".
+.godot/
+
+## Godot 3 Compatibility
+# Ignores metadata files that were generated alongside assets.
+*.import
+
+## Export Files & Credentials
+# Sensitive credentials that should NEVER be versioned.
 export_credentials.cfg
 
-# Imported translations (automatically generated from CSV files)
+# Packages and binaries generated when exporting the game.
+*.pck
+*.zip
+*.apk
+*.aab
+
+## Compiled Translations
+# Ignores translation files automatically generated from other sources (e.g., CSVs).
 *.translation
 
-# Mono-specific ignores
+# ================================ #
+#      MONO / C# (Optional)      #
+# ================================ #
+# Files and cache specific to C# projects.
 .mono/
 data_*/
 mono_crash.*.json
+
+# ==================================================== #
+#      Generic Binaries & Cache (Good Practice)      #
+# ==================================================== #
+
+## Compiled Binaries
+*.exe
+*.exe.config
+*.dll
+*.so
+*.dylib
+
+## Cache and Build Folders
+[Bb]uild/
+[Bb]in/
+[Cc]ache/
+*.cache
+
+## Operating System Files
+.DS_Store
+Thumbs.db
+.nomedia

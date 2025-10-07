@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4j4651t7jbdm"]
+
+[ext_resource type="Script" uid="uid://56kgnjxn61mu" path="res://Scripts/Test_Scripts/player_test1.gd" id="1_6mnq3"]
+[ext_resource type="SpriteFrames" uid="uid://dg03xp5kqx2qs" path="res://SpriteFrames/player_sprite_frame.tres" id="2_13gw0"]
+[ext_resource type="Texture2D" uid="uid://cl0xl76f7yppo" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="3_6mnq3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6mnq3"]
+radius = 5.25
+height = 19.5
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(39, 40)
+scale = Vector2(2, 2)
+script = ExtResource("1_6mnq3")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(1, 2.5)
+scale = Vector2(0.5, 0.5)
+zoom = Vector2(1.5, 1.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-0.75, 1.25)
+shape = SubResource("CapsuleShape2D_6mnq3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+visibility_layer = 2
+texture_filter = 3
+sprite_frames = ExtResource("2_13gw0")
+animation = &"walking_down_left"
+frame_progress = 0.78195155
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+scale = Vector2(2, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture_filter = 3
+position = Vector2(173, 94)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_6mnq3")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
+position = Vector2(173, 94)
+scale = Vector2(0.4, 0.4)
+polygon = PackedVector2Array(25, -138.1, -9, -135.9, -9, -135.1, -129, -138.1, -129, -135.4, -131.70001, -123, -133.40002, -123, -131, -109.600006, -131, -98, -134, -79.20001, -134, -70, -137, -59.299988, -137, -54, -139.70001, -52, -141.70001, -52, -143, -43.100006, -143, -30.600006, -141, -25.599976, -141, -22.200012, -133.79999, -15, -122, 24.200012, -122, 33, -132.09998, 33, -135.09998, 38, -136.79999, 38, -138, 48.900024, -138, 62.400024, -134.29999, 71, -133.70001, 71, -129, 94.400024, -129, 99.29999, -118, 137.20001, -118, 142.79999, -111.79999, 149, -91.5, 149, -86, 166.20001, -86, 169.79999, -81, 174.79999, -81, 177, -44.200012, 177, -39, 171.79999, -39, 171, 86.80005, 171, 89.80005, 177, 127, 177, 131, 172, 132.40002, 172, 138.40002, 155, 139.19995, 155, 140.30005, 152.79999, 133, 142.40002, 141, 126.5, 141, 123.29999, 163, 76.400024, 163, 74, 169, 74, 173, 69, 174.40002, 69, 181.40002, 50, 184, 50, 181, 42.5, 181, 40.200012, 165, 24.200012, 165, 22.200012, 161.80005, 19, 153, 19, 133, -6, 130.90002, -6, 92.69995, -52, 94, -54.5, 94, -57.799988, 91, -60.799988, 91, -62.799988, 81, -72.79999, 81, -75, 72.900024, -75, 67.900024, -81, 66.900024, -81, 33.900024, -120.79999, 35, -122.399994, 35, -126.899994, 25, -135.9)

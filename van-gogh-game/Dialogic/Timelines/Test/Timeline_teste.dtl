@@ -1,0 +1,8 @@
+join Player_3D (scot t2) right [animation="Fade In Up"]
+Player_3D: Oi eu sou o player
+leave --All--
+join NPC_Teste right [animation="Fade In Up"]
+NPC_Teste: Oi eu sou o NPC
+leave --All--
+join Player_3D (scot t2) right [animation="Fade In Up"]
+Player_3D: Oi NPC
