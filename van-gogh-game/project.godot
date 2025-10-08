@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 QuestManager="*res://addons/quest_manager/QuestManager.gd"
+EventBus="*res://shared/event_bus.gd"
+GameManager="*res://application/controllers/game_manager.gd"
 
 [dialogic]
 
