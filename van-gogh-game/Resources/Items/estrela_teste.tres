@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=5 format=3 uid="uid://cwh3fycooxk7y"]
+
+[ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="1_mhusl"]
+[ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="1_v2qan"]
+[ext_resource type="Texture2D" uid="uid://by2fj1cm3tesq" path="res://Assets/Items/Star.png" id="2_tjt01"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dumwf"]
+atlas = ExtResource("2_tjt01")
+region = Rect2(0, 0, 416, 32)
+
+[resource]
+script = ExtResource("1_v2qan")
+id_item = "estrela"
+nome = "Estrela"
+icone = SubResource("AtlasTexture_dumwf")
+cena_do_item = ExtResource("1_mhusl")
+metadata/_custom_type_script = "uid://c0dp7ns08lwmk"

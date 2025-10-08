@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://cshg1wpq4e0rk"]
+
+[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="1_ce77o"]
+[ext_resource type="Script" uid="uid://dlycykomjnwuf" path="res://presentation/npc_entity.gd" id="2_cng5y"]
+[ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="3_6g4qh"]
+[ext_resource type="Script" uid="uid://nxieygehmgh6" path="res://domain/entities/npc_inventory.gd" id="4_bopdl"]
+[ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="4_cng5y"]
+[ext_resource type="Script" uid="uid://bugdytqxhk2sc" path="res://application/controllers/npc_controller.gd" id="5_2kald"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4djc3"]
+size = Vector3(0.4892273, 0.54956055, 0.5412445)
+
+[sub_resource type="Resource" id="Resource_v2gni"]
+script = ExtResource("4_bopdl")
+itens = Array[ExtResource("3_6g4qh")]([ExtResource("4_cng5y")])
+metadata/_custom_type_script = "uid://nxieygehmgh6"
+
+[node name="NPC_Teste" type="Node3D"]
+
+[node name="DropPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48840207)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+modulate = Color(0, 1, 1, 1)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("1_ce77o")
+animation = &"idle_down"
+
+[node name="Interacao" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010421753, -0.05303955, 0.052330017)
+shape = SubResource("BoxShape3D_4djc3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0036010742, -0.05303955, 0.086364746)
+shape = SubResource("BoxShape3D_4djc3")
+
+[node name="NpcEntity" type="Node3D" parent="." node_paths=PackedStringArray("drop_point")]
+script = ExtResource("2_cng5y")
+inventory = SubResource("Resource_v2gni")
+drop_point = NodePath("../DropPoint")
+
+[node name="NpcController" type="Node3D" parent="."]
+script = ExtResource("5_2kald")
+npc_entity_path = NodePath("../NpcEntity")
