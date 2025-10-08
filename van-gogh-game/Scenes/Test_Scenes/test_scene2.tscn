@@ -1,13 +1,13 @@
 [gd_scene load_steps=25 format=3 uid="uid://byea2f83c6rla"]
 
-[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/main.gd" id="1_h6hbo"]
+[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Deprecated/Scripts/Test_Scripts/main.gd" id="1_h6hbo"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
 [ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="2_c5kmp"]
-[ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Scripts/Test_Scripts/player.gd" id="2_h6hbo"]
-[ext_resource type="Script" uid="uid://gws0ci2k3lac" path="res://Scripts/Test_Scripts/zone_manager.gd" id="2_tu0tt"]
-[ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Scripts/Test_Scripts/dialog_manager.gd" id="3_6q37k"]
+[ext_resource type="Script" uid="uid://dgqnpgd1l31ob" path="res://Deprecated/Scripts/Test_Scripts/player.gd" id="2_h6hbo"]
+[ext_resource type="Script" uid="uid://gws0ci2k3lac" path="res://Deprecated/Scripts/Test_Scripts/zone_manager.gd" id="2_tu0tt"]
+[ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Deprecated/Scripts/Test_Scripts/dialog_manager.gd" id="3_6q37k"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
-[ext_resource type="Script" uid="uid://d4b0u5fxew2w0" path="res://Scripts/Test_Scripts/npc_script.gd" id="8_usxod"]
+[ext_resource type="Script" uid="uid://d4b0u5fxew2w0" path="res://Deprecated/Scripts/Test_Scripts/npc_script.gd" id="8_usxod"]
 [ext_resource type="PackedScene" uid="uid://u87qhguhwgf5" path="res://Scenes/Test_Scenes/Items/estrela.tscn" id="11_w81hg"]
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
@@ -137,13 +137,12 @@ shape = SubResource("BoxShape3D_ew6fa")
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 mesh = SubResource("PlaneMesh_iqs5x")
 
-[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima", "spotlight_item") groups=["player"]]
+[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7645767, 0.30379337, -0.54956055)
 script = ExtResource("2_h6hbo")
 anim_sprite = NodePath("AnimatedSprite3D")
 ponto_item_acima = NodePath("Marker3D")
-spotlight_item = NodePath("")
 
 [node name="Marker3D" type="Marker3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45917076, 0)

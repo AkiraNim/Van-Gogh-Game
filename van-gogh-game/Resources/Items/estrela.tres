@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://nj8lhv52hxbi"]
 
-[ext_resource type="Script" uid="uid://cqw52m0yuh7ia" path="res://Scripts/Test_Scripts/item_data.gd" id="1_dvakx"]
+[ext_resource type="Script" uid="uid://cqw52m0yuh7ia" path="res://Deprecated/Scripts/Test_Scripts/item_data.gd" id="1_dvakx"]
 [ext_resource type="PackedScene" uid="uid://u87qhguhwgf5" path="res://Scenes/Test_Scenes/Items/estrela.tscn" id="1_o1iai"]
 
 [resource]
