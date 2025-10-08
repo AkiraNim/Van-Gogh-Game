@@ -1,0 +1,318 @@
+[gd_scene load_steps=35 format=3 uid="uid://83hgnpcbrin3"]
+
+[ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
+[ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
+[ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
+[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_ly6xb"]
+[ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
+[ext_resource type="Script" uid="uid://dgku8rqggmyuw" path="res://infrastructure/services/lighting_service.gd" id="3_oy1pr"]
+[ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
+[ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
+[ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
+[ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
+[ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
+[ext_resource type="Script" uid="uid://ds5ongymf2mgk" path="res://infrastructure/services/npc_service.gd" id="8_uu6ay"]
+[ext_resource type="Script" uid="uid://dgxgct8654q38" path="res://infrastructure/services/dialog_camera_service.gd" id="9_08630"]
+[ext_resource type="Script" uid="uid://dlycykomjnwuf" path="res://presentation/npc_entity.gd" id="9_ekaqe"]
+[ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="10_5bsxs"]
+[ext_resource type="Script" uid="uid://nxieygehmgh6" path="res://domain/entities/npc_inventory.gd" id="11_iypob"]
+[ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="14_oi7nq"]
+[ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
+
+[sub_resource type="Resource" id="Resource_udkkk"]
+script = ExtResource("7_v2gni")
+metadata/_custom_type_script = "uid://cluovfa2tocua"
+
+[sub_resource type="Environment" id="Environment_xhr7v"]
+ambient_light_source = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6hbo"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xhr7v"]
+material = SubResource("StandardMaterial3D_h6hbo")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xhr7v"]
+size = Vector3(1, 0.22705078, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2c717"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ly6xb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hewda"]
+size = Vector3(1, 0.4215088, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ly6xb"]
+size = Vector3(1.8698254, 1.4350586, 2.6168108)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m8nr8"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_47rga"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yyxd1"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0vbqt"]
+size = Vector3(9.97998, 3.7212524, 9.982086)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w1dup"]
+size = Vector3(4.0394287, 3.7212524, 4.039345)
+
+[sub_resource type="Resource" id="Resource_l42ic"]
+script = ExtResource("11_iypob")
+metadata/_custom_type_script = "uid://nxieygehmgh6"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
+radius = 0.11035156
+height = 0.59840775
+
+[node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "lighting_service", "player_light_service", "player_view")]
+script = ExtResource("1_m8nr8")
+main_controller = NodePath("MainController")
+player_controller = NodePath("PlayerNode/PlayerController")
+dialog_controller = NodePath("DialogNode/DialogController")
+zone_controller = NodePath("EnviromentNode/ZoneController")
+lighting_service = NodePath("EnviromentNode/LightingService")
+player_light_service = NodePath("PlayerNode/PlayerLightService")
+player_view = NodePath("Player")
+
+[node name="MainController" type="Node" parent="." node_paths=PackedStringArray("dialog_service", "player", "zone_controller")]
+script = ExtResource("2_v2gni")
+dialog_service = NodePath("../DialogNode/DialogController")
+player = NodePath("../Player")
+zone_controller = NodePath("../EnviromentNode/ZoneController")
+
+[node name="EnviromentNode" type="Node" parent="."]
+
+[node name="ZoneController" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("zonas", "lighting_service")]
+script = ExtResource("2_0bgj2")
+zonas = [NodePath("../../Zones/ZonaVermelha"), NodePath("../../Zones/ZonaAzul"), NodePath("../../Zones/ZonaVerde"), NodePath("../../Zones/ZonaAmarela"), NodePath("../../Zones/ZonaNeutra")]
+lighting_service = NodePath("../LightingService")
+player_path = NodePath("../../Player")
+
+[node name="LightingService" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("world_environment", "directional_light")]
+script = ExtResource("3_oy1pr")
+world_environment = NodePath("../../Sky/WorldEnvironment")
+directional_light = NodePath("../../Sky/DirectionalLight3D")
+
+[node name="NpcNode" type="Node" parent="."]
+
+[node name="NpcService" type="Node" parent="NpcNode"]
+script = ExtResource("8_uu6ay")
+
+[node name="DialogNode" type="Node" parent="."]
+
+[node name="DialogController" type="Node" parent="DialogNode" node_paths=PackedStringArray("camera_service", "dialogic_service")]
+script = ExtResource("4_uu6ay")
+camera_service = NodePath("")
+dialogic_service = NodePath("../DialogService")
+
+[node name="DialogService" type="Node" parent="DialogNode"]
+script = ExtResource("6_v2gni")
+
+[node name="DialogCameraService" type="Node3D" parent="DialogNode" node_paths=PackedStringArray("camera_principal", "camera_dialogo")]
+script = ExtResource("9_08630")
+camera_principal = NodePath("../../Player/Camera3D_Principal")
+camera_dialogo = NodePath("../../Camera3D_Dialogo")
+
+[node name="PlayerNode" type="Node" parent="."]
+
+[node name="PlayerLightService" type="Node" parent="PlayerNode" node_paths=PackedStringArray("spotlight")]
+script = ExtResource("5_08630")
+spotlight = NodePath("../../Player/SpotLight")
+
+[node name="PlayerController" type="Node" parent="PlayerNode" node_paths=PackedStringArray("player_view", "light_service")]
+script = ExtResource("6_4djc3")
+player_view = NodePath("../../Player")
+light_service = NodePath("../PlayerLightService")
+state = SubResource("Resource_udkkk")
+
+[node name="Sky" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky"]
+environment = SubResource("Environment_xhr7v")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Sky"]
+transform = Transform3D(0.6293204, -0.3636498, 0.6868149, 0, 0.88376564, 0.4679298, -0.777146, -0.29447776, 0.5561717, 0, 3.600955, 0)
+layers = 2
+light_energy = 0.835
+shadow_enabled = true
+shadow_opacity = 0.85
+
+[node name="Scenario" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Scenario"]
+transform = Transform3D(-2.1855695e-09, 20, -2.1855695e-09, 0, -8.742278e-07, -0.05, -0.05, -8.742278e-07, 9.553427e-17, 0, 0, 0)
+mesh = SubResource("BoxMesh_xhr7v")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Scenario"]
+transform = Transform3D(0.05, 0, 0, 0, -8.742278e-07, -0.05, 0, 20, -2.1855695e-09, 0, 0, 0)
+mesh = SubResource("BoxMesh_xhr7v")
+skeleton = NodePath("../..")
+
+[node name="floor2" type="StaticBody3D" parent="Scenario"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scenario/floor2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14233398, 0)
+shape = SubResource("BoxShape3D_xhr7v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Scenario/floor2"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.0001514554, 0)
+material_override = SubResource("StandardMaterial3D_2c717")
+mesh = SubResource("PlaneMesh_ly6xb")
+skeleton = NodePath("../../floor2")
+
+[node name="floor" type="StaticBody3D" parent="Scenario"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scenario/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20691067, 0)
+shape = SubResource("BoxShape3D_hewda")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Scenario/floor"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_ly6xb")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Scenario"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -3.7002563, 0.8326516, -4.7178955)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scenario/StaticBody3D"]
+transform = Transform3D(0.8333878, 0, 0.55268866, 0, 0.9999942, 0, -0.5526829, 0, 0.833382, -0.0037686825, -0.2175293, -0.55882406)
+shape = SubResource("BoxShape3D_ly6xb")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Scenario/StaticBody3D"]
+transform = Transform3D(1, 0, 2.9802322e-08, 2.9802317e-08, 0.99999976, 0, -5.9604634e-08, 0, 0.9999998, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture = ExtResource("1_2c717")
+
+[node name="Zones" type="Node3D" parent="."]
+
+[node name="ZonaVermelha" type="Area3D" parent="Zones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0018616, 0, -5.017602)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaVermelha"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
+shape = SubResource("BoxShape3D_m8nr8")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="ZonaAzul" type="Area3D" parent="Zones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0018616, 0, 4.999892)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaAzul"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
+shape = SubResource("BoxShape3D_47rga")
+debug_color = Color(0, 0, 1, 0.41960785)
+
+[node name="ZonaVerde" type="Area3D" parent="Zones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.998123, 0, 4.999892)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaVerde"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7264099, 0)
+shape = SubResource("BoxShape3D_yyxd1")
+debug_color = Color(0, 1, 0, 0.41960785)
+
+[node name="ZonaAmarela" type="Area3D" parent="Zones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0004425, 0, -4.168215)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaAmarela"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.96985435, 1.7264099, -0.8890314)
+shape = SubResource("BoxShape3D_0vbqt")
+debug_color = Color(0.87058824, 1, 0, 0.41960785)
+
+[node name="ZonaNeutra" type="Area3D" parent="Zones"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaNeutra"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
+shape = SubResource("BoxShape3D_w1dup")
+debug_color = Color(0.6666667, 0, 1, 0.41960785)
+
+[node name="NPC" type="Node3D" parent="." node_paths=PackedStringArray("drop_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_l42ic")
+drop_point = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="NPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48840207)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="NPC"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+modulate = Color(0, 1, 1, 1)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
+
+[node name="Camera3D_Dialogo" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -1.5109355, 0.58813906, -0.04739356)
+projection = 1
+size = 0.531065
+far = 611.26
+
+[node name="AreaItem" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9832748, 0.16228667, 0)
+
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.316195, 0)
+script = ExtResource("14_oi7nq")
+anim_sprite = NodePath("AnimatedSprite3D")
+ponto_item_acima = NodePath("PontoItemAcima")
+
+[node name="PontoItemAcima" type="Marker3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3400991, 0)
+
+[node name="SpotLight" type="SpotLight3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.46728188, 0.88410836, 0, -0.88410836, 0.46728188, -8.85725e-05, 1.5505934, 0.48858678)
+visible = false
+light_color = Color(1, 1, 0, 1)
+light_energy = 1.495
+shadow_enabled = true
+spot_range = 2.1029348
+spot_angle = 39.45476
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06599617, 0)
+shape = SubResource("CapsuleShape3D_uvydw")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
+
+[node name="Camera3D_Principal" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.683, 8.839)
+projection = 1
+size = 4.563
+far = 611.26
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LabelEstrelas" type="Label" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="LabelStatus" type="Label" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="PauseButton" type="Label" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

@@ -1,0 +1,121 @@
+[gd_scene load_steps=18 format=3 uid="uid://clblf6cdxt1r2"]
+
+[ext_resource type="Script" uid="uid://b4ko84yfejxhd" path="res://presentation/collectable_area.gd" id="1_fweyk"]
+[ext_resource type="Texture2D" uid="uid://by2fj1cm3tesq" path="res://Assets/Items/Star.png" id="2_fnyb5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uvydw"]
+size = Vector3(0.25073242, 0.26586914, 0.32104492)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bl01"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7h03"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7l53c"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_usxod"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyfe8"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkna6"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w81hg"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ida3x"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs2cp"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8sdx"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hufdu"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8vwr"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oet2i"]
+atlas = ExtResource("2_fnyb5")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ult6n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bl01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7h03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7l53c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_usxod")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cyfe8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkna6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w81hg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ida3x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs2cp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8sdx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hufdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8vwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oet2i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="AreaItem" type="Area3D"]
+script = ExtResource("1_fweyk")
+id_item = "estrela"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.013549805)
+shape = SubResource("BoxShape3D_uvydw")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+billboard = 1
+shaded = true
+texture_filter = 4
+sprite_frames = SubResource("SpriteFrames_ult6n")
+autoplay = "default"

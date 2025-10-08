@@ -33,9 +33,32 @@ signal inventory_item_added(item_id: String)
 signal inventory_item_removed(item_id: String)
 signal inventory_updated                                   # Dispara quando o inventário é atualizado
 
-# ==========================================================
-# 📣 EMISSÕES AUXILIARES
-# ==========================================================
+# --- SISTEMA / GAME MANAGEMENT ---
+signal game_paused(is_paused: bool)                  # Disparado quando o jogo é pausado/despausado
+signal game_saved                                   # Disparado quando o jogo é salvo com sucesso
+signal game_loaded(scene_path: String)              # Disparado após carregar jogo
+signal game_reset                                   # Disparado ao resetar o jogo
+signal scene_changed(scene_path: String)            # Disparado quando uma nova cena é carregada
+signal save_failed(error_msg: String)               # Caso o salvamento falhe
+
+# --- EMISSÕES AUXILIARES ---
+func emit_game_paused(is_paused: bool) -> void:
+	game_paused.emit(is_paused)
+
+func emit_game_saved() -> void:
+	game_saved.emit()
+
+func emit_save_failed(msg: String) -> void:
+	save_failed.emit(msg)
+
+func emit_game_loaded(scene_path: String) -> void:
+	game_loaded.emit(scene_path)
+
+func emit_scene_changed(scene_path: String) -> void:
+	scene_changed.emit(scene_path)
+
+func emit_game_reset() -> void:
+	game_reset.emit()
 
 func emit_dialog_started() -> void:
 	dialog_started.emit()
@@ -60,3 +83,5 @@ func emit_zone_changed(zone_name: String) -> void:
 
 func emit_inventory_updated() -> void:
 	inventory_updated.emit()
+	
+	

@@ -50,11 +50,11 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bl01"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6hbo"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6q37k"]
 albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_pt8oq"]
-material = SubResource("StandardMaterial3D_h6hbo")
+material = SubResource("StandardMaterial3D_6q37k")
 
 [node name="TestScene2" type="Node3D"]
 
@@ -143,7 +143,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7645767, 0.30379337, -0.54
 script = ExtResource("2_h6hbo")
 anim_sprite = NodePath("AnimatedSprite3D")
 ponto_item_acima = NodePath("Marker3D")
-spotlight_item = NodePath("SpotLight3D")
+spotlight_item = NodePath("")
 
 [node name="Marker3D" type="Marker3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45917076, 0)
@@ -167,15 +167,6 @@ texture_filter = 2
 sprite_frames = ExtResource("4_h6hbo")
 animation = &"idle_down_left"
 frame_progress = 0.7074317
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Player_3D"]
-transform = Transform3D(1, 0, 0, 0, 0.46728188, 0.88410836, 0, -0.88410836, 0.46728188, -8.85725e-05, 1.5505934, 0.48858678)
-visible = false
-light_color = Color(1, 1, 0, 1)
-light_energy = 1.495
-shadow_enabled = true
-spot_range = 2.1029348
-spot_angle = 39.45476
 
 [node name="AreaColeta" type="Area3D" parent="Player_3D"]
 
@@ -238,7 +229,6 @@ skeleton = NodePath("../..")
 
 [node name="Sprite3D" type="Sprite3D" parent="Cenario"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5836394, 1.1929512, -0.6807351)
-visible = false
 alpha_cut = 2
 texture_filter = 2
 texture = ExtResource("2_c5kmp")
