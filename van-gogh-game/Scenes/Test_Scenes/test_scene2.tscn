@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://byea2f83c6rla"]
+[gd_scene load_steps=25 format=3 uid="uid://byea2f83c6rla"]
 
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/main.gd" id="1_h6hbo"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_s7h03"]
@@ -8,8 +8,6 @@
 [ext_resource type="Script" uid="uid://cwq06e3hus31v" path="res://Scripts/Test_Scripts/dialog_manager.gd" id="3_6q37k"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_h6hbo"]
 [ext_resource type="Script" uid="uid://d4b0u5fxew2w0" path="res://Scripts/Test_Scripts/npc_script.gd" id="8_usxod"]
-[ext_resource type="Script" uid="uid://cqw52m0yuh7ia" path="res://Scripts/Test_Scripts/item_data.gd" id="9_cyfe8"]
-[ext_resource type="Resource" uid="uid://nj8lhv52hxbi" path="res://Resources/Items/estrela.tres" id="10_mkna6"]
 [ext_resource type="PackedScene" uid="uid://u87qhguhwgf5" path="res://Scenes/Test_Scenes/Items/estrela.tscn" id="11_w81hg"]
 
 [sub_resource type="Environment" id="Environment_vtuy8"]
@@ -260,7 +258,6 @@ autoplay = "idle_down_right"
 unique_name_in_owner = true
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.1286767, -0.14830138, 0.29585448)
 script = ExtResource("8_usxod")
-inventario = Array[ExtResource("9_cyfe8")]([ExtResource("10_mkna6")])
 ponto_de_drop = NodePath("Marker3D")
 
 [node name="Marker3D" type="Marker3D" parent="NPC_Teste/NPCTesteNode"]
