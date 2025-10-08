@@ -105,9 +105,8 @@ script = ExtResource("8_uu6ay")
 
 [node name="DialogNode" type="Node" parent="."]
 
-[node name="DialogController" type="Node" parent="DialogNode" node_paths=PackedStringArray("camera_service", "dialogic_service")]
+[node name="DialogController" type="Node" parent="DialogNode" node_paths=PackedStringArray("dialogic_service")]
 script = ExtResource("4_uu6ay")
-camera_service = NodePath("")
 dialogic_service = NodePath("../DialogService")
 
 [node name="DialogService" type="Node" parent="DialogNode"]

@@ -5,7 +5,7 @@ class_name ZoneController
 @export var lighting_service: LightingService
 @export var player_path: NodePath
 
-# --- Estados de cada zona ---
+# Estados de cada zona
 @export var zona_estados := {
 	"ZonaVermelha": { "cor": Color(0.227, 0.039, 0.039), "rotacao": Vector3(-29.3, 45.7, 0) },
 	"ZonaAzul":     { "cor": Color(0.062, 0.141, 0.294), "rotacao": Vector3(-29.3, 45.7, 0) },
@@ -14,15 +14,16 @@ class_name ZoneController
 	"ZonaNeutra":   { "cor": Color(0.004, 0.008, 0.004), "rotacao": Vector3(-29.3, 45.7, 0) }
 }
 
-# --- Prioridades ---
+# Prioridades
 @export var zona_prioridades := {
+	"ZonaNeutra": 10,
 	"ZonaVermelha": 10,
 	"ZonaAmarela": 10,
 	"ZonaVerde": 10,
 	"ZonaAzul": 10
 }
 
-# --- Variáveis internas ---
+# Variáveis internas
 var _player: Node3D
 var zonas_atuais: Array[Area3D] = []
 var zona_ativa: Area3D = null
@@ -30,7 +31,7 @@ var zona_neutra_nome: String = "ZonaNeutra"
 
 
 # ============================================================
-# ⚙️ Inicialização
+# Inicialização
 # ============================================================
 
 func _ready() -> void:
@@ -41,12 +42,12 @@ func _ready() -> void:
 			zona.body_entered.connect(_on_body_event)
 			zona.body_exited.connect(_on_body_event)
 
-	# Aguarda a física estabilizar antes de detectar
+	# Aguarda a física estabilizar antes de detectar a zona inicial
 	call_deferred("_detectar_zona_inicial")
 
 
 # ============================================================
-# 🚪 Entrada e saída de zonas
+# Entrada e saída de zonas
 # ============================================================
 
 func _on_body_event(body: Node) -> void:
@@ -59,7 +60,7 @@ func _on_body_event(body: Node) -> void:
 
 
 # ============================================================
-# 🔍 Atualiza lista de zonas realmente sobrepostas
+# Atualiza lista de zonas realmente sobrepostas
 # ============================================================
 
 func _atualizar_zonas_atuais() -> void:
@@ -73,7 +74,7 @@ func _atualizar_zonas_atuais() -> void:
 
 
 # ============================================================
-# 🧭 Determina qual zona é preferencial
+# Determina qual zona é preferencial
 # ============================================================
 
 func _zona_preferencial() -> Area3D:
@@ -96,14 +97,14 @@ func _zona_preferencial() -> Area3D:
 
 
 # ============================================================
-# 💡 Atualiza iluminação e emite eventos globais
+# Atualiza iluminação e emite eventos globais
 # ============================================================
 
 func _atualizar_estado_ambiente(zona: Area3D) -> void:
 	# Se nada foi detectado, assume ZonaNeutra
 	if zona == null:
 		if zona_ativa != null and zona_ativa.name == zona_neutra_nome:
-			return  # já está neutra
+			return  # Já está neutra
 		_aplicar_zona_neutra()
 		return
 
@@ -136,14 +137,14 @@ func _aplicar_zona_neutra() -> void:
 
 
 # ============================================================
-# 🚀 Detecta em qual zona o player nasceu
+# Detecta em qual zona o player nasceu
 # ============================================================
 
 func _detectar_zona_inicial() -> void:
 	if _player == null:
 		return
 
-	await get_tree().process_frame  # espera 1 frame físico
+	await get_tree().process_frame  # Espera um frame físico para as áreas estarem ativas
 
 	_atualizar_zonas_atuais()
 	var zona_inicial: Area3D = _zona_preferencial()
