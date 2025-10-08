@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://u87qhguhwgf5"]
 
-[ext_resource type="Script" uid="uid://6pxdffo0qo62" path="res://Scripts/Test_Scripts/area_3d.gd" id="1_pyghc"]
+[ext_resource type="Script" uid="uid://6pxdffo0qo62" path="res://Deprecated/Scripts/Test_Scripts/Area3d.gd" id="1_pyghc"]
 [ext_resource type="Texture2D" uid="uid://by2fj1cm3tesq" path="res://Assets/Items/Star.png" id="2_4ge2x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pyghc"]

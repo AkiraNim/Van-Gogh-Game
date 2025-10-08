@@ -3,11 +3,11 @@
 [ext_resource type="Shader" uid="uid://di4ktd3qigubu" path="res://Shaders/Test/main_menu_test.gdshader" id="1_rhw2h"]
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="2_01u15"]
 [ext_resource type="Texture2D" uid="uid://cge3tladpec5o" path="res://Assets/Scenarios/Sky/Test/Gemini_Generated_Image_glydl6glydl6glyd.png" id="2_8bvnj"]
-[ext_resource type="Script" uid="uid://bdvucrywt1xkf" path="res://Scripts/Test_Scripts/player_follow.gd" id="3_8bvnj"]
+[ext_resource type="Script" uid="uid://bdvucrywt1xkf" path="res://Deprecated/Scripts/Test_Scripts/player_follow.gd" id="3_8bvnj"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_o02hk"]
 [ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_e1ivv"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="5_ylnes"]
-[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Scripts/Test_Scripts/main.gd" id="6_ylnes"]
+[ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Deprecated/Scripts/Test_Scripts/main.gd" id="6_ylnes"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_m2p35"]
 
