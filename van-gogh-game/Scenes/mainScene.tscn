@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=38 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
@@ -17,9 +17,9 @@
 [ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="10_5bsxs"]
 [ext_resource type="Script" uid="uid://nxieygehmgh6" path="res://domain/entities/npc_inventory.gd" id="11_iypob"]
 [ext_resource type="Script" uid="uid://bugdytqxhk2sc" path="res://application/controllers/npc_controller.gd" id="14_4djc3"]
-[ext_resource type="PackedScene" uid="uid://o121dud4p7c3" path="res://actors/player.tscn" id="15_uu6ay"]
 [ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="16_ekaqe"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
+[ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="20_ekaqe"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -71,6 +71,10 @@ script = ExtResource("11_iypob")
 itens = Array[ExtResource("10_5bsxs")]([ExtResource("16_ekaqe")])
 metadata/_custom_type_script = "uid://nxieygehmgh6"
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
+radius = 0.11035156
+height = 0.59840775
+
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "lighting_service", "player_light_service")]
 script = ExtResource("1_m8nr8")
 main_controller = NodePath("MainController")
@@ -80,9 +84,10 @@ zone_controller = NodePath("EnviromentNode/ZoneController")
 lighting_service = NodePath("EnviromentNode/LightingService")
 player_light_service = NodePath("PlayerNode/PlayerLightService")
 
-[node name="MainController" type="Node" parent="." node_paths=PackedStringArray("dialog_service", "zone_controller")]
+[node name="MainController" type="Node" parent="." node_paths=PackedStringArray("dialog_service", "player", "zone_controller")]
 script = ExtResource("2_v2gni")
 dialog_service = NodePath("../DialogNode/DialogController")
+player = NodePath("../Player_3D")
 zone_controller = NodePath("../EnviromentNode/ZoneController")
 
 [node name="Npc" type="Node" parent="."]
@@ -96,7 +101,7 @@ script = ExtResource("8_uu6ay")
 script = ExtResource("2_0bgj2")
 zonas = [NodePath("../../Zones/ZonaVermelha"), NodePath("../../Zones/ZonaAzul"), NodePath("../../Zones/ZonaVerde"), NodePath("../../Zones/ZonaAmarela"), NodePath("../../Zones/ZonaNeutra")]
 lighting_service = NodePath("../LightingService")
-player_path = NodePath("../../Player")
+player_path = NodePath("../../Player_3D")
 
 [node name="LightingService" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("world_environment", "directional_light")]
 script = ExtResource("3_oy1pr")
@@ -105,26 +110,30 @@ directional_light = NodePath("../../Sky/DirectionalLight3D")
 
 [node name="DialogNode" type="Node" parent="."]
 
-[node name="DialogController" type="Node" parent="DialogNode" node_paths=PackedStringArray("camera_service", "dialogic_service")]
+[node name="DialogController" type="Node" parent="DialogNode" node_paths=PackedStringArray("dialogic_service", "camera_service")]
 script = ExtResource("4_uu6ay")
-camera_service = NodePath("../DialogCameraService")
 dialogic_service = NodePath("../DialogService")
+camera_service = NodePath("../DialogCameraService")
 
 [node name="DialogService" type="Node" parent="DialogNode"]
 script = ExtResource("6_v2gni")
 
 [node name="DialogCameraService" type="Node3D" parent="DialogNode" node_paths=PackedStringArray("camera_principal", "camera_dialogo")]
 script = ExtResource("9_08630")
-camera_principal = NodePath("../../Player/Camera3D_Principal2")
+camera_principal = NodePath("../../Player_3D/Camera3D_Principal")
 camera_dialogo = NodePath("../../Camera3D_Dialogo")
+zoom_inicial = 3.0
+zoom_final = 2.0
 
 [node name="PlayerNode" type="Node" parent="."]
 
-[node name="PlayerLightService" type="Node" parent="PlayerNode"]
+[node name="PlayerLightService" type="Node" parent="PlayerNode" node_paths=PackedStringArray("spotlight")]
 script = ExtResource("5_08630")
+spotlight = NodePath("../../Player_3D/SpotLight")
 
-[node name="PlayerController" type="Node" parent="PlayerNode" node_paths=PackedStringArray("light_service")]
+[node name="PlayerController" type="Node" parent="PlayerNode" node_paths=PackedStringArray("player_view", "light_service")]
 script = ExtResource("6_4djc3")
+player_view = NodePath("../../Player_3D")
 light_service = NodePath("../PlayerLightService")
 state = SubResource("Resource_udkkk")
 
@@ -270,15 +279,42 @@ far = 611.26
 [node name="AreaItem" parent="." instance=ExtResource("17_4djc3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9832748, 0.16228667, 0)
 
-[node name="Player" parent="." instance=ExtResource("15_uu6ay")]
+[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.316195, 0)
+script = ExtResource("20_ekaqe")
+anim_sprite = NodePath("AnimatedSprite3D")
+ponto_item_acima = NodePath("PontoItemAcima")
 
-[node name="Camera3D_Principal2" type="Camera3D" parent="Player"]
+[node name="Camera3D_Principal" type="Camera3D" parent="Player_3D"]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.683, 8.839)
 projection = 1
-current = true
 size = 4.563
 far = 611.26
+
+[node name="PontoItemAcima" type="Marker3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3400991, 0)
+
+[node name="SpotLight" type="SpotLight3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 0.46728188, 0.88410836, 0, -0.88410836, 0.46728188, -8.85725e-05, 1.5505934, 0.48858678)
+visible = false
+light_color = Color(1, 1, 0, 1)
+light_energy = 1.495
+shadow_enabled = true
+spot_range = 2.1029348
+spot_angle = 39.45476
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06599617, 0)
+shape = SubResource("CapsuleShape3D_uvydw")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player_3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3

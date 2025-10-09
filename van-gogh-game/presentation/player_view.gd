@@ -7,6 +7,7 @@ signal contagem_estrelas_mudou(nova_contagem: int)
 @export var speed: float = 2.0
 @export var anim_sprite: AnimatedSprite3D
 @export var ponto_item_acima: Marker3D
+@export var nome_personagem: String = "Player"
 
 var pode_mover: bool = true
 var last_direction := Vector3.FORWARD

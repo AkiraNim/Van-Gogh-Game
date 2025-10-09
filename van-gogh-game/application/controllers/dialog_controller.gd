@@ -3,10 +3,10 @@ class_name DialogController
 
 enum ModoAtivo { NENHUM, DIALOGO, COLETA }
 
-@export var camera_service: DialogCameraService
 @export var dialogic_service: DialogicService
+@export var camera_service: DialogCameraService
 
-var modo_ativo := ModoAtivo.NENHUM
+var modo_ativo: int = ModoAtivo.NENHUM
 var falante_atual: Node3D = null
 
 func _ready() -> void:
@@ -16,42 +16,55 @@ func _ready() -> void:
 
 func iniciar_dialogo(timeline: String) -> void:
 	modo_ativo = ModoAtivo.DIALOGO
-	dialogic_service.iniciar_dialogo(timeline)
-
-func iniciar_animacao_coleta(alvo: Node3D, timeline: String) -> void:
-	modo_ativo = ModoAtivo.COLETA
-	camera_service.ativar_camera_dialogo()
+	if camera_service:
+		camera_service.ativar_camera_dialogo()
+		camera_service.iniciar_zoom_in()
 	await get_tree().process_frame
-	camera_service.focar_personagem(alvo)
-	camera_service.iniciar_zoom_in()
 	dialogic_service.iniciar_dialogo(timeline)
 
 func _on_dialogo_iniciado() -> void:
-	if modo_ativo == ModoAtivo.DIALOGO:
-		camera_service.ativar_camera_dialogo()
-		camera_service.iniciar_zoom_in()
+	modo_ativo = ModoAtivo.DIALOGO
 
 func _on_dialogo_finalizado() -> void:
-	match modo_ativo:
-		ModoAtivo.DIALOGO:
-			camera_service.iniciar_zoom_out()
-		ModoAtivo.COLETA:
-			camera_service.iniciar_zoom_out()
+	if camera_service:
+		camera_service.iniciar_zoom_out()
+		await camera_service.zoom_out_finished
+		camera_service.desativar_camera_dialogo()
 	modo_ativo = ModoAtivo.NENHUM
 
 func _on_evento_dialogic(event_resource) -> void:
-	if "character" in event_resource:
-		var character_resource = event_resource.character
-		if character_resource and character_resource.display_name != "":
-			var nome = character_resource.display_name
-			var char_node = get_tree().get_current_scene().get_node_or_null(nome)
-			if char_node:
-				camera_service.focar_personagem(char_node)
-				falante_atual = char_node
+	if event_resource == null:
+		return
 
+	# Foco no personagem que fala (via display_name do Dialogic)
+	if "character" in event_resource:
+		var char_res = event_resource.character
+		if char_res and char_res.display_name != "":
+			var nome: String = char_res.display_name
+			var alvo: Node3D = get_tree().get_current_scene().get_node_or_null(nome)
+
+			# Se não existir nó com esse nome, procura por export "nome_npc" em nós da cena
+			if alvo == null:
+				var root := get_tree().get_current_scene()
+				for child in root.get_children():
+					if child is Node:
+						var props = child.get_property_list()
+						for p in props:
+							if p.name == "nome_npc" and child.get(p.name) == nome:
+								if child is Node3D:
+									alvo = child
+								break
+					if alvo:
+						break
+
+			if alvo and camera_service:
+				camera_service.focar_personagem(alvo)
+				falante_atual = alvo
+
+	# Eventos do tipo "signal"
 	if "event_name" in event_resource and event_resource.event_name == "signal":
-		var valor = event_resource.get("value", "")
-		var partes = valor.split(":")
+		var valor: String = event_resource.get("value", "")
+		var partes := valor.split(":")
 		if partes.size() == 2 and partes[0] == "dropar_item":
 			if is_instance_valid(falante_atual) and falante_atual.has_method("dropar_item"):
 				falante_atual.dropar_item(partes[1])
