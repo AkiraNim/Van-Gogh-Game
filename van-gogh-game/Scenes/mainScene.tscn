@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=39 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
@@ -70,6 +70,9 @@ size = Vector3(0.4892273, 0.54956055, 0.5412445)
 script = ExtResource("11_iypob")
 itens = Array[ExtResource("10_5bsxs")]([ExtResource("16_ekaqe")])
 metadata/_custom_type_script = "uid://nxieygehmgh6"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
+size = Vector3(0.42242432, 0.54086304, 0.5488281)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
 radius = 0.11035156
@@ -267,6 +270,12 @@ timelines = Array[String](["Timeline_teste"])
 [node name="NpcController" type="Node3D" parent="NPC_Teste"]
 script = ExtResource("14_4djc3")
 npc_entity_path = NodePath("../NpcEntity")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NPC_Teste"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, -0.052963257, 0.0234375)
+shape = SubResource("BoxShape3D_ekaqe")
 
 [node name="Camera3D_Dialogo" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -1.5109355, 0.58813906, -0.04739356)
