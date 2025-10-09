@@ -10,8 +10,10 @@ class_name MainScene
 @export var player_view: PlayerView
 
 func _ready():
+	# Garante que todos os controladores têm referência real
 	main_controller.player = player_view
 	main_controller.zone_controller = zone_controller
 	main_controller.dialog_service = dialog_controller
+
 	player_controller.player_view = player_view
 	player_controller.light_service = player_light_service

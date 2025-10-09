@@ -13,6 +13,33 @@ var pode_mover: bool = true
 var last_direction := Vector3.FORWARD
 var velocity_vector := Vector3.ZERO
 
+# ------------------------------------------------------
+# ⚙️ Entra na árvore: aqui detectamos duplicatas
+# ------------------------------------------------------
+func _enter_tree() -> void:
+	# Se já existe outro player no grupo, remove a nova instância
+	for node in get_tree().get_nodes_in_group("player"):
+		if node != self:
+			print("⚠️ Player duplicado detectado, removendo nova instância:", name)
+			queue_free()
+			return
+
+# ------------------------------------------------------
+# 🎮 Inicialização
+# ------------------------------------------------------
+func _ready():
+	add_to_group("player")
+	print("🎮 PlayerView registrado no grupo 'player':", name)
+
+	# Conecta-se diretamente ao EventBus, garantindo bloqueio automático
+	if not EventBus.dialog_started.is_connected(_on_dialogo_iniciou):
+		EventBus.dialog_started.connect(_on_dialogo_iniciou)
+	if not EventBus.dialog_ended.is_connected(_on_dialogo_terminou):
+		EventBus.dialog_ended.connect(_on_dialogo_terminou)
+
+# ------------------------------------------------------
+# 🧭 Movimento
+# ------------------------------------------------------
 func _physics_process(_delta: float) -> void:
 	if not pode_mover:
 		velocity = Vector3.ZERO
@@ -36,6 +63,21 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	_update_animation()
 
+# ------------------------------------------------------
+# 🕹️ Controle de movimento (dialogo)
+# ------------------------------------------------------
+func _on_dialogo_iniciou() -> void:
+	pode_mover = false
+	velocity = Vector3.ZERO
+	print("🚫 PlayerView bloqueado via EventBus")
+
+func _on_dialogo_terminou() -> void:
+	pode_mover = true
+	print("🏃 PlayerView liberado via EventBus")
+
+# ------------------------------------------------------
+# 🎞️ Animações
+# ------------------------------------------------------
 func _update_animation() -> void:
 	if not anim_sprite:
 		return

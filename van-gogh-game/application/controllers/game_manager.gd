@@ -36,10 +36,10 @@ func _on_zone_changed(zone_name: String) -> void:
 		EventBus.emit_game_saved()
 
 func _on_dialog_started() -> void:
-	set_pause(true)
+	print("Dialogo iniciou")
 
 func _on_dialog_ended() -> void:
-	set_pause(false)
+	print("Dialogo finalizou")
 
 func _on_scene_loaded(scene_path: String) -> void:
 	EventBus.emit_scene_changed(scene_path)
