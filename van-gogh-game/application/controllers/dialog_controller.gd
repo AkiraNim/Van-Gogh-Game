@@ -1,70 +1,87 @@
 extends Node
 class_name DialogController
 
-enum ModoAtivo { NENHUM, DIALOGO, COLETA }
+enum ModoAtivo { NENHUM, DIALOGO }
 
-@export var dialogic_service: DialogicService
 @export var camera_service: DialogCameraService
+@export var dialogic_service: DialogicService
 
 var modo_ativo: int = ModoAtivo.NENHUM
 var falante_atual: Node3D = null
+var _precisa_abrir_camera: bool = false
 
 func _ready() -> void:
-	dialogic_service.dialogo_iniciou.connect(_on_dialogo_iniciado)
-	dialogic_service.dialogo_terminou.connect(_on_dialogo_finalizado)
-	dialogic_service.evento_recebido.connect(_on_evento_dialogic)
+	if dialogic_service != null:
+		if not dialogic_service.dialogo_iniciou.is_connected(_on_dialogo_iniciado):
+			dialogic_service.dialogo_iniciou.connect(_on_dialogo_iniciado)
+		if not dialogic_service.dialogo_terminou.is_connected(_on_dialogo_finalizado):
+			dialogic_service.dialogo_terminou.connect(_on_dialogo_finalizado)
+		if not dialogic_service.evento_recebido.is_connected(_on_evento_dialogic):
+			dialogic_service.evento_recebido.connect(_on_evento_dialogic)
 
-func iniciar_dialogo(timeline: String) -> void:
-	modo_ativo = ModoAtivo.DIALOGO
-	if camera_service:
-		camera_service.ativar_camera_dialogo()
-		camera_service.iniciar_zoom_in()
-	await get_tree().process_frame
-	dialogic_service.iniciar_dialogo(timeline)
 
+# -------------------------------------------------
+# Início do diálogo — arma o gatilho do Passo 1
+# -------------------------------------------------
 func _on_dialogo_iniciado() -> void:
 	modo_ativo = ModoAtivo.DIALOGO
+	_precisa_abrir_camera = true
 
+
+# -------------------------------------------------
+# Fim do diálogo — Passo 3 (zoom out)
+# -------------------------------------------------
 func _on_dialogo_finalizado() -> void:
-	if camera_service:
-		camera_service.iniciar_zoom_out()
-		await camera_service.zoom_out_finished
-		camera_service.desativar_camera_dialogo()
+	if camera_service != null:
+		camera_service.finalizar_dialogo()
 	modo_ativo = ModoAtivo.NENHUM
+	falante_atual = null
+	_precisa_abrir_camera = false
 
-func _on_evento_dialogic(event_resource) -> void:
+
+# -------------------------------------------------
+# Evento do Dialogic — Passo 1 (primeiro falante) e Passo 2 (troca de falante)
+# -------------------------------------------------
+func _on_evento_dialogic(event_resource: Object) -> void:
 	if event_resource == null:
 		return
 
-	# Foco no personagem que fala (via display_name do Dialogic)
-	if "character" in event_resource:
-		var char_res = event_resource.character
-		if char_res and char_res.display_name != "":
-			var nome: String = char_res.display_name
-			var alvo: Node3D = get_tree().get_current_scene().get_node_or_null(nome)
+	# Tenta obter o "character" do recurso de evento de forma segura
+	var char_res: Object = null
+	if event_resource.has_method("get"):
+		var tmp_char: Variant = event_resource.get("character")
+		if tmp_char != null and tmp_char is Object:
+			char_res = tmp_char
 
-			# Se não existir nó com esse nome, procura por export "nome_npc" em nós da cena
-			if alvo == null:
-				var root := get_tree().get_current_scene()
-				for child in root.get_children():
-					if child is Node:
-						var props = child.get_property_list()
-						for p in props:
-							if p.name == "nome_npc" and child.get(p.name) == nome:
-								if child is Node3D:
-									alvo = child
-								break
-					if alvo:
-						break
+	var actor_name: String = ""
+	if char_res != null and char_res.has_method("get"):
+		var dn: Variant = char_res.get("display_name")
+		if dn != null:
+			actor_name = str(dn)
 
-			if alvo and camera_service:
-				camera_service.focar_personagem(alvo)
-				falante_atual = alvo
+	if actor_name == "":
+		return
 
-	# Eventos do tipo "signal"
-	if "event_name" in event_resource and event_resource.event_name == "signal":
-		var valor: String = event_resource.get("value", "")
-		var partes := valor.split(":")
-		if partes.size() == 2 and partes[0] == "dropar_item":
-			if is_instance_valid(falante_atual) and falante_atual.has_method("dropar_item"):
-				falante_atual.dropar_item(partes[1])
+	# Resolve o nó do ator na cena atual
+	var scene: Node = get_tree().get_current_scene()
+	if scene == null:
+		return
+
+	var node_found: Node = scene.get_node_or_null(actor_name)
+	if node_found == null or not (node_found is Node3D):
+		return
+	var node3d: Node3D = node_found as Node3D
+
+	# Passo 1: no primeiro evento válido após iniciar o diálogo, abrir com zoom e foco
+	if _precisa_abrir_camera:
+		if camera_service != null:
+			camera_service.iniciar_dialogo(node3d)
+		_precisa_abrir_camera = false
+		falante_atual = node3d
+		return
+
+	# Passo 2: durante o diálogo, só refoca se o falante mudou
+	if falante_atual != node3d:
+		falante_atual = node3d
+		if camera_service != null:
+			camera_service.focar_personagem(node3d)
