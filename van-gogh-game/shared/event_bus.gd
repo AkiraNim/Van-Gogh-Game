@@ -26,7 +26,7 @@ signal player_stopped                                      # Para broadcast de p
 
 # --- NPC / INTERAÇÃO ---
 signal npc_dropped_item(npc_name: String, id_item: String)
-signal npc_dialog_triggered(npc_name: String)
+signal npc_dialog_triggered(npc_name: String, timeline: String)
 
 # --- INVENTÁRIO / SISTEMA ---
 signal inventory_item_added(item_id: String)

@@ -122,6 +122,7 @@ script = ExtResource("6_v2gni")
 script = ExtResource("9_08630")
 camera = NodePath("../../Camera3D_Principal")
 gameplay_target = NodePath("../../Player_3D")
+zoom_inicial = 2.0
 
 [node name="PlayerNode" type="Node" parent="."]
 
