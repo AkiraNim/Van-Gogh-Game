@@ -9,10 +9,22 @@ signal contagem_estrelas_mudou(nova_contagem: int)
 @export var ponto_item_acima: Marker3D
 @export var nome_personagem: String = "Player"
 
+var _item_segurado: Node3D = null
 var pode_mover: bool = true
 var last_direction := Vector3.FORWARD
 var velocity_vector := Vector3.ZERO
 
+
+func set_held_item(n: Node3D) -> void:
+	_item_segurado = n
+
+func get_held_item_node() -> Node3D:
+	return _item_segurado
+
+func destruir_item_segurado() -> void:
+	if is_instance_valid(_item_segurado):
+		_item_segurado.queue_free()
+	_item_segurado = null
 # ------------------------------------------------------
 # ⚙️ Entra na árvore: aqui detectamos duplicatas
 # ------------------------------------------------------

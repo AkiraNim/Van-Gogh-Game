@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=38 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
-[ext_resource type="Script" uid="uid://ds5ongymf2mgk" path="res://infrastructure/services/npc_service.gd" id="8_uu6ay"]
 [ext_resource type="Script" uid="uid://dgxgct8654q38" path="res://infrastructure/services/dialog_camera_service.gd" id="9_08630"]
 [ext_resource type="Script" uid="uid://dlycykomjnwuf" path="res://presentation/npc_entity.gd" id="9_ekaqe"]
 [ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="10_5bsxs"]
@@ -63,20 +62,20 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_w1dup"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
+radius = 0.11035156
+height = 0.53894997
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_4djc3"]
 size = Vector3(0.4892273, 0.54956055, 0.5412445)
 
-[sub_resource type="Resource" id="Resource_v2gni"]
+[sub_resource type="Resource" id="Resource_ekaqe"]
 script = ExtResource("11_iypob")
 itens = Array[ExtResource("10_5bsxs")]([ExtResource("16_ekaqe")])
 metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
 size = Vector3(0.42242432, 0.54086304, 0.5488281)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
-radius = 0.11035156
-height = 0.59840775
 
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "lighting_service", "player_light_service")]
 script = ExtResource("1_m8nr8")
@@ -92,11 +91,6 @@ script = ExtResource("2_v2gni")
 dialog_service = NodePath("../DialogNode/DialogController")
 player = NodePath("../Player_3D")
 zone_controller = NodePath("../EnviromentNode/ZoneController")
-
-[node name="Npc" type="Node" parent="."]
-script = ExtResource("8_uu6ay")
-
-[node name="NpcService" type="Node" parent="Npc"]
 
 [node name="EnviromentNode" type="Node" parent="."]
 
@@ -134,9 +128,9 @@ spotlight = NodePath("../../Player_3D/SpotLight")
 
 [node name="PlayerController" type="Node" parent="PlayerNode" node_paths=PackedStringArray("player_view", "light_service")]
 script = ExtResource("6_4djc3")
+state = SubResource("Resource_udkkk")
 player_view = NodePath("../../Player_3D")
 light_service = NodePath("../PlayerLightService")
-state = SubResource("Resource_udkkk")
 
 [node name="Sky" type="Node3D" parent="."]
 
@@ -239,44 +233,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_w1dup")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
 
-[node name="NPC_Teste" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
-
-[node name="DropPoint" type="Marker3D" parent="NPC_Teste"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48840207)
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="NPC_Teste"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-modulate = Color(0, 1, 1, 1)
-billboard = 1
-shaded = true
-alpha_cut = 2
-texture_filter = 4
-sprite_frames = ExtResource("2_ly6xb")
-animation = &"idle_down"
-
-[node name="Interacao" type="Area3D" parent="NPC_Teste"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/Interacao"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010421753, -0.05303955, 0.052330017)
-shape = SubResource("BoxShape3D_4djc3")
-
-[node name="NpcEntity" type="Node3D" parent="NPC_Teste" node_paths=PackedStringArray("drop_point")]
-script = ExtResource("9_ekaqe")
-inventory = SubResource("Resource_v2gni")
-drop_point = NodePath("../DropPoint")
-timelines = Array[String](["Timeline_teste"])
-
-[node name="NpcController" type="Node3D" parent="NPC_Teste"]
-script = ExtResource("14_4djc3")
-npc_entity_path = NodePath("../NpcEntity")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="NPC_Teste"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, -0.052963257, 0.0234375)
-shape = SubResource("BoxShape3D_ekaqe")
-
 [node name="Camera3D_Dialogo" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -1.5109355, 0.58813906, -0.04739356)
 projection = 1
@@ -292,37 +248,6 @@ projection = 1
 current = true
 size = 4.563
 far = 611.26
-
-[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.316195, 0)
-script = ExtResource("20_ekaqe")
-anim_sprite = NodePath("AnimatedSprite3D")
-ponto_item_acima = NodePath("PontoItemAcima")
-
-[node name="PontoItemAcima" type="Marker3D" parent="Player_3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3400991, 0)
-
-[node name="SpotLight" type="SpotLight3D" parent="Player_3D"]
-transform = Transform3D(1, 0, 0, 0, 0.46728188, 0.88410836, 0, -0.88410836, 0.46728188, -8.85725e-05, 1.5505934, 0.48858678)
-visible = false
-light_color = Color(1, 1, 0, 1)
-light_energy = 1.495
-shadow_enabled = true
-spot_range = 2.1029348
-spot_angle = 39.45476
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06599617, 0)
-shape = SubResource("CapsuleShape3D_uvydw")
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player_3D"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-billboard = 1
-shaded = true
-alpha_cut = 2
-texture_filter = 4
-sprite_frames = ExtResource("2_ly6xb")
-animation = &"idle_down"
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -344,3 +269,73 @@ offset_bottom = 23.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.316195, 0)
+script = ExtResource("20_ekaqe")
+anim_sprite = NodePath("AnimatedSprite3D")
+ponto_item_acima = NodePath("PontoItemAcima")
+
+[node name="PontoItemAcima" type="Marker3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3400991, 0)
+
+[node name="SpotLight" type="SpotLight3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 0.46728188, 0.88410836, 0, -0.88410836, 0.46728188, -8.85725e-05, 1.5505934, 0.48858678)
+visible = false
+light_color = Color(1, 1, 0, 1)
+light_energy = 1.495
+shadow_enabled = true
+spot_range = 2.1029348
+spot_angle = 39.45476
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03626728, 0)
+shape = SubResource("CapsuleShape3D_uvydw")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player_3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
+
+[node name="NPC_Teste" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
+
+[node name="DropPoint" type="Marker3D" parent="NPC_Teste"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.28148437)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="NPC_Teste"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+modulate = Color(0, 1, 1, 1)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
+autoplay = "idle_down"
+
+[node name="Interacao" type="Area3D" parent="NPC_Teste"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010421753, -0.05303955, 0.052330017)
+shape = SubResource("BoxShape3D_4djc3")
+
+[node name="NpcController" type="Node3D" parent="NPC_Teste"]
+script = ExtResource("14_4djc3")
+npc_entity_path = NodePath("../NpcEntity")
+
+[node name="NpcEntity" type="Node3D" parent="NPC_Teste" node_paths=PackedStringArray("drop_point")]
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_ekaqe")
+drop_point = NodePath("../DropPoint")
+timelines = Array[String](["Player_NPC_item"])
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NPC_Teste"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, -0.052963257, 0.0234375)
+shape = SubResource("BoxShape3D_ekaqe")

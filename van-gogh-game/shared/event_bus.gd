@@ -27,6 +27,8 @@ signal player_stopped                                      # Para broadcast de p
 # --- NPC / INTERAÇÃO ---
 signal npc_dropped_item(npc_name: String, id_item: String)
 signal npc_dialog_triggered(npc_name: String, timeline: String)
+signal npc_item_dropped(npc_name: String, item_id: String, item_node) # Node3D
+signal npc_item_given(npc_name: String, item_id: String, player)      # PlayerView
 
 # --- INVENTÁRIO / SISTEMA ---
 signal inventory_item_added(item_id: String)
@@ -83,5 +85,9 @@ func emit_zone_changed(zone_name: String) -> void:
 
 func emit_inventory_updated() -> void:
 	inventory_updated.emit()
-	
-	
+
+func emit_npc_item_dropped(npc_name: String, item_id: String, item_node: Node) -> void:
+	npc_item_dropped.emit(npc_name, item_id, item_node)
+
+func emit_npc_item_given(npc_name: String, item_id: String, player) -> void:
+	npc_item_given.emit(npc_name, item_id, player)

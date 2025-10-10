@@ -32,3 +32,14 @@ func _on_dialog_triggered(npc_name: String, timeline: String) -> void:
 		Dialogic.start(timeline)
 	else:
 		push_warning("Timeline '%s' não encontrada para %s" % [timeline, npc_name])
+		
+func drop_item(item_id: String) -> void:
+	if _npc_entity:
+		_npc_entity.drop_item(item_id)
+
+func give_item_to_player(item_id: String) -> void:
+	if not _npc_entity:
+		return
+	var player := get_tree().get_first_node_in_group("player")
+	if player:
+		_npc_entity.give_item_id_to_player(player, item_id)
