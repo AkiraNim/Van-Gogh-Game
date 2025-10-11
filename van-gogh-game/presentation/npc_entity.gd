@@ -15,6 +15,8 @@ func _ready() -> void:
 	var area := $"../Interacao"
 	if area and not area.body_entered.is_connected(_on_body_entered):
 		area.body_entered.connect(_on_body_entered)
+	if area and not area.body_exited.is_connected(_on_body_exited):
+		area.body_exited.connect(_on_body_exited)
 
 
 func _on_body_entered(body: Node) -> void:
@@ -25,6 +27,7 @@ func _on_body_entered(body: Node) -> void:
 func _on_body_exited(body: Node) -> void:
 	if body.is_in_group("player"):
 		_player_na_area = false
+		print("👋 Player saiu na área de interação de", name)
 
 func _unhandled_input(e: InputEvent) -> void:
 	if _player_na_area and e.is_action_pressed("interact"):

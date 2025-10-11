@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=45 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
 [ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="20_5bsxs"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="20_ekaqe"]
+[ext_resource type="Script" path="res://presentation/seat.gd" id="22_oi7nq"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -82,6 +83,15 @@ metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
 size = Vector3(0.42242432, 0.54086304, 0.5488281)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oi7nq"]
+size = Vector3(0.9182129, 0.44683838, 0.36364746)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_udkkk"]
+size = Vector3(0.9561157, 0.49316406, 0.4309082)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iypob"]
+size = Vector3(1, 0.3, 0.4)
 
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "lighting_service", "player_light_service")]
 script = ExtResource("1_m8nr8")
@@ -193,7 +203,7 @@ transform = Transform3D(0.8333878, 0, 0.55268866, 0, 0.9999942, 0, -0.5526829, 0
 shape = SubResource("BoxShape3D_ly6xb")
 
 [node name="Sprite3D2" type="Sprite3D" parent="Scenario/StaticBody3D"]
-transform = Transform3D(1, 0, 2.9802322e-08, 2.9802317e-08, 0.99999976, 0, -5.9604634e-08, 0, 0.9999998, 0, 0, 0)
+transform = Transform3D(1, 0, 2.9802322e-08, 2.9802315e-08, 0.9999997, 0, -5.960463e-08, 0, 0.99999976, -0.0029804707, 0, 0)
 billboard = 1
 shaded = true
 alpha_cut = 2
@@ -347,3 +357,26 @@ timelines = Array[String](["Player_NPC_item"])
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, -0.052963257, 0.0234375)
 shape = SubResource("BoxShape3D_ekaqe")
+
+[node name="Chair" type="Node3D" parent="." node_paths=PackedStringArray("marker3D")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3868)
+script = ExtResource("22_oi7nq")
+marker3D = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="Chair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34079564, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Chair"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chair/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0032958984, 0.23989868, -0.004211426)
+shape = SubResource("BoxShape3D_oi7nq")
+
+[node name="Area3D" type="Area3D" parent="Chair"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chair/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0043029785, 0.25341797, -0.0076904297)
+shape = SubResource("BoxShape3D_udkkk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Chair"]
+mesh = SubResource("BoxMesh_iypob")

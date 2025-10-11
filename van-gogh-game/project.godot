@@ -81,6 +81,7 @@ enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/ques
 player=""
 coletaveis=""
 estrelas=""
+seats=""
 
 [input]
 

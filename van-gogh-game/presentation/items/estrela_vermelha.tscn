@@ -114,6 +114,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.013549805)
 shape = SubResource("BoxShape3D_i6dxv")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+modulate = Color(1, 0, 0, 1)
 billboard = 1
 shaded = true
 texture_filter = 4

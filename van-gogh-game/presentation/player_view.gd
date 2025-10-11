@@ -9,10 +9,24 @@ signal contagem_estrelas_mudou(nova_contagem: int)
 @export var ponto_item_acima: Marker3D
 @export var nome_personagem: String = "Player"
 
+var anim_lock_name: StringName = ""
+var anim_lock_time: float = 0.0
 var _item_segurado: Node3D = null
 var pode_mover: bool = true
 var last_direction := Vector3.FORWARD
 var velocity_vector := Vector3.ZERO
+var is_sitting: bool = false
+
+func _ready():
+	
+	add_to_group("player")
+	print("🎮 PlayerView registrado no grupo 'player':", name)
+
+	# Conecta-se diretamente ao EventBus, garantindo bloqueio automático
+	if not EventBus.dialog_started.is_connected(_on_dialogo_iniciou):
+		EventBus.dialog_started.connect(_on_dialogo_iniciou)
+	if not EventBus.dialog_ended.is_connected(_on_dialogo_terminou):
+		EventBus.dialog_ended.connect(_on_dialogo_terminou)
 
 
 func set_held_item(n: Node3D) -> void:
@@ -37,22 +51,26 @@ func _enter_tree() -> void:
 			return
 
 # ------------------------------------------------------
-# 🎮 Inicialização
-# ------------------------------------------------------
-func _ready():
-	add_to_group("player")
-	print("🎮 PlayerView registrado no grupo 'player':", name)
-
-	# Conecta-se diretamente ao EventBus, garantindo bloqueio automático
-	if not EventBus.dialog_started.is_connected(_on_dialogo_iniciou):
-		EventBus.dialog_started.connect(_on_dialogo_iniciou)
-	if not EventBus.dialog_ended.is_connected(_on_dialogo_terminou):
-		EventBus.dialog_ended.connect(_on_dialogo_terminou)
-
-# ------------------------------------------------------
 # 🧭 Movimento
 # ------------------------------------------------------
 func _physics_process(_delta: float) -> void:
+	# sentado: não move nem troca anim aqui
+	if is_sitting:
+		velocity = Vector3.ZERO
+		move_and_slide()
+		return
+
+	# lock ativo: mantém animação travada
+	if anim_lock_name != "" or anim_lock_time > 0.0:
+		if anim_lock_time > 0.0:
+			anim_lock_time = max(0.0, anim_lock_time - _delta)
+			if anim_lock_time == 0.0:
+				anim_lock_name = ""
+		velocity = Vector3.ZERO
+		move_and_slide()
+		return
+
+	# bloqueio global (diálogo, etc.)
 	if not pode_mover:
 		velocity = Vector3.ZERO
 		move_and_slide()
@@ -84,7 +102,7 @@ func _on_dialogo_iniciou() -> void:
 	print("🚫 PlayerView bloqueado via EventBus")
 
 func _on_dialogo_terminou() -> void:
-	pode_mover = true
+	pode_mover = not is_sitting
 	print("🏃 PlayerView liberado via EventBus")
 
 # ------------------------------------------------------
@@ -93,6 +111,10 @@ func _on_dialogo_terminou() -> void:
 func _update_animation() -> void:
 	if not anim_sprite:
 		return
+	# não mexe na animação se estiver sentado ou com lock ativo
+	if is_sitting or anim_lock_name != "":
+		return
+	
 	var moving := velocity.length() > 0.01
 	var prefix := "walking" if moving else "idle"
 	var dir := velocity.normalized() if moving else last_direction
@@ -108,3 +130,16 @@ func _update_animation() -> void:
 	var anim := prefix + suffix
 	if anim_sprite and anim_sprite.animation != anim:
 		anim_sprite.play(anim)
+
+func lock_animation(name: StringName, duration: float = -1.0) -> void:
+	anim_lock_name = name
+	anim_lock_time = duration
+	if anim_sprite:
+		anim_sprite.stop()
+		anim_sprite.play(name)
+	print("🔒 lock_animation:", name, "por", duration, "s")
+
+func unlock_animation() -> void:
+	anim_lock_name = ""
+	anim_lock_time = 0.0
+	print("🔓 unlock_animation")
