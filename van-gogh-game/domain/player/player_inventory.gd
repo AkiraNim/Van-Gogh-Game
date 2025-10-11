@@ -25,3 +25,27 @@ func print_contents() -> void:
 	for it in itens:
 		if it:
 			print("- ", it.id_item, " | ", it.nome)
+			
+func get_counts() -> Dictionary:
+	var counts := {}
+	for it in itens:
+		if it == null:
+			continue
+		var id := it.id_item
+		if not counts.has(id):
+			counts[id] = {"data": it, "qtd": 0}
+		counts[id].qtd += 1
+	return counts
+
+# Imprime inventário agrupado (nome + quantidade)
+func print_grouped(label: String = "") -> void:
+	var counts := get_counts()
+	var header := "📦 Inventário do Player"
+	if label != "":
+		header += " (" + label + ")"
+	print(header, ": ", str(counts.size()), " tipo(s)")
+	for id in counts.keys():
+		var rec = counts[id]
+		var data: ItemData = rec.data
+		var nome = (data.nome if data else id)
+		print("- ", id, " | ", nome, " x", rec.qtd)

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=5 format=3 uid="uid://d1t8gj2fiveqm"]
+
+[ext_resource type="PackedScene" uid="uid://c7yc3vr5y2t4u" path="res://presentation/items/estrela_vermelha.tscn" id="1_f07if"]
+[ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="1_tjdlf"]
+[ext_resource type="Texture2D" uid="uid://by2fj1cm3tesq" path="res://Assets/Items/Star.png" id="2_f07if"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_og037"]
+atlas = ExtResource("2_f07if")
+region = Rect2(6, 6, 20, 22)
+
+[resource]
+script = ExtResource("1_tjdlf")
+id_item = "estrela_vermelha"
+nome = "Estrela vermelha"
+tipo = "importante"
+icone = SubResource("AtlasTexture_og037")
+cena_do_item = ExtResource("1_f07if")
+grants_star = true
+metadata/_custom_type_script = "uid://c0dp7ns08lwmk"
