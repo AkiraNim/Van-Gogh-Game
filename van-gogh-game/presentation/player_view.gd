@@ -3,6 +3,10 @@ class_name PlayerView
 
 signal item_coletado(item_node)
 signal contagem_estrelas_mudou(nova_contagem: int)
+signal quest_accepted(qid: String, title: String)
+signal quest_progress(qid: String, have: Dictionary)
+signal quest_completed(qid: String, title: String, motivo: String)
+
 
 @export var speed: float = 2.0
 @export var anim_sprite: AnimatedSprite3D
@@ -17,6 +21,8 @@ var pode_mover: bool = true
 var last_direction := Vector3.FORWARD   # será alinhado ao default_idle no _ready()
 var velocity_vector := Vector3.ZERO
 var is_sitting: bool = false
+var quests_ativas := {}       
+var quests_concluidas := {}   
 
 func _enter_tree() -> void:
 	# Se já existe outro player no grupo, remove a nova instância
@@ -39,6 +45,12 @@ func _ready():
 		EventBus.dialog_started.connect(_on_dialogo_iniciou)
 	if not EventBus.dialog_ended.is_connected(_on_dialogo_terminou):
 		EventBus.dialog_ended.connect(_on_dialogo_terminou)
+	if has_node("/root/EventBus"):
+		var eb := get_node("/root/EventBus")
+		if not eb.item_collected.is_connected(_pv_on_item_collected):
+			eb.item_collected.connect(_pv_on_item_collected)
+		if not eb.npc_dialog_triggered.is_connected(_pv_on_npc_dialog_triggered):
+			eb.npc_dialog_triggered.connect(_pv_on_npc_dialog_triggered)
 
 # --------------------------- Itens ---------------------------
 func set_held_item(n: Node3D) -> void:
@@ -205,3 +217,116 @@ func _dir_from_idle(idle: String) -> Vector3:
 		"idle_down_left":  return (Vector3.BACK + Vector3.LEFT).normalized()
 		"idle_down_right": return (Vector3.BACK + Vector3.RIGHT).normalized()
 		_:                 return Vector3.BACK      # fallback: down
+
+# =========================
+#        QUESTS
+# =========================
+
+func accept_quest(qid: String, cfg: Dictionary) -> void:
+	# Evita aceitar novamente ou aceitar algo já concluído
+	if quests_concluidas.has(qid):
+		print("ℹ️ Quest já concluída:", qid)
+		return
+	if quests_ativas.has(qid) and String(quests_ativas[qid].get("status","")) == "accepted":
+		print("ℹ️ Quest já aceita:", qid)
+		return
+
+	var q := cfg.duplicate(true)
+	q.status = "accepted"
+
+	# Normaliza estrutura para 'collect'
+	if String(q.get("tipo","")) == "collect":
+		if not q.has("req_items"):
+			q.req_items = {}  # {"item_id": qtd}
+		if not q.has("have"):
+			q.have = {}
+		for id in q.req_items.keys():
+			q.have[id] = int(q.have.get(id, 0))
+
+	quests_ativas[qid] = q
+
+	var title := String(q.get("title", qid))
+	print("✅ Quest aceita:", title, " (", qid, ")")
+	emit_signal("quest_accepted", qid, title)
+
+	# (Opcional) sincronia com Dialogic
+	if Engine.has_singleton("Dialogic"):
+		var D := Engine.get_singleton("Dialogic")
+		if D and "Variables" in D:
+			D.Variables.set_variable("quest/%s/status" % qid, "accepted")
+			D.Variables.set_variable("quest/%s/title" % qid, title)
+
+func complete_quest(qid: String, motivo: String="") -> void:
+	if not quests_ativas.has(qid):
+		print("❌ Tentativa de completar quest inexistente/nao aceita:", qid)
+		return
+	var q = quests_ativas[qid]
+	if String(q.get("status","")) != "accepted":
+		print("⛔ Quest não está aceita:", qid)
+		return
+
+	q.status = "completed"
+	quests_ativas.erase(qid)
+	quests_concluidas[qid] = true
+
+	var title := String(q.get("title", qid))
+	print("🏆 Missão concluída:", title, "(id:", qid, ", motivo:", motivo, ")")
+	emit_signal("quest_completed", qid, title, motivo)
+
+	# (Opcional) dialogic vars
+	if Engine.has_singleton("Dialogic"):
+		var D := Engine.get_singleton("Dialogic")
+		if D and "Variables" in D:
+			D.Variables.set_variable("quest/%s/status" % qid, "completed")
+			D.Variables.set_variable("quest/%s/done" % qid, true)
+
+func get_active_quests() -> Dictionary:
+	return quests_ativas
+
+func get_completed_quests() -> Dictionary:
+	return quests_concluidas
+
+# ---- Progresso por itens coletados ----
+func _pv_on_item_collected(id_item: String, _item_node: Node3D) -> void:
+	# Atualiza todas as quests de coleta aceitas que dependam desse item
+	for qid in quests_ativas.keys():
+		var q = quests_ativas[qid]
+		if String(q.get("tipo","")) != "collect": 
+			continue
+		if String(q.get("status","")) != "accepted":
+			continue
+		if not q.req_items.has(id_item):
+			continue
+
+		# incrementa 'have'
+		var have := int(q.have.get(id_item, 0)) + 1
+		q.have[id_item] = have
+		quests_ativas[qid] = q
+
+		emit_signal("quest_progress", qid, q.have)
+		print("🧭 Quest", qid, "progresso:", q.have, "/", q.req_items)
+
+		# se cumpriu tudo, completa
+		if _pv_is_collect_done(q):
+			complete_quest(qid, "collect")
+
+func _pv_is_collect_done(q: Dictionary) -> bool:
+	for id in q.req_items.keys():
+		var need := int(q.req_items[id])
+		var have := int(q.have.get(id, 0))
+		if have < need:
+			return false
+	return true
+
+# ---- Completa 'talk' quando conversa com o NPC alvo ----
+func _pv_on_npc_dialog_triggered(npc_name: String, _timeline: String) -> void:
+	for qid in quests_ativas.keys():
+		var q = quests_ativas[qid]
+		if String(q.get("tipo","")) != "talk":
+			continue
+		if String(q.get("status","")) != "accepted":
+			continue
+		if String(q.get("req_talk_to","")) != npc_name:
+			continue
+
+		complete_quest(qid, "talk")

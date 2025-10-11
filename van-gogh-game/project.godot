@@ -29,12 +29,19 @@ QuestSystem="*res://addons/quest_system/quest_manager.gd"
 [dialogic]
 
 directories/dch_directory={
+"Ferreiro": "res://Dialogic/Characters/Ferreiro.dch",
 "NPC_Teste": "res://Dialogic/Characters/NPC_Teste.dch",
 "Player_3D": "res://Dialogic/Characters/Player_3D.dch",
 "character": "res://Dialogic/Characters/character.dch",
 "test_character": "res://Dialogic/Characters/test_character.dch"
 }
 directories/dtl_directory={
+"Ferreiro_01_primeiro_contato": "res://Dialogic/Timelines/Test/Ferreiro_01_primeiro_contato.dtl",
+"Ferreiro_02": "res://Dialogic/Timelines/Test/Ferreiro_02.dtl",
+"NPC_Teste_01_oferece_quest": "res://Dialogic/Timelines/Test/NPC_Teste_01_oferece_quest.dtl",
+"NPC_Teste_02_lembra_progresso": "res://Dialogic/Timelines/Test/NPC_Teste_02_lembra_progresso.dtl",
+"NPC_Teste_03_completa_e_premia": "res://Dialogic/Timelines/Test/NPC_Teste_03_completa_e_premia.dtl",
+"NPC_Teste_04_fim_loop": "res://Dialogic/Timelines/Test/NPC_Teste_04_fim_loop.dtl",
 "Player_NPC_item": "res://Dialogic/Timelines/Test/Player_NPC_item.dtl",
 "Player_item": "res://Dialogic/Timelines/Test/Player_item.dtl",
 "Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl",
@@ -63,7 +70,12 @@ save/encryption_on_exports_only=true
 text/autopauses={}
 glossary/default_case_sensitive=true
 variables={
-"last_item_name": ""
+"count_estrela_vermelha": 0,
+"last_item_name": "",
+"q_coletar_estrela_vermelha_need_estrela_vermelha": 0,
+"q_coletar_estrela_vermelha_progress_estrela_vermelha": 0,
+"q_coletar_estrela_vermelha_status": "",
+"q_falar_com_ferreiro_status": "false"
 }
 
 [display]

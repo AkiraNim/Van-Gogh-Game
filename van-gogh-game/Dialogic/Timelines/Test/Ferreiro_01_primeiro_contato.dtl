@@ -1,0 +1,15 @@
+# Marca que o jogador falou com o Ferreiro — isso conclui a quest 'talk'
+[signal arg="quest_talk_hit:Ferreiro"]
+
+Ferreiro: Olá! Então você veio a meu pedido.
+
+if {q_falar_com_ferreiro_status} == "completed":
+	Ferreiro: Perfeito, podemos considerar essa parte resolvida.
+else:
+	Ferreiro: Certo. Pronto, podemos considerar que conversamos.
+
+# Se quiser ver o estado das quests:
+[signal arg="quest_dump"]
+
+# Avança a timeline do Ferreiro para o próximo estágio
+[signal arg="npc_next:Ferreiro"]

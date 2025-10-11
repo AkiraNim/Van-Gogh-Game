@@ -16,6 +16,7 @@ var _is_sitting: bool = false
 const APPROACH_SPEED := 1.0
 
 func _ready() -> void:
+	_sync_dialogic_all_items()
 	# Evita múltiplas instâncias do PlayerController
 	if Engine.is_editor_hint():
 		return
@@ -179,7 +180,17 @@ func _on_item_collected(_id_item: String, item_node: Node3D) -> void:
 	if data != null and inventory != null:
 		inventory.add_item(data)
 		_print_inventory_grouped("após coleta")
-
+		
+	if Engine.has_singleton("Dialogic"):
+		var D := Engine.get_singleton("Dialogic")
+		var c := _inventory_count("estrela_vermelha")  # helper abaixo
+		if D and D.has_subsystem("VAR"):
+			D.VAR.set_variable("count_estrela_vermelha", c)
+		elif "Variables" in Dialogic:
+			Dialogic.Variables.set_variable("count_estrela_vermelha", c)
+		print("🧮 Dialogic VAR sync → count_estrela_vermelha =", c)
+	if data != null:
+		_set_dialogic_item_vars(data.id_item, inventory.count_id(data.id_item) if inventory.has_method("count_id") else _count_in_inventory(data.id_item))
 	# 3) Classifica se é especial (estrela/importante)
 	var is_special: bool = false
 	if data != null:
@@ -410,3 +421,46 @@ func _unfreeze_player_view() -> void:
 	# Reabilita controles
 	if "pode_mover" in player_view:
 		player_view.pode_mover = true
+
+func _sync_dialogic_all_items() -> void:
+	if inventory == null: return
+	var counts := {}
+	for it in inventory.itens:
+		if it == null: continue
+		var id := it.id_item
+		counts[id] = (counts.get(id, 0) as int) + 1
+
+	# Zera/atualiza tudo que importa pra você
+	for id in counts.keys():
+		_set_dialogic_item_vars(id, counts[id])
+
+	# Se quiser garantir que itens não presentes fiquem como false/0,
+	# liste-os aqui manualmente:
+	# _set_dialogic_item_vars("estrela_vermelha", counts.get("estrela_vermelha", 0))
+
+func _set_dialogic_item_vars(id_item: String, qtd: int) -> void:
+	# Cria duas variáveis por item:
+	# has_<id> (bool) e count_<id> (int)
+	if Engine.has_singleton("Dialogic"):
+		var D := Engine.get_singleton("Dialogic")
+		if D and "Variables" in D:
+			D.Variables.set_variable("has_%s" % id_item, qtd > 0)
+			D.Variables.set_variable("count_%s" % id_item, qtd)
+			# debug opcional:
+			print("🔗 Dialogic vars → has_%s=%s | count_%s=%d" % [id_item, str(qtd > 0), id_item, qtd])
+
+func _count_in_inventory(id_item: String) -> int:
+	if inventory == null: return 0
+	var n := 0
+	for it in inventory.itens:
+		if it and it.id_item == id_item:
+			n += 1
+	return n
+	
+func _inventory_count(id_item: String) -> int:
+	var n := 0
+	if inventory:
+		for it in inventory.itens:
+			if it and String(it.id_item) == id_item:
+				n += 1
+	return n

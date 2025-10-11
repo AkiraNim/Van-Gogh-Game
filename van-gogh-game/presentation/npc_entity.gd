@@ -12,12 +12,12 @@ var _current_timeline_index: int = 0
 var _player_na_area := false
 
 func _ready() -> void:
+	add_to_group("npcs")
 	var area := $"../Interacao"
 	if area and not area.body_entered.is_connected(_on_body_entered):
 		area.body_entered.connect(_on_body_entered)
 	if area and not area.body_exited.is_connected(_on_body_exited):
 		area.body_exited.connect(_on_body_exited)
-
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
@@ -79,7 +79,7 @@ func give_item_to_player(id_item: String, _player: PlayerView) -> void:
 	if node == null:
 		push_warning("Falha ao instanciar cena do item '%s'." % id_item)
 		return
-		
+
 	_config_as_collectable(node, data)
 	# Entrega direta → reaproveita pipeline de coleta:
 	EventBus.emit_item_collected(data.id_item, node)
@@ -116,9 +116,7 @@ func _colocar_no_cenario(node: Node3D) -> void:
 		node.global_transform = drop_point.global_transform
 	else:
 		node.global_transform = global_transform
-# -----------------------------
-# Utilitários internos
-# -----------------------------
+
 func _instance_item_node(data: ItemData) -> Node3D:
 	if data.cena_do_item:
 		var n := data.cena_do_item.instantiate()
