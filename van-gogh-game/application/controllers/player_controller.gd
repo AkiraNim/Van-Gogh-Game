@@ -179,8 +179,6 @@ func _print_inventory_grouped(label: String) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
-		print("🟢 Interact detectado via _input!")
-
 		if _is_sitting:
 			print("⬆️ Player levantando...")
 			_stand_up()
@@ -268,10 +266,7 @@ func _stand_up() -> void:
 	# dá 1 frame para a animação “colar” e só então reativa lógica/física
 	await get_tree().process_frame
 	_unfreeze_player_view()
-
 	_is_sitting = false
-
-
 
 func _find_nearby_seat() -> Seat:
 	for seat in get_tree().get_nodes_in_group("seats"):
