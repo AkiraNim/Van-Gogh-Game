@@ -1,4 +1,3 @@
-# res://application/controllers/player_controller.gd
 extends Node
 class_name PlayerController
 
@@ -6,93 +5,143 @@ class_name PlayerController
 @export var light_service: PlayerLightService
 @export var state: PlayerState
 
-var _collecting := false
+# --- controle de retenção do item especial ---
+var _held_node: Node3D = null                       # item atualmente preso acima do player
+var _awaiting_important_start: bool = false         # aguardando iniciar o 'important_item'
+var _important_active: bool = false                 # 'important_item' está rodando
 
 func _ready() -> void:
-	# Coleta
-	if not EventBus.item_collected.is_connected(_on_item_coletado):
-		EventBus.item_collected.connect(_on_item_coletado)
-	# Movimento bloqueado por diálogo
+	# Sinais necessários
+	if not EventBus.item_collected.is_connected(_on_item_collected):
+		EventBus.item_collected.connect(_on_item_collected)
 	if not EventBus.dialog_started.is_connected(_on_dialog_started):
 		EventBus.dialog_started.connect(_on_dialog_started)
 	if not EventBus.dialog_ended.is_connected(_on_dialog_ended):
 		EventBus.dialog_ended.connect(_on_dialog_ended)
 
+	# Fallback para encontrar o PlayerView pelo grupo
+	if player_view == null:
+		var lst: Array = get_tree().get_nodes_in_group("player")
+		if lst.size() > 0 and lst[0] is PlayerView:
+			player_view = lst[0]
+
+# ======================================================
+# DIÁLOGO (apenas para saber quando destruir o item especial)
+# ======================================================
 func _on_dialog_started() -> void:
-	if player_view:
-		player_view.pode_mover = false
-		player_view.velocity = Vector3.ZERO
+	# Se estávamos esperando abrir o 'important_item', este 'started' é dele
+	if _awaiting_important_start:
+		_important_active = true
+		_awaiting_important_start = false
 
 func _on_dialog_ended() -> void:
-	if player_view:
-		player_view.pode_mover = true
+	# aqui você sabe que o important_item terminou
+	if _held_node != null and is_instance_valid(_held_node):
+		_held_node.call_deferred("queue_free")
+		_held_node = null
 
-func _on_item_coletado(id_item: String, item_node: Node3D) -> void:
-	if _collecting or not player_view or item_node == null:
-		return
-	_collecting = true
-
-	# 1) Descobre o ItemData vindo do CollectableArea (propriedade) ou metadado (NPC give)
-	var data: ItemData = _extract_item_data(item_node, id_item)
-
-	# 2) Prende o item acima do player e liga a luz
-	_attach_to_player(item_node)
-	if light_service:
-		light_service.ligar()
-
-	# 3) Animação de coleta quando for estrela/“importante”
-	var is_special := false
-	if data:
-		is_special = data.grants_star or data.tipo in ["estrela", "importante"]
-
-	if is_special:
-		await _play_collect_vfx()
-	else:
-		await get_tree().create_timer(0.20).timeout
-
-	# 4) Desliga a luz, destrói o item preso e contabiliza estrela (se for o caso)
+	# se quiser apagar o spotlight só no fim do diálogo, pode ficar aqui:
 	if light_service:
 		light_service.desligar()
 
-	if player_view:
-		player_view.destruir_item_segurado()
-
-	if data and (data.grants_star or data.tipo == "estrela"):
-		if state:
-			state.adicionar_estrela()  # emite star_count_changed internamente
-		# você pode também disparar um feedback/HUD aqui
-
-	# 5) Sinaliza para quem estiver aguardando
-	EventBus.emit_animation_collect_finished()
-	_collecting = false
-
-func _extract_item_data(node: Node, fallback_id: String) -> ItemData:
-	var data: ItemData = null
-	# Caso seja CollectableArea (tem export 'item_data')
-	if node != null and "item_data" in node:
-		data = node.item_data
-	# Caso tenha vindo do NPC.give (usamos metadado)
-	elif node != null and node.has_meta("item_data"):
-		data = node.get_meta("item_data")
-	return data
-
-func _attach_to_player(node: Node3D) -> void:
-	if not player_view or not node: return
-	# reparenta o nó recebido para ficar acima do player (independe de ser Area3D ou Node3D)
-	if node.get_parent():
-		node.get_parent().remove_child(node)
-	player_view.ponto_item_acima.add_child(node)
-	node.position = Vector3.ZERO
-	player_view.set_held_item(node)
-
-func _play_collect_vfx() -> void:
-	# Efeito visual simples: “pulse” no item preso
-	var held := player_view.get_held_item_node() if player_view else null
-	if not held:
-		await get_tree().create_timer(0.2).timeout
+# ======================================================
+# COLETA (mantém sua lógica, mas com reparent seguro e retenção em diálogos)
+# ======================================================
+func _on_item_collected(_id_item: String, item_node: Node3D) -> void:
+	# resolve player_view se não estiver setado
+	if player_view == null:
+		var lst: Array = get_tree().get_nodes_in_group("player")
+		if lst.size() > 0 and lst[0] is PlayerView:
+			player_view = lst[0]
+	if player_view == null:
+		push_warning("PlayerController: player_view não definido; ignorando coleta.")
 		return
-	var s0 := held.scale
-	var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(held, "scale", s0 * 1.25, 0.15)
-	tween.tween_property(held, "scale", s0, 0.15)
-	await tween.finished
+	if player_view.ponto_item_acima == null:
+		push_warning("PlayerController: ponto_item_acima não configurado no PlayerView.")
+		return
+	if item_node == null:
+		return
+
+	# Desabilita a Area3D para não recom disparar (anti reentrada)
+	if item_node is Area3D:
+		var a: Area3D = item_node
+		a.call_deferred("set_process_input", false)
+		a.set_deferred("monitoring", false)
+		a.set_deferred("monitorable", false)
+
+	# visual: item "na cabeça" (reparent SEGURO, fora do callback de física)
+	_attach_to_player_deferred(item_node)
+
+	# spotlight rápido
+	if light_service:
+		light_service.ligar()
+
+	# dados do item
+	var data: ItemData = _extract_item_data(item_node)
+	var is_special: bool = false
+	if data != null:
+		is_special = data.tipo == "estrela" or data.tipo == "importante" or (("grants_star" in data) and data.grants_star)
+
+	# pequena pausa/anim
+	await get_tree().create_timer(0.25 if is_special else 0.1).timeout
+
+	# luz off
+	
+
+	# estado (estrela)
+	if data and (data.grants_star or data.tipo == "importante" or data.tipo == "estrela"):
+		if state:
+			state.adicionar_estrela()
+
+	# item especial → mantém acima da cabeça e inicia diálogo de recebido
+	if is_special and data:
+		# marcar que esperamos o 'dialog_started' do important_item
+		_awaiting_important_start = true
+		# dispara o diálogo; DialogController deve setar a var e iniciar 'important_item'
+		EventBus.emit_important_item_collected(data.nome)
+	else:
+		# item comum → pode destruir já
+		_destroy_held_item_deferred()
+
+# ======================================================
+# HELPERS
+# ======================================================
+func _attach_to_player_deferred(node: Node3D) -> void:
+	_held_node = node
+	var parent: Node = node.get_parent()
+	if parent != null:
+		parent.call_deferred("remove_child", node)
+	player_view.ponto_item_acima.call_deferred("add_child", node)
+	call_deferred("_after_attach_zero", node)
+
+func _after_attach_zero(node: Node3D) -> void:
+	if node != null:
+		node.transform = Transform3D.IDENTITY
+	if player_view != null:
+		player_view.set_held_item(node)
+
+func _destroy_held_item_deferred() -> void:
+	if _held_node != null and is_instance_valid(_held_node):
+		_held_node.call_deferred("queue_free")
+	_held_node = null
+
+func _extract_item_data(node: Node) -> ItemData:
+	if node == null:
+		return null
+	# 1) Se for CollectableArea com export 'item_data'
+	if node is CollectableArea:
+		var ca: CollectableArea = node
+		if ca.item_data != null:
+			return ca.item_data
+	# 2) Via metadado
+	if node.has_meta("item_data"):
+		var v: Variant = node.get_meta("item_data")
+		if v is ItemData:
+			return v
+	# 3) Busca recursiva
+	var children: Array = node.get_children()
+	for child in children:
+		var sub: ItemData = _extract_item_data(child)
+		if sub != null:
+			return sub
+	return null

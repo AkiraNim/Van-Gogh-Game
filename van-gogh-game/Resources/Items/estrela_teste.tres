@@ -15,4 +15,5 @@ nome = "Estrela"
 tipo = "importante"
 icone = SubResource("AtlasTexture_dumwf")
 cena_do_item = ExtResource("1_mhusl")
+grants_star = true
 metadata/_custom_type_script = "uid://c0dp7ns08lwmk"

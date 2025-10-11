@@ -15,6 +15,7 @@ signal dialog_ended                       # Disparado quando um diálogo termina
 signal item_collected(id_item: String, item_node: Node3D)   # Quando um item é coletado
 signal animation_collect_finished                          # Quando a animação de coleta termina
 signal star_count_changed(count: int)                      # Quando número de estrelas muda
+signal important_item_collected(item_name: String)
 
 # --- ZONA / AMBIENTE ---
 signal player_entered_zone(zone_name: String)              # Quando o jogador entra em uma zona
@@ -33,7 +34,8 @@ signal npc_item_given(npc_name: String, item_id: String, player)      # PlayerVi
 # --- INVENTÁRIO / SISTEMA ---
 signal inventory_item_added(item_id: String)
 signal inventory_item_removed(item_id: String)
-signal inventory_updated                                   # Dispara quando o inventário é atualizado
+signal inventory_updated
+							 # Dispara quando o inventário é atualizado
 
 # --- SISTEMA / GAME MANAGEMENT ---
 signal game_paused(is_paused: bool)                  # Disparado quando o jogo é pausado/despausado
@@ -44,6 +46,9 @@ signal scene_changed(scene_path: String)            # Disparado quando uma nova 
 signal save_failed(error_msg: String)               # Caso o salvamento falhe
 
 # --- EMISSÕES AUXILIARES ---
+func emit_important_item_collected(item_name: String) -> void:
+	important_item_collected.emit(item_name)
+
 func emit_game_paused(is_paused: bool) -> void:
 	game_paused.emit(is_paused)
 

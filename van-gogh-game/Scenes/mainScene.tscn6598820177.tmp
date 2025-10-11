@@ -241,7 +241,6 @@ far = 611.26
 
 [node name="AreaItem" parent="." groups=["coletaveis", "estrelas"] instance=ExtResource("17_4djc3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9832748, 0.16228667, 0)
-item_data = ExtResource("16_ekaqe")
 
 [node name="Camera3D_Principal" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.999195, 8.839)
@@ -306,7 +305,7 @@ animation = &"idle_down"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
 
 [node name="DropPoint" type="Marker3D" parent="NPC_Teste"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0056233406, 0, 0.4861189)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0057855844, 0, 0.67865443)
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="NPC_Teste"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)

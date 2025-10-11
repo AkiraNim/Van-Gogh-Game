@@ -36,7 +36,8 @@ directories/dch_directory={
 directories/dtl_directory={
 "Player_NPC_item": "res://Dialogic/Timelines/Test/Player_NPC_item.dtl",
 "Player_item": "res://Dialogic/Timelines/Test/Player_item.dtl",
-"Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl"
+"Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl",
+"important_item": "res://Dialogic/Timelines/important_item.dtl"
 }
 layout/style_list=["res://Dialogic/Themes/Test/New_File.tres"]
 layout/default_style="res://Dialogic/Themes/Test/New_File.tres"
@@ -60,7 +61,9 @@ save/autosave_delay=60.0
 save/encryption_on_exports_only=true
 text/autopauses={}
 glossary/default_case_sensitive=true
-variables={}
+variables={
+"last_item_name": ""
+}
 
 [display]
 
