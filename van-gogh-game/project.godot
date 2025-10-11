@@ -20,10 +20,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-QuestManager="*res://addons/quest_manager/QuestManager.gd"
 EventBus="*res://shared/event_bus.gd"
 GameManager="*res://application/controllers/game_manager.gd"
 NpcService="*res://infrastructure/services/npc_service.gd"
+DialogicBridge="*res://infrastructure/services/dialogic_bridge.gd"
+QuestSystem="*res://addons/quest_system/quest_manager.gd"
 
 [dialogic]
 
@@ -74,7 +75,7 @@ window/size/resizable=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/quest_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/quest_system/plugin.cfg")
 
 [global_group]
 

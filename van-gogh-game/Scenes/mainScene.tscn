@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=46 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
 [ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="16_ekaqe"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
+[ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
 [ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="20_5bsxs"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="20_ekaqe"]
 [ext_resource type="Script" path="res://presentation/seat.gd" id="22_oi7nq"]
@@ -317,10 +318,13 @@ shaded = true
 alpha_cut = 2
 texture_filter = 4
 sprite_frames = ExtResource("2_ly6xb")
-animation = &"idle_down"
+animation = &"surprise_up"
 
-[node name="NPC_Teste" type="Node3D" parent="."]
+[node name="NPC_Teste" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
+script = ExtResource("18_oi7nq")
+anim_sprite = NodePath("AnimatedSprite3D")
+nome_npc = "NPC_Teste"
 
 [node name="DropPoint" type="Marker3D" parent="NPC_Teste"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0056233406, 0, 0.4861189)

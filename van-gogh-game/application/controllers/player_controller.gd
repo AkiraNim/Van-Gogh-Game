@@ -41,10 +41,104 @@ func _ready() -> void:
 		var lst: Array = get_tree().get_nodes_in_group("player")
 		if lst.size() > 0 and lst[0] is PlayerView:
 			player_view = lst[0]
-
+	var bridge = get_tree().get_first_node_in_group("dialog_bridge")
+	if bridge:
+		if not bridge.dialogic_lock_animation.is_connected(_on_dialogic_lock_animation):
+			bridge.dialogic_lock_animation.connect(_on_dialogic_lock_animation)
+		if not bridge.dialogic_unlock_animation.is_connected(_on_dialogic_unlock_animation):
+			bridge.dialogic_unlock_animation.connect(_on_dialogic_unlock_animation)
+	call_deferred("_bind_dialog_bridge")
+	_resolve_player_view()
 	_print_inventory_grouped("início do jogo")
 
 # ===================== DIÁLOGO =====================
+func _resolve_player_view() -> bool:
+	if player_view and is_instance_valid(player_view):
+		return true
+	# pega exatamente a instância registrada no grupo 'player'
+	var lst := get_tree().get_nodes_in_group("player")
+	if lst.size() > 0 and lst[0] is PlayerView:
+		player_view = lst[0]
+		print("✅ PlayerView resolvido em _resolve_player_view():", player_view.name)
+		# sanity: se houver duplicatas, elimina as extras
+		for n in lst:
+			if n != player_view:
+				print("⚠️ PlayerView duplicado detectado (removendo):", n.name)
+				n.queue_free()
+		return true
+	print("❌ _resolve_player_view() não encontrou PlayerView")
+	return false
+
+func _bind_dialog_bridge() -> void:
+	var bridge := get_tree().get_first_node_in_group("dialog_bridge")
+	if bridge:
+		if not bridge.dialogic_lock_animation.is_connected(_on_dialogic_lock_animation):
+			bridge.dialogic_lock_animation.connect(_on_dialogic_lock_animation)
+		if not bridge.dialogic_unlock_animation.is_connected(_on_dialogic_unlock_animation):
+			bridge.dialogic_unlock_animation.connect(_on_dialogic_unlock_animation)
+		print("🔗 PlayerController conectado ao DialogicBridge")
+	else:
+		print("⏳ Bridge ainda não disponível; tentando novamente…")
+		await get_tree().process_frame
+		_bind_dialog_bridge()
+	
+func _on_dialogic_lock_animation(name: String, duration: float) -> void:
+	print("🎛️ Controller recebeu lock -> name='", name, "' dur=", duration)
+	if not _resolve_player_view():
+		return
+
+	# 1) congele a view para impedir qualquer lógica de mover/anim no frame
+	_freeze_player_view()
+
+	# 2) aplique o lock via método da view (se existir)
+	if player_view.has_method("lock_animation"):
+		player_view.lock_animation(name, duration)
+	else:
+		print("⚠️ PlayerView sem lock_animation(); aplicando failsafe")
+
+		# FAILSAFE: seta variáveis e troca anima aqui também
+		if "anim_lock_name" in player_view:
+			player_view.anim_lock_name = name
+		if "anim_lock_time" in player_view:
+			player_view.anim_lock_time = duration
+
+		if player_view.anim_sprite:
+			var frames := player_view.anim_sprite.sprite_frames
+			var final_name := name
+			if frames and not frames.has_animation(final_name):
+				if frames.has_animation("idle_down"):
+					final_name = "idle_down"
+				elif frames.has_animation("idle"):
+					final_name = "idle"
+				else:
+					print("⚠️ Controller: animação não encontrada nem fallback (", name, ")")
+					return
+			var before := player_view.anim_sprite.animation
+			player_view.anim_sprite.stop()
+			player_view.anim_sprite.play(final_name)
+			print("🎞️ Controller forçou anim →", final_name, "(antes era", before, ")")
+
+	# 3) garanta que entradas não reativem nada durante o lock
+	if "pode_mover" in player_view:
+		player_view.pode_mover = false
+
+func _on_dialogic_unlock_animation() -> void:
+	print("🎛️ Controller recebeu unlock")
+	if not _resolve_player_view():
+		return
+
+	# solta o lock na view (se existir o método)
+	if player_view.has_method("unlock_animation"):
+		player_view.unlock_animation()
+
+	# reabilita física/processo e input somente se não estiver sentado
+	if not _is_sitting:
+		await get_tree().process_frame  # dá 1 frame para a idle/estado colar
+		_unfreeze_player_view()
+		if "pode_mover" in player_view:
+			player_view.pode_mover = true
+
+		
 func _on_dialog_started() -> void:
 	if _awaiting_important_start:
 		_important_active = true
@@ -253,20 +347,39 @@ func _stand_up() -> void:
 		_current_seat.release(player_view)
 		_current_seat = null
 
-	# zera velocidade para não “puxar” uma animação de walk
+	# zera movimento para não puxar walk
 	if "velocity" in player_view:
 		player_view.velocity = Vector3.ZERO
 
-	# toca a idle_down e garante o speed normal
+	# garante que o idle padrão seja down
+	if player_view.has_method("set_default_idle"):
+		player_view.set_default_idle("idle_down")
+	else:
+		# fallback se ainda não atualizou o PlayerView
+		if player_view.anim_sprite:
+			player_view.anim_sprite.stop()
+			player_view.anim_sprite.play("idle_down")
+
+	# alinha a direção para 'down' (coerente com idle_down)
+	if "last_direction" in player_view:
+		player_view.last_direction = Vector3.BACK  # (0,0,1) = down no teu mapeamento
+
+	# trava a animação por um instante pra “colar” a pose
+	if player_view.has_method("lock_animation"):
+		player_view.lock_animation("idle_down", 0.25)
+	else:
+		if player_view.anim_sprite:
+			player_view.anim_sprite.play("idle_down")
+
+	# normaliza a velocidade da animação
 	if player_view.anim_sprite:
 		player_view.anim_sprite.speed_scale = 1.0
-		player_view.anim_sprite.stop()
-		player_view.anim_sprite.play("idle_down")
 
-	# dá 1 frame para a animação “colar” e só então reativa lógica/física
+	# dá 1 frame e descongela; com lock, o _update_animation não sobrescreve
 	await get_tree().process_frame
 	_unfreeze_player_view()
 	_is_sitting = false
+
 
 func _find_nearby_seat() -> Seat:
 	for seat in get_tree().get_nodes_in_group("seats"):
