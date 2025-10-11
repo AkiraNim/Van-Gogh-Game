@@ -1,3 +1,4 @@
 NPC_Teste: Eu guardei isto para você. É um item especial!
-[signal]
-NPC_Teste: Por favor, pegue.
+NPC_Teste: Espero que voce goste
+[signal arg="npc_drop:estrela"]
+[end_timeline]

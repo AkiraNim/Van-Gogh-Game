@@ -2,11 +2,12 @@ extends Node
 
 @export var item_repository: ItemRepository
 
-# Instancia e posiciona o item no mundo, sem depender de NpcEntity
-func dropar_item(item_data: ItemData, ponto_drop: Marker3D) -> Node3D:
+# Agora recebe 'npc_name' para emitir o EventBus corretamente.
+func dropar_item(npc_name: String, item_data: ItemData, ponto_drop: Marker3D) -> Node3D:
 	if item_data == null or ponto_drop == null:
 		return null
-
+	var item_instance := item_data.cena_do_item.instantiate()
+	
 	var instancia: Node3D = null
 	if item_repository:
 		instancia = item_repository.instantiate_item(item_data.id_item)
@@ -22,5 +23,8 @@ func dropar_item(item_data: ItemData, ponto_drop: Marker3D) -> Node3D:
 		root.add_child(instancia)
 		instancia.global_position = ponto_drop.global_position
 
-	EventBus.npc_dropped_item.emit(item_data.id_item)
+	# >>> Correção: o EventBus espera (npc_name, id_item)
+	EventBus.npc_dropped_item.emit(npc_name, item_data.id_item)
 	return instancia
+	
+	

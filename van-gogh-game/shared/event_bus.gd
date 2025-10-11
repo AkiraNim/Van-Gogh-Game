@@ -15,6 +15,7 @@ signal dialog_ended                       # Disparado quando um diálogo termina
 signal item_collected(id_item: String, item_node: Node3D)   # Quando um item é coletado
 signal animation_collect_finished                          # Quando a animação de coleta termina
 signal star_count_changed(count: int)                      # Quando número de estrelas muda
+signal important_item_collected(item_name: String)
 
 # --- ZONA / AMBIENTE ---
 signal player_entered_zone(zone_name: String)              # Quando o jogador entra em uma zona
@@ -27,11 +28,14 @@ signal player_stopped                                      # Para broadcast de p
 # --- NPC / INTERAÇÃO ---
 signal npc_dropped_item(npc_name: String, id_item: String)
 signal npc_dialog_triggered(npc_name: String, timeline: String)
+signal npc_item_dropped(npc_name: String, item_id: String, item_node) # Node3D
+signal npc_item_given(npc_name: String, item_id: String, player)      # PlayerView
 
 # --- INVENTÁRIO / SISTEMA ---
 signal inventory_item_added(item_id: String)
 signal inventory_item_removed(item_id: String)
-signal inventory_updated                                   # Dispara quando o inventário é atualizado
+signal inventory_updated
+							 # Dispara quando o inventário é atualizado
 
 # --- SISTEMA / GAME MANAGEMENT ---
 signal game_paused(is_paused: bool)                  # Disparado quando o jogo é pausado/despausado
@@ -42,6 +46,9 @@ signal scene_changed(scene_path: String)            # Disparado quando uma nova 
 signal save_failed(error_msg: String)               # Caso o salvamento falhe
 
 # --- EMISSÕES AUXILIARES ---
+func emit_important_item_collected(item_name: String) -> void:
+	important_item_collected.emit(item_name)
+
 func emit_game_paused(is_paused: bool) -> void:
 	game_paused.emit(is_paused)
 
@@ -83,5 +90,9 @@ func emit_zone_changed(zone_name: String) -> void:
 
 func emit_inventory_updated() -> void:
 	inventory_updated.emit()
-	
-	
+
+func emit_npc_item_dropped(npc_name: String, item_id: String, item_node: Node) -> void:
+	npc_item_dropped.emit(npc_name, item_id, item_node)
+
+func emit_npc_item_given(npc_name: String, item_id: String, player) -> void:
+	npc_item_given.emit(npc_name, item_id, player)
