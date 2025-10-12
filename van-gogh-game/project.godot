@@ -25,6 +25,7 @@ GameManager="*res://application/controllers/game_manager.gd"
 NpcService="*res://infrastructure/services/npc_service.gd"
 DialogicBridge="*res://infrastructure/services/dialogic_bridge.gd"
 QuestSystem="*res://addons/quest_system/quest_manager.gd"
+QuestManager="*res://infrastructure/services/quest_service.gd"
 
 [dialogic]
 
@@ -72,10 +73,12 @@ glossary/default_case_sensitive=true
 variables={
 "count_estrela_vermelha": 0,
 "last_item_name": "",
-"q_coletar_estrela_vermelha_need_estrela_vermelha": 0,
-"q_coletar_estrela_vermelha_progress_estrela_vermelha": 0,
-"q_coletar_estrela_vermelha_status": "",
-"q_falar_com_ferreiro_status": "false"
+"q_Coletar estrela vermelha_need_estrela_vermelha": 0,
+"q_Coletar estrela vermelha_progress_estrela_vermelha": 0,
+"q_Coletar estrela vermelha_status": "",
+"q_falar_com_ferreiro_status": "false",
+"quest/coletar_estrela_vermelha/title": "Coletar Estrela Vermelha",
+"quest/falar_com_ferreiro/title": "Falar com o Ferreiro"
 }
 
 [display]
@@ -138,6 +141,11 @@ dialogic_default_action={
 interact={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
+toggle={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=50 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=51 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
+[ext_resource type="Script" uid="uid://bi7wgafvj6gd0" path="res://infrastructure/services/ui_service.gd" id="2_eol8w"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_ly6xb"]
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
 [ext_resource type="Script" uid="uid://dgku8rqggmyuw" path="res://infrastructure/services/lighting_service.gd" id="3_oy1pr"]
@@ -113,6 +114,102 @@ dialog_controller = NodePath("DialogNode/DialogController")
 zone_controller = NodePath("EnviromentNode/ZoneController")
 lighting_service = NodePath("EnviromentNode/LightingService")
 player_light_service = NodePath("PlayerNode/PlayerLightService")
+
+[node name="UIService" type="Node" parent="." node_paths=PackedStringArray("hud_root", "stars_container", "important_container", "quest_menu_root", "active_quests_container", "completed_quests_container", "quest_service")]
+script = ExtResource("2_eol8w")
+hud_root = NodePath("HUD")
+stars_container = NodePath("HUD/MarginContainer/VBoxContainer/StarsBox")
+important_container = NodePath("HUD/MarginContainer/VBoxContainer/ImportantItemsBox")
+quest_menu_root = NodePath("QuestMenu")
+active_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer/ActiveQuestContainer")
+completed_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2/CompletedQuestContainer")
+quest_service = NodePath("")
+metadata/_custom_type_script = "uid://bi7wgafvj6gd0"
+
+[node name="HUD" type="Control" parent="UIService"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="UIService/HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIService/HUD/MarginContainer"]
+layout_mode = 2
+
+[node name="StarsBox" type="HBoxContainer" parent="UIService/HUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="ImportantItemsBox" type="HBoxContainer" parent="UIService/HUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="QuestMenu" type="Control" parent="UIService"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UIService/QuestMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.35686275, 0.35686275, 0.35686275, 0.38431373)
+
+[node name="MarginContainer" type="MarginContainer" parent="UIService/QuestMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -33.0
+offset_right = 74.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIService/QuestMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UIService/QuestMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Missões ativas"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UIService/QuestMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ActiveQuestContainer" type="VBoxContainer" parent="UIService/QuestMenu/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="UIService/QuestMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="UIService/QuestMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Missões concluídas"
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="UIService/QuestMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CompletedQuestContainer" type="VBoxContainer" parent="UIService/QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2"]
+layout_mode = 2
 
 [node name="MainController" type="Node" parent="." node_paths=PackedStringArray("dialog_service", "player", "zone_controller")]
 script = ExtResource("2_v2gni")
@@ -369,6 +466,7 @@ npc_entity_path = NodePath("../NpcEntity")
 script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_ekaqe")
 drop_point = NodePath("../DropPoint")
+nome_npc = "NPC_Teste"
 timelines = Array[String](["NPC_Teste_01_oferece_quest", "NPC_Teste_02_lembra_progresso", "NPC_Teste_03_completa_e_premia", "NPC_Teste_04_fim_loop"])
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NPC_Teste"]

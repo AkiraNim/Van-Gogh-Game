@@ -4,7 +4,7 @@ class_name NpcEntity
 
 @export var inventory: NpcInventory
 @export var drop_point: Marker3D
-@export var nome_npc: String = "NPC_Teste"
+@export var nome_npc: String
 
 @export var timelines: Array[String] = []
 var _current_timeline_index: int = 0

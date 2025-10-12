@@ -1,14 +1,14 @@
-[signal arg="quest_accept:coletar_estrela_vermelha:collect"]
-[signal arg="quest_set_req:coletar_estrela_vermelha:estrela_vermelha:1"]
+[signal arg="quest_accept:Coletar estrela vermelha:collect"]
+[signal arg="quest_set_req:Coletar estrela vermelha:estrela_vermelha:1"]
 
 # Sincroniza o contador com o inventário e aplica progresso
 [signal arg="inv_sync"]
 
 	
-if {q_coletar_estrela_vermelha_status} != "completed":
+if {q_Coletar estrela vermelha_status} != "completed":
 	NPC_Teste: Ei! Pode me ajudar? Preciso que pegue uma Estrela Vermelha.
-	[signal arg="quest_add:coletar_estrela_vermelha:estrela_vermelha:{count_estrela_vermelha}"]
-if {q_coletar_estrela_vermelha_status} == "completed":
+	[signal arg="quest_add:Coletar estrela vermelha:estrela_vermelha:{count_estrela_vermelha}"]
+if {q_Coletar estrela vermelha_status} == "completed":
 	NPC_Teste: Uau! Você já conseguiu. Obrigado!
 	if {q_falar_com_ferreiro_status} == "completed":
 		NPC_Teste: Voce falou com o ferreiro tambem?! Que ótimo
@@ -27,6 +27,6 @@ else:
 [signal arg="quest_dump"]
 
 # Se as DUAS quests já estiverem concluídas, avança a timeline deste NPC
-if {q_coletar_estrela_vermelha_status} == "completed" and {q_falar_com_ferreiro_status} == "completed":
+if {q_Coletar estrela vermelha_status} == "completed" and {q_falar_com_ferreiro_status} == "completed":
 	NPC_Teste: Tudo certo então, valeu pela força!
 	[signal arg="npc_next:NPC_Teste"]
