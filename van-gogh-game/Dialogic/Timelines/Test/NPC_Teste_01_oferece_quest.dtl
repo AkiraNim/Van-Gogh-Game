@@ -4,7 +4,7 @@
 # Sincroniza o contador com o inventário e aplica progresso
 [signal arg="inv_sync"]
 
-	
+
 if {q_Coletar estrela vermelha_status} != "completed":
 	NPC_Teste: Ei! Pode me ajudar? Preciso que pegue uma Estrela Vermelha.
 	[signal arg="quest_add:Coletar estrela vermelha:estrela_vermelha:{count_estrela_vermelha}"]
@@ -12,7 +12,7 @@ if {q_Coletar estrela vermelha_status} == "completed":
 	NPC_Teste: Uau! Você já conseguiu. Obrigado!
 	if {q_falar_com_ferreiro_status} == "completed":
 		NPC_Teste: Voce falou com o ferreiro tambem?! Que ótimo
-		
+	
 	if {q_falar_com_ferreiro_status} == "accepted":
 		NPC_Teste: Agora, por favor, vá conversar com o Ferreiro. Ele está te esperando.
 	# Se ainda não houver a quest de falar com o Ferreiro, aceita e define o alvo

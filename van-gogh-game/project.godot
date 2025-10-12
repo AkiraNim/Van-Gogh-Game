@@ -48,8 +48,8 @@ directories/dtl_directory={
 "Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl",
 "important_item": "res://Dialogic/Timelines/important_item.dtl"
 }
-layout/style_list=["res://Dialogic/Themes/Test/New_File.tres"]
-layout/default_style="res://Dialogic/Themes/Test/New_File.tres"
+layout/style_list=["res://Dialogic/Themes/narrator.tres", "res://Dialogic/Themes/default.tres"]
+layout/default_style="res://Dialogic/Themes/default.tres"
 extensions_folder="res://addons/dialogic_additions"
 text/letter_speed=0.01
 text/initial_text_reveal_skippable=true

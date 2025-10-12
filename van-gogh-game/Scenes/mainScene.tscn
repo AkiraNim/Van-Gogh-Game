@@ -115,7 +115,7 @@ zone_controller = NodePath("EnviromentNode/ZoneController")
 lighting_service = NodePath("EnviromentNode/LightingService")
 player_light_service = NodePath("PlayerNode/PlayerLightService")
 
-[node name="UIService" type="Node" parent="." node_paths=PackedStringArray("hud_root", "stars_container", "important_container", "quest_menu_root", "active_quests_container", "completed_quests_container", "quest_service")]
+[node name="UIService" type="Node" parent="." node_paths=PackedStringArray("hud_root", "stars_container", "important_container", "quest_menu_root", "active_quests_container", "completed_quests_container")]
 script = ExtResource("2_eol8w")
 hud_root = NodePath("HUD")
 stars_container = NodePath("HUD/MarginContainer/VBoxContainer/StarsBox")
@@ -123,7 +123,6 @@ important_container = NodePath("HUD/MarginContainer/VBoxContainer/ImportantItems
 quest_menu_root = NodePath("QuestMenu")
 active_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer/ActiveQuestContainer")
 completed_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2/CompletedQuestContainer")
-quest_service = NodePath("")
 metadata/_custom_type_script = "uid://bi7wgafvj6gd0"
 
 [node name="HUD" type="Control" parent="UIService"]
@@ -144,15 +143,19 @@ grow_horizontal = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIService/HUD/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="StarsBox" type="HBoxContainer" parent="UIService/HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
+[node name="HSeparator" type="HSeparator" parent="UIService/HUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
 [node name="ImportantItemsBox" type="HBoxContainer" parent="UIService/HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 
 [node name="QuestMenu" type="Control" parent="UIService"]
 layout_mode = 3
