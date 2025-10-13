@@ -7,7 +7,7 @@ class_name ZoneController
 
 # Estados de cada zona
 @export var zona_estados := {
-	"ZonaVermelha": { "cor": Color(0.227, 0.039, 0.039), "rotacao": Vector3(-29.3, 45.7, 0) },
+	"RedZone": { "cor": Color(0.227, 0.039, 0.039), "rotacao": Vector3(-29.3, 45.7, 0) },
 	"ZonaAzul":     { "cor": Color(0.062, 0.141, 0.294), "rotacao": Vector3(-29.3, 45.7, 0) },
 	"ZonaVerde":    { "cor": Color(0.051, 0.260, 0.068), "rotacao": Vector3(-29.3, 45.7, 0) },
 	"ZonaAmarela":  { "cor": Color(0.314, 0.301, 0.071), "rotacao": Vector3(-29.3, 45.7, 0) },
@@ -17,7 +17,7 @@ class_name ZoneController
 # Prioridades
 @export var zona_prioridades := {
 	"ZonaNeutra": 10,
-	"ZonaVermelha": 10,
+	"RedZone": 10,
 	"ZonaAmarela": 10,
 	"ZonaVerde": 10,
 	"ZonaAzul": 10
