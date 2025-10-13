@@ -47,19 +47,16 @@ func _input(event: InputEvent) -> void:
 # Bind / Resolve
 # -----------------------------------------------------------------
 func _rebind_services() -> void:
-	# ItemRepository
 	if item_repository == null:
 		var n: Node = _find_first_of_type_name("ItemRepository")
 		if n:
 			item_repository = n as ItemRepository
 
-	# PlayerInventory (prioriza PlayerController.inventory)
 	if player_inventory == null:
 		var pc: Node = _find_first_in_group("player_controller")
 		if pc and "inventory" in pc:
 			player_inventory = pc.inventory
 
-	# PlayerState
 	if player_state == null:
 		var pc2: Node = _find_first_in_group("player_controller")
 		if pc2 and "state" in pc2 and (pc2.state is PlayerState):
@@ -69,7 +66,6 @@ func _rebind_services() -> void:
 			if gm and "state" in gm and (gm.state is PlayerState):
 				player_state = gm.state
 
-	# Quest Manager/Service
 	if quest_service == null and Engine.has_singleton("QuestManager"):
 		quest_service = Engine.get_singleton("QuestManager")
 	if quest_service == null and Engine.has_singleton("QuestService"):
@@ -88,7 +84,6 @@ func _rebind_services() -> void:
 	_autowire_quest_menu()
 
 func _connect_signals() -> void:
-	# EventBus
 	if has_node("/root/EventBus"):
 		var eb: Node = get_node("/root/EventBus")
 		_safe_connect(eb, "star_count_changed", Callable(self, "_on_star_count_changed"))
@@ -147,38 +142,32 @@ func _refresh_quest_menu() -> void:
 		print("UIService: quest_menu_root não setado — nada a exibir.")
 		return
 
-	# resolvemos caminhos exatos e layout
 	_autowire_quest_menu()
 	_ensure_menu_layout()
 
-	# limpa
 	_clear_children(active_quests_container)
 	_clear_children(completed_quests_container)
 
-	# coleta
 	var qdata: Dictionary = _collect_quests()
 	var act: Dictionary = _as_dict(qdata.get("active", {}))
 	var done: Dictionary = _as_dict(qdata.get("done", {}))
 
-	# popula ATIVAS
 	for qid in act.keys():
 		var q: Dictionary = _as_dict(act[qid])
-		var title: String = String(q.get("title", qid))
-		_add_quest_line(active_quests_container, title)
+		var fallback_title: String = String(q.get("title", qid))
+		var title: String = _get_dialogic_title(String(qid), fallback_title)
+		_add_quest_line(active_quests_container, title, false) # ativo => vermelho
 		print("UIService: +ativa → ", qid, " | ", title)
 
-	# popula CONCLUÍDAS (sempre usando o título do Dialogic, se existir)
 	for qid in done.keys():
 		var title := _get_dialogic_title(String(qid), String(qid))
-		_add_quest_line(completed_quests_container, title)
+		_add_quest_line(completed_quests_container, title, true) # concluída => verde
 		print("UIService: +concluída → ", String(qid), " | ", title)
 
-	# logs de verificação
 	var act_cc := (active_quests_container as Node).get_child_count() if active_quests_container else -1
 	var done_cc := (completed_quests_container as Node).get_child_count() if completed_quests_container else -1
 	print("UIService: list paths → act:", active_quests_container.get_path(), " (", act_cc, " filhos)",
 		" | done:", completed_quests_container.get_path(), " (", done_cc, " filhos)")
-
 	print("UIService: quests → ativas:", act.size(), " | concluídas:", done.size())
 
 # -----------------------------------------------------------------
@@ -192,7 +181,6 @@ func _get_dialogic_title(qid: String, fallback: String) -> String:
 			var v = D.VAR.get_variable(key)
 			if v != null and str(v) != "":
 				return str(v)
-		# Fallback para Dialogic 1.x (ou se VAR não existir)
 		if "Variables" in Dialogic:
 			var vv = Dialogic.Variables.get_variable(key)
 			if vv != null and str(vv) != "":
@@ -233,10 +221,10 @@ func _add_icon(parent: Node, data: ItemData, qty: int) -> void:
 		badge.custom_minimum_size = Vector2(0, icon_size.y)
 		box.add_child(badge)
 
-func _add_quest_line(parent: Node, title: String) -> void:
+# is_done = false (ativa/vermelho) | true (concluída/verde)
+func _add_quest_line(parent: Node, title: String, is_done: bool) -> void:
 	if parent == null:
 		return
-	# painel da linha (fica visível mesmo com tema neutro)
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.custom_minimum_size = Vector2(0, 28)
@@ -249,7 +237,7 @@ func _add_quest_line(parent: Node, title: String) -> void:
 	panel.add_child(h)
 
 	var dot := ColorRect.new()
-	dot.color = Color(0.95, 0.82, 0.25)  # amarelinho
+	dot.color = Color(0.20, 0.80, 0.30) if is_done else Color(0.90, 0.20, 0.20) # verde / vermelho
 	dot.custom_minimum_size = Vector2(10, 10)
 	dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	h.add_child(dot)
@@ -345,39 +333,31 @@ func _find_first_of_type_name(class_names: String) -> Node:
 	return null
 
 func _autowire_quest_menu() -> void:
-	# acha exatamente pela tua estrutura + nomes
 	if quest_menu_root == null:
-		quest_menu_root = _find_control_by_names([
-			"QuestMenu","questmenu"
-		])
+		quest_menu_root = _find_control_by_names(["QuestMenu","questmenu"])
 
 	if quest_menu_root:
-		# ATIVAS
 		var sc_act := quest_menu_root.find_child("ScrollContainer", true, false)
 		var act = (sc_act and sc_act.find_child("ActiveQuestContainer", true, false)) if sc_act else null
-		# CONCLUÍDAS
 		var sc_done := quest_menu_root.find_child("ScrollContainer2", true, false)
 		var done = (sc_done and sc_done.find_child("CompletedQuestContainer", true, false)) if sc_done else null
 
-		# aplica ATIVAS
 		if act:
 			if act is Container:
 				active_quests_container = act
 			elif act is Control:
-				active_quests_container = _ensure_list_container(act) # <-- embrulha Control com VBox
+				active_quests_container = _ensure_list_container(act)
 		elif sc_act and sc_act is ScrollContainer:
-			active_quests_container = _ensure_list_container(sc_act) # cria VBox dentro do Scroll
+			active_quests_container = _ensure_list_container(sc_act)
 
-		# aplica CONCLUÍDAS
 		if done:
 			if done is Container:
 				completed_quests_container = done
 			elif done is Control:
-				completed_quests_container = _ensure_list_container(done) # <-- embrulha Control com VBox
+				completed_quests_container = _ensure_list_container(done)
 		elif sc_done and sc_done is ScrollContainer:
 			completed_quests_container = _ensure_list_container(sc_done)
 
-	# garante layout e flags
 	_ensure_menu_layout()
 
 func _find_control_by_names(candidates: Array[String]) -> Control:
@@ -439,7 +419,6 @@ func _connect_quest_signals() -> void:
 func _collect_quests() -> Dictionary:
 	var out: Dictionary = {"active": {}, "done": {}, "source": ""}
 
-	# 1) API explícita
 	if quest_service and quest_service.has_method("get_active_quests") and quest_service.has_method("get_completed_quests"):
 		var a = quest_service.call("get_active_quests")
 		var d = quest_service.call("get_completed_quests")
@@ -449,7 +428,6 @@ func _collect_quests() -> Dictionary:
 		if (out["active"] as Dictionary).size() > 0 or (out["done"] as Dictionary).size() > 0:
 			return out
 
-	# 2) Propriedades comuns
 	var candidates: Array = [
 		["quests_ativas", "quests_concluidas"],
 		["_q_ativas", "_q_concluidas"],
@@ -470,7 +448,6 @@ func _collect_quests() -> Dictionary:
 				out["source"] = "quest_service.props:" + a_name + "," + d_name
 				return out
 
-	# 3) DialogicBridge
 	var bridge: Node = _find_first_in_group("dialog_bridge")
 	if bridge:
 		var ba = bridge.get("_q_ativas")
@@ -483,7 +460,6 @@ func _collect_quests() -> Dictionary:
 			out["source"] = "dialogic_bridge._q_*"
 			return out
 
-	# 4) Dialogic Variables
 	if Engine.has_singleton("Dialogic"):
 		var D = Engine.get_singleton("Dialogic")
 		if D and "Variables" in D and D.Variables:
@@ -538,7 +514,6 @@ func _normalize_variant_to_dict(v) -> Dictionary:
 		TYPE_ARRAY:
 			result = _dict_from_array(v as Array)
 		_:
-			# qualquer outro tipo (bool/num/str/obj) → {}
 			pass
 	return result
 
@@ -561,7 +536,6 @@ func _find_child_by_names_ci(parent: Node, candidates: Array[String]) -> Node:
 	var lower_map: Dictionary = {}
 	for c in candidates:
 		lower_map[c.to_lower()] = true
-	# varredura profunda
 	var stack: Array = [parent]
 	while stack.size() > 0:
 		var n: Node = stack.pop_back()
@@ -573,11 +547,9 @@ func _find_child_by_names_ci(parent: Node, candidates: Array[String]) -> Node:
 	return null
 
 # Garante que vamos adicionar em um Container válido dentro do ScrollContainer.
-# Se 'node' for um ScrollContainer, usa (ou cria) um VBox interno.
 func _ensure_list_container(node: Node) -> Container:
 	if node == null:
 		return null
-	# se já for Container, usa ele
 	if node is Container:
 		var c := node as Container
 		if c is Control:
@@ -586,7 +558,6 @@ func _ensure_list_container(node: Node) -> Container:
 			cc.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		return c
 
-	# se for um ScrollContainer, garante um VBox como filho direto
 	if node is ScrollContainer:
 		var sc := node as ScrollContainer
 		for ch in sc.get_children():
@@ -604,7 +575,6 @@ func _ensure_list_container(node: Node) -> Container:
 		sc.add_child(vb)
 		return vb
 
-	# se for Control “seco”, cria um VBox dentro
 	if node is Control:
 		var host := node as Control
 		var vb2 := VBoxContainer.new()
@@ -626,6 +596,37 @@ func _ensure_menu_layout() -> void:
 		if c.custom_minimum_size == Vector2.ZERO:
 			c.custom_minimum_size = Vector2(480, 320)
 
+	# Centraliza e ROTACIONA 90° o TextureRect do QuestMenu
+	var tex_node: Node = quest_menu_root.find_child("TextureRect", true, false)
+	if tex_node and tex_node is Control:
+		var t := tex_node as Control
+		# ancora no centro da tela
+		t.anchor_left = 0.5
+		t.anchor_right = 0.5
+		t.anchor_top = 0.5
+		t.anchor_bottom = 0.5
+
+		# tamanho de referência
+		var sz := t.size
+		if sz == Vector2.ZERO:
+			sz = t.custom_minimum_size
+		if sz == Vector2.ZERO:
+			# se for TextureRect e tiver textura, tenta usar o tamanho da textura
+			if tex_node is TextureRect and (tex_node as TextureRect).texture:
+				sz = (tex_node as TextureRect).texture.get_size()
+			if sz == Vector2.ZERO:
+				sz = Vector2(880, 520) # fallback
+
+		# centraliza por offsets simétricos
+		t.offset_left = -sz.x * 0.5
+		t.offset_right =  sz.x * 0.5
+		t.offset_top =   -sz.y * 0.5
+		t.offset_bottom = sz.y * 0.5
+
+		# gira 90° com pivô exatamente no centro do retângulo
+		t.pivot_offset = sz * 0.5
+		t.rotation_degrees = 90.0
+
 	# scrolls
 	var sc_act := quest_menu_root.find_child("ScrollContainer", true, false)
 	var sc_done := quest_menu_root.find_child("ScrollContainer2", true, false)
@@ -637,7 +638,7 @@ func _ensure_menu_layout() -> void:
 			if scc.custom_minimum_size == Vector2.ZERO:
 				scc.custom_minimum_size = Vector2(440, 120)
 
-	# Containers internos (as listas), com separação entre linhas
+	# Containers internos (as listas), com separação entre as linhas
 	active_quests_container = _ensure_list_container(active_quests_container)
 	completed_quests_container = _ensure_list_container(completed_quests_container)
 
@@ -649,5 +650,4 @@ func _ensure_menu_layout() -> void:
 			if cc.custom_minimum_size == Vector2.ZERO:
 				cc.custom_minimum_size = Vector2(0, 4)
 		if cont and cont.has_method("add_theme_constant_override"):
-			# dá um respiro entre as entradas
 			(cont as Node).call("add_theme_constant_override", "separation", 6)

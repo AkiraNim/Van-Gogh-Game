@@ -114,8 +114,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.013549805)
 shape = SubResource("BoxShape3D_uvydw")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-billboard = 1
 shaded = true
 texture_filter = 4
 sprite_frames = SubResource("SpriteFrames_ult6n")
 autoplay = "default"
+frame_progress = 0.92134297
