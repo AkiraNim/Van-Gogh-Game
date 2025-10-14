@@ -3,11 +3,15 @@
 [ext_resource type="Script" uid="uid://bi7wgafvj6gd0" path="res://infrastructure/services/ui_service.gd" id="1_b0k6s"]
 [ext_resource type="Texture2D" uid="uid://64vb0shr3rhm" path="res://Assets/UI/paper.png" id="2_eybty"]
 
-[node name="UIService" type="Node" node_paths=PackedStringArray("hud_root", "stars_container", "important_container", "quest_menu_root", "active_quests_container", "completed_quests_container")]
+[node name="UIService" type="Node" node_paths=PackedStringArray("hud_root", "stars_container", "important_container", "pause_menu_root", "pause_label", "pause_btn_resume", "pause_btn_quit", "quest_menu_root", "active_quests_container", "completed_quests_container")]
 script = ExtResource("1_b0k6s")
 hud_root = NodePath("HUD")
 stars_container = NodePath("HUD/MarginContainer/VBoxContainer/StarsBox")
 important_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ImportantItemsBox")
+pause_menu_root = NodePath("Control")
+pause_label = NodePath("Control/CenterContainer/VBoxContainer/Label")
+pause_btn_resume = NodePath("Control/CenterContainer/VBoxContainer/Button")
+pause_btn_quit = NodePath("Control/CenterContainer/VBoxContainer/Button2")
 quest_menu_root = NodePath("QuestMenu")
 active_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer/ActiveQuestContainer")
 completed_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2/CompletedQuestContainer")
@@ -110,3 +114,51 @@ layout_mode = 2
 
 [node name="CompletedQuestContainer" type="ItemList" parent="QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2"]
 layout_mode = 2
+
+[node name="Control" type="Control" parent="."]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1254902, 0.1254902, 0.1254902, 0.39607844)
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -23.5
+offset_right = 33.5
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pausado"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Continuar"
+
+[node name="Button2" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sair"

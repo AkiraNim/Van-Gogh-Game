@@ -6,7 +6,10 @@ class_name UIService
 @export var stars_container: Container
 @export var important_container: Container
 
-
+@export var pause_menu_root: Control
+@export var pause_label: Label
+@export var pause_btn_resume: Button
+@export var pause_btn_quit: Button
 @export var quest_menu_root: Control
 @export var active_quests_container: ItemList
 @export var completed_quests_container: ItemList
@@ -19,6 +22,7 @@ class_name UIService
 
 # --- Input ---
 @export var toggle_action: StringName = "toggle"
+@export var pause_action: StringName = "pause"
 
 # --- Visual ---
 @export var icon_size: Vector2 = Vector2(32, 32)
@@ -35,19 +39,30 @@ func _ready() -> void:
 	if quest_menu_root:
 		quest_menu_root.visible = false
 
+	_autowire_pause_menu()
+	_hide_pause_menu() # começa escondido
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_WINDOW_FOCUS_IN:
 		_rebind_services()
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(toggle_action) and quest_menu_root:
+	# Pause tem prioridade (se as ações estiverem na mesma tecla, só o pause roda)
+	if event.is_action_pressed(pause_action):
+		if _is_paused():
+			_unpause_game()
+		else:
+			_pause_game()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Toggle do QuestMenu só funciona quando NÃO está pausado
+	if event.is_action_pressed(toggle_action) and quest_menu_root and not _is_paused():
 		quest_menu_root.visible = not quest_menu_root.visible
 		if quest_menu_root.visible:
 			_refresh_quest_menu()
+		get_viewport().set_input_as_handled()
 
-# -----------------------------------------------------------------
-# Bind / Resolve
-# -----------------------------------------------------------------
 func _rebind_services() -> void:
 	if item_repository == null:
 		var n: Node = _find_first_of_type_name("ItemRepository")
@@ -322,28 +337,33 @@ func _autowire_quest_menu() -> void:
 		quest_menu_root = _find_control_by_names(["QuestMenu","questmenu"])
 
 	if quest_menu_root:
-		var sc_act := quest_menu_root.find_child("ScrollContainer", true, false)
-		var act = (sc_act and sc_act.find_child("ActiveQuestContainer", true, false)) if sc_act else null
-		var sc_done := quest_menu_root.find_child("ScrollContainer2", true, false)
-		var done = (sc_done and sc_done.find_child("CompletedQuestContainer", true, false)) if sc_done else null
+		# Scrolls tipados
+		var sc_act: ScrollContainer = quest_menu_root.find_child("ScrollContainer", true, false) as ScrollContainer
+		var sc_done: ScrollContainer = quest_menu_root.find_child("ScrollContainer2", true, false) as ScrollContainer
 
+		# Nós internos tipados como Node
+		var act: Node = null
+		if sc_act:
+			act = sc_act.find_child("ActiveQuestContainer", true, false)
+
+		var done: Node = null
+		if sc_done:
+			done = sc_done.find_child("CompletedQuestContainer", true, false)
+
+		# ATIVAS -> sempre passe pelo _ensure_list_container (retorna ItemList)
 		if act:
-			if act is Container:
-				active_quests_container = act
-			elif act is Control:
-				active_quests_container = _ensure_list_container(act)
-		elif sc_act and sc_act is ScrollContainer:
+			active_quests_container = _ensure_list_container(act)
+		elif sc_act:
 			active_quests_container = _ensure_list_container(sc_act)
 
+		# CONCLUÍDAS
 		if done:
-			if done is Container:
-				completed_quests_container = done
-			elif done is Control:
-				completed_quests_container = _ensure_list_container(done)
-		elif sc_done and sc_done is ScrollContainer:
+			completed_quests_container = _ensure_list_container(done)
+		elif sc_done:
 			completed_quests_container = _ensure_list_container(sc_done)
 
 	_ensure_menu_layout()
+
 
 func _find_control_by_names(candidates: Array[String]) -> Control:
 	var root: Node = get_tree().get_root()
@@ -672,3 +692,131 @@ func _focus_other_list(current: ItemList, to_right: bool) -> void:
 		# Se nada estiver selecionado ali, seleciona o primeiro
 		if target.get_selected_items().size() == 0 and target.item_count > 0:
 			target.select(0)
+
+func _autowire_pause_menu() -> void:
+	if pause_menu_root == null:
+		# Tenta achar por nome na árvore
+		pause_menu_root = _find_control_by_names(["PauseMenu","pausemenu"])
+	if pause_menu_root == null:
+		# Cria dinamicamente um menu simples
+		var root := Control.new()
+		root.name = "PauseMenu"
+		root.process_mode = Node.PROCESS_MODE_WHEN_PAUSED  # NOVO
+		root.visible = false
+		root.mouse_filter = Control.MOUSE_FILTER_STOP
+		root.set_anchors_preset(Control.PRESET_FULL_RECT, true)
+
+		var dim := ColorRect.new()
+		dim.color = Color(0,0,0,0.5)
+		dim.set_anchors_preset(Control.PRESET_FULL_RECT, true)
+		root.add_child(dim)
+
+		var center := CenterContainer.new()
+		center.set_anchors_preset(Control.PRESET_FULL_RECT, true)
+		root.add_child(center)
+
+		var v := VBoxContainer.new()
+		v.alignment = BoxContainer.ALIGNMENT_CENTER
+		v.add_theme_constant_override("separation", 12)
+		center.add_child(v)
+
+		var lbl := Label.new()
+		lbl.text = "PAUSADO"
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.add_theme_color_override("font_color", Color(1,1,1,1))
+		lbl.add_theme_font_size_override("font_size", 28)
+		v.add_child(lbl)
+
+		var btn_resume := Button.new()
+		btn_resume.text = "Continuar"
+		btn_resume.focus_mode = Control.FOCUS_ALL
+		v.add_child(btn_resume)
+
+		var btn_quit := Button.new()
+		btn_quit.text = "Sair"
+		btn_quit.focus_mode = Control.FOCUS_ALL
+		v.add_child(btn_quit)
+
+		get_tree().get_root().add_child(root)
+
+		pause_menu_root = root
+		pause_label = lbl
+		pause_btn_resume = btn_resume
+		pause_btn_quit = btn_quit
+
+	# Se veio do editor, tenta localizar subnós
+	if pause_label == null:
+		pause_label = pause_menu_root.find_child("Label", true, false)
+	if pause_btn_resume == null:
+		pause_btn_resume = pause_menu_root.find_child("Continuar", true, false) as Button
+		if pause_btn_resume == null:
+			pause_btn_resume = pause_menu_root.find_child("Resume", true, false) as Button
+	if pause_btn_quit == null:
+		pause_btn_quit = pause_menu_root.find_child("Sair", true, false) as Button
+		if pause_btn_quit == null:
+			pause_btn_quit = pause_menu_root.find_child("Quit", true, false) as Button
+
+	_wire_pause_signals()
+	_ensure_pause_layout()
+
+func _wire_pause_signals() -> void:
+	if pause_btn_resume and not pause_btn_resume.is_connected("pressed", Callable(self, "_on_pause_resume_pressed")):
+		pause_btn_resume.connect("pressed", Callable(self, "_on_pause_resume_pressed"))
+
+	if pause_btn_quit and not pause_btn_quit.is_connected("pressed", Callable(self, "_on_pause_quit_pressed")):
+		pause_btn_quit.connect("pressed", Callable(self, "_on_pause_quit_pressed"))
+
+	if pause_menu_root and not pause_menu_root.is_connected("gui_input", Callable(self, "_on_pause_gui_input")):
+		pause_menu_root.connect("gui_input", Callable(self, "_on_pause_gui_input"))
+
+func _on_pause_resume_pressed() -> void:
+	_unpause_game()
+
+func _on_pause_quit_pressed() -> void:
+	# coloque aqui a lógica de “sair” (ex.: voltar ao menu principal)
+	# Exemplo simples:
+	get_tree().quit()
+
+# permite Esc para sair do pause também
+func _on_pause_gui_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		var k := event as InputEventKey
+		if k.is_action_pressed(pause_action):
+			_unpause_game()
+			get_viewport().set_input_as_handled()
+
+func _is_paused() -> bool:
+	return get_tree().paused
+
+func _pause_game() -> void:
+	# Esconde o QuestMenu quando pausar (não reabre ao despausar)
+	if quest_menu_root:
+		quest_menu_root.visible = false
+
+	get_tree().paused = true
+	_show_pause_menu()
+
+func _unpause_game() -> void:
+	_hide_pause_menu()
+	get_tree().paused = false
+
+func _show_pause_menu() -> void:
+	if not pause_menu_root:
+		_autowire_pause_menu()
+	if pause_menu_root:
+		pause_menu_root.visible = true
+		# foca o primeiro botão pra teclado funcionar na hora
+		if pause_btn_resume:
+			pause_btn_resume.grab_focus()
+
+func _hide_pause_menu() -> void:
+	if pause_menu_root:
+		pause_menu_root.visible = false
+
+func _ensure_pause_layout() -> void:
+	if not pause_menu_root: return
+	var c := pause_menu_root
+	if c is Control:
+		(c as Control).set_anchors_preset(Control.PRESET_FULL_RECT, true)
+	pause_menu_root.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_menu_root.mouse_filter = Control.MOUSE_FILTER_STOP
