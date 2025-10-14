@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=47 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://ck414t0qevlux" path="res://presentation/scenes/ui_service.tscn" id="2_l42ic"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_ly6xb"]
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
-[ext_resource type="Script" uid="uid://dgku8rqggmyuw" path="res://infrastructure/services/lighting_service.gd" id="3_oy1pr"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
+[ext_resource type="PackedScene" uid="uid://c3e6mtvxfv82q" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
@@ -24,7 +24,7 @@
 [ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
 [ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="20_5bsxs"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="20_ekaqe"]
-[ext_resource type="Script" path="res://presentation/seat.gd" id="22_oi7nq"]
+[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -33,9 +33,6 @@ metadata/_custom_type_script = "uid://cluovfa2tocua"
 [sub_resource type="Resource" id="Resource_5bsxs"]
 script = ExtResource("16_5bsxs")
 metadata/_custom_type_script = "uid://dyost3oti3eys"
-
-[sub_resource type="Environment" id="Environment_xhr7v"]
-ambient_light_source = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6hbo"]
 albedo_color = Color(0, 0, 0, 1)
@@ -72,10 +69,6 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 [sub_resource type="BoxShape3D" id="BoxShape3D_w1dup"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
-radius = 0.21191406
-height = 0.53894997
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_4djc3"]
 size = Vector3(0.4892273, 0.54956055, 0.5412445)
 
@@ -87,14 +80,9 @@ metadata/_custom_type_script = "uid://nxieygehmgh6"
 [sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
 size = Vector3(0.42242432, 0.54086304, 0.5488281)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_oi7nq"]
-size = Vector3(0.9182129, 0.44683838, 0.36364746)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_udkkk"]
-size = Vector3(0.9561157, 0.49316406, 0.4309082)
-
-[sub_resource type="BoxMesh" id="BoxMesh_iypob"]
-size = Vector3(1, 0.3, 0.4)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
+radius = 0.21191406
+height = 0.53894997
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l42ic"]
 size = Vector3(0.52311707, 0.5489807, 0.60491943)
@@ -106,14 +94,13 @@ metadata/_custom_type_script = "uid://nxieygehmgh6"
 [sub_resource type="BoxShape3D" id="BoxShape3D_mrjo7"]
 size = Vector3(0.47192383, 0.5172119, 0.55999756)
 
-[node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "lighting_service", "player_light_service")]
+[node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "player_light_service")]
 script = ExtResource("1_m8nr8")
 main_controller = NodePath("MainController")
 player_controller = NodePath("PlayerNode/PlayerController")
 dialog_controller = NodePath("DialogNode/DialogController")
 zone_controller = NodePath("EnviromentNode/ZoneController")
-lighting_service = NodePath("EnviromentNode/LightingService")
-player_light_service = NodePath("PlayerNode/PlayerLightService")
+player_light_service = NodePath("PlayerNode/PlayerController/PlayerLightService")
 
 [node name="UIService" parent="." instance=ExtResource("2_l42ic")]
 
@@ -131,10 +118,7 @@ zonas = [NodePath("../../Zones/RedZone"), NodePath("../../Zones/ZonaAzul"), Node
 lighting_service = NodePath("../LightingService")
 player_path = NodePath("../../Player_3D")
 
-[node name="LightingService" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("world_environment", "directional_light")]
-script = ExtResource("3_oy1pr")
-world_environment = NodePath("../../Sky/WorldEnvironment")
-directional_light = NodePath("../../Sky/DirectionalLight3D")
+[node name="LightingService" parent="EnviromentNode" instance=ExtResource("5_l42ic")]
 
 [node name="DialogNode" type="Node" parent="."]
 
@@ -153,28 +137,16 @@ gameplay_target = NodePath("../../Player_3D")
 
 [node name="PlayerNode" type="Node" parent="."]
 
-[node name="PlayerLightService" type="Node" parent="PlayerNode" node_paths=PackedStringArray("spotlight")]
-script = ExtResource("5_08630")
-spotlight = NodePath("../../Player_3D/SpotLight")
-
 [node name="PlayerController" type="Node" parent="PlayerNode" node_paths=PackedStringArray("player_view", "light_service")]
 script = ExtResource("6_4djc3")
 player_view = NodePath("../../Player_3D")
-light_service = NodePath("../PlayerLightService")
+light_service = NodePath("PlayerLightService")
 state = SubResource("Resource_udkkk")
 inventory = SubResource("Resource_5bsxs")
 
-[node name="Sky" type="Node3D" parent="."]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky"]
-environment = SubResource("Environment_xhr7v")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Sky"]
-transform = Transform3D(0.6293204, -0.3636498, 0.6868149, 0, 0.88376564, 0.4679298, -0.777146, -0.29447776, 0.5561717, 0, 3.600955, 0)
-layers = 2
-light_energy = 0.835
-shadow_enabled = true
-shadow_opacity = 0.85
+[node name="PlayerLightService" type="Node" parent="PlayerNode/PlayerController" node_paths=PackedStringArray("spotlight")]
+script = ExtResource("5_08630")
+spotlight = NodePath("../../../Player_3D/SpotLight")
 
 [node name="Scenario" type="Node3D" parent="."]
 
@@ -301,37 +273,6 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.316195, 0)
-script = ExtResource("20_ekaqe")
-anim_sprite = NodePath("AnimatedSprite3D")
-ponto_item_acima = NodePath("PontoItemAcima")
-
-[node name="PontoItemAcima" type="Marker3D" parent="Player_3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43016624, 0)
-
-[node name="SpotLight" type="SpotLight3D" parent="Player_3D"]
-transform = Transform3D(1, 0, 0, 0, -0.023332926, 0.9997278, 0, -0.9997278, -0.023332926, -8.85725e-05, 0.8540602, 0.053795934)
-visible = false
-light_color = Color(1, 1, 0, 1)
-light_energy = 0.4
-shadow_enabled = true
-spot_range = 2.1029348
-spot_angle = 39.45476
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03626728, 0)
-shape = SubResource("CapsuleShape3D_uvydw")
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player_3D"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.028386116, 0)
-billboard = 2
-shaded = true
-alpha_cut = 2
-texture_filter = 4
-sprite_frames = ExtResource("2_ly6xb")
-animation = &"idle_down"
-
 [node name="NPC_Teste" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
 script = ExtResource("18_oi7nq")
@@ -375,28 +316,39 @@ timelines = Array[String](["NPC_Teste_01_oferece_quest", "NPC_Teste_02_lembra_pr
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, -0.052963257, 0.0234375)
 shape = SubResource("BoxShape3D_ekaqe")
 
-[node name="Chair" type="Node3D" parent="." node_paths=PackedStringArray("marker3D")]
+[node name="Chair" parent="." instance=ExtResource("24_l42ic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3868)
-script = ExtResource("22_oi7nq")
-marker3D = NodePath("Marker3D")
 
-[node name="Marker3D" type="Marker3D" parent="Chair"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34079564, 0)
+[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.316195, 0)
+script = ExtResource("20_ekaqe")
+anim_sprite = NodePath("AnimatedSprite3D")
+ponto_item_acima = NodePath("PontoItemAcima")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Chair"]
+[node name="PontoItemAcima" type="Marker3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43016624, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Chair/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0032958984, 0.23989868, -0.004211426)
-shape = SubResource("BoxShape3D_oi7nq")
+[node name="SpotLight" type="SpotLight3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, -0.023332926, 0.9997278, 0, -0.9997278, -0.023332926, -8.85725e-05, 0.8540602, 0.053795934)
+visible = false
+light_color = Color(1, 1, 0, 1)
+light_energy = 0.4
+shadow_enabled = true
+spot_range = 2.1029348
+spot_angle = 39.45476
 
-[node name="Area3D" type="Area3D" parent="Chair"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03626728, 0)
+shape = SubResource("CapsuleShape3D_uvydw")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Chair/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0043029785, 0.25341797, -0.0076904297)
-shape = SubResource("BoxShape3D_udkkk")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Chair"]
-mesh = SubResource("BoxMesh_iypob")
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player_3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.028386116, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
 
 [node name="Ferreiro" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8067188, 0.34116307, 0)

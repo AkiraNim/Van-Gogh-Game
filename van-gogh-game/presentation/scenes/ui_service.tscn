@@ -98,7 +98,7 @@ text = "Missões ativas"
 [node name="ScrollContainer" type="ScrollContainer" parent="QuestMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ActiveQuestContainer" type="VBoxContainer" parent="QuestMenu/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="ActiveQuestContainer" type="ItemList" parent="QuestMenu/MarginContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="QuestMenu/MarginContainer/VBoxContainer"]
@@ -108,5 +108,5 @@ text = "Missões concluídas"
 [node name="ScrollContainer2" type="ScrollContainer" parent="QuestMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CompletedQuestContainer" type="VBoxContainer" parent="QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2"]
+[node name="CompletedQuestContainer" type="ItemList" parent="QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2"]
 layout_mode = 2

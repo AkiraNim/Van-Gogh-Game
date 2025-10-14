@@ -6,9 +6,10 @@ class_name UIService
 @export var stars_container: Container
 @export var important_container: Container
 
+
 @export var quest_menu_root: Control
-@export var active_quests_container: Container
-@export var completed_quests_container: Container
+@export var active_quests_container: ItemList
+@export var completed_quests_container: ItemList
 
 # --- Data sources ---
 @export var item_repository: ItemRepository
@@ -22,6 +23,7 @@ class_name UIService
 # --- Visual ---
 @export var icon_size: Vector2 = Vector2(32, 32)
 @export var show_count_badge: bool = true
+			  # 0 = ativas, 1 = concluídas
 
 func _ready() -> void:
 	_rebind_services()
@@ -145,8 +147,11 @@ func _refresh_quest_menu() -> void:
 	_autowire_quest_menu()
 	_ensure_menu_layout()
 
-	_clear_children(active_quests_container)
-	_clear_children(completed_quests_container)
+	# Agora são ItemList
+	if active_quests_container and active_quests_container is ItemList:
+		(active_quests_container as ItemList).clear()
+	if completed_quests_container and completed_quests_container is ItemList:
+		(completed_quests_container as ItemList).clear()
 
 	var qdata: Dictionary = _collect_quests()
 	var act: Dictionary = _as_dict(qdata.get("active", {}))
@@ -156,19 +161,18 @@ func _refresh_quest_menu() -> void:
 		var q: Dictionary = _as_dict(act[qid])
 		var fallback_title: String = String(q.get("title", qid))
 		var title: String = _get_dialogic_title(String(qid), fallback_title)
-		_add_quest_line(active_quests_container, title, false) # ativo => vermelho
-		print("UIService: +ativa → ", qid, " | ", title)
+		_add_quest_line(active_quests_container, title, false)
 
 	for qid in done.keys():
 		var title := _get_dialogic_title(String(qid), String(qid))
-		_add_quest_line(completed_quests_container, title, true) # concluída => verde
-		print("UIService: +concluída → ", String(qid), " | ", title)
+		_add_quest_line(completed_quests_container, title, true)
 
-	var act_cc := (active_quests_container as Node).get_child_count() if active_quests_container else -1
-	var done_cc := (completed_quests_container as Node).get_child_count() if completed_quests_container else -1
-	print("UIService: list paths → act:", active_quests_container.get_path(), " (", act_cc, " filhos)",
-		" | done:", completed_quests_container.get_path(), " (", done_cc, " filhos)")
-	print("UIService: quests → ativas:", act.size(), " | concluídas:", done.size())
+	# Seleciona o primeiro por padrão (opcional)
+	if active_quests_container and active_quests_container is ItemList:
+		var al := active_quests_container as ItemList
+		if al.item_count > 0:
+			al.select(0)
+			al.grab_focus()
 
 # -----------------------------------------------------------------
 # Dialogic helpers (título)
@@ -220,35 +224,16 @@ func _add_icon(parent: Node, data: ItemData, qty: int) -> void:
 		badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		badge.custom_minimum_size = Vector2(0, icon_size.y)
 		box.add_child(badge)
-
-# is_done = false (ativa/vermelho) | true (concluída/verde)
+	
 func _add_quest_line(parent: Node, title: String, is_done: bool) -> void:
-	if parent == null:
+	if parent == null or not (parent is ItemList):
 		return
-	var panel := PanelContainer.new()
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.custom_minimum_size = Vector2(0, 28)
-	parent.add_child(panel)
-
-	var h := HBoxContainer.new()
-	h.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	h.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	h.add_theme_constant_override("separation", 6)
-	panel.add_child(h)
-
-	var dot := ColorRect.new()
-	dot.color = Color(0.20, 0.80, 0.30) if is_done else Color(0.90, 0.20, 0.20) # verde / vermelho
-	dot.custom_minimum_size = Vector2(10, 10)
-	dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	h.add_child(dot)
-
-	var lbl := Label.new()
-	lbl.text = title
-	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	lbl.add_theme_color_override("font_color", Color(1,1,1,1))
-	h.add_child(lbl)
-
+	var list := parent as ItemList
+	var idx := list.add_item(title)
+	# cor do "dot": usamos o ícone lateral do ItemList como cor (via Theme override simples)
+	# Opcional: se quiser, configure ícones/cores no Theme do projeto.
+	list.set_item_metadata(idx, {"title": title, "done": is_done})
+	
 # -----------------------------------------------------------------
 # Data helpers
 # -----------------------------------------------------------------
@@ -546,43 +531,52 @@ func _find_child_by_names_ci(parent: Node, candidates: Array[String]) -> Node:
 				stack.append(ch)
 	return null
 
-# Garante que vamos adicionar em um Container válido dentro do ScrollContainer.
-func _ensure_list_container(node: Node) -> Container:
+# Garante que vamos adicionar em um ItemList válido dentro do ScrollContainer.
+func _ensure_list_container(node: Node) -> ItemList:
 	if node == null:
 		return null
-	if node is Container:
-		var c := node as Container
-		if c is Control:
-			var cc := c as Control
-			cc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			cc.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		return c
 
+	# Se já for ItemList, só ajusta flags
+	if node is ItemList:
+		var il := node as ItemList
+		il.select_mode = ItemList.SELECT_SINGLE
+		il.allow_reselect = true
+		il.focus_mode = Control.FOCUS_ALL
+		il.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		il.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		return il
+
+	# Se for ScrollContainer: procura/instala um ItemList
 	if node is ScrollContainer:
 		var sc := node as ScrollContainer
 		for ch in sc.get_children():
-			if ch is Container:
-				var cont := ch as Container
-				if cont is Control:
-					var cc := cont as Control
-					cc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-					cc.size_flags_vertical = Control.SIZE_EXPAND_FILL
-				return cont
-		var vb := VBoxContainer.new()
-		vb.name = "ListContainer"
-		vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		vb.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		sc.add_child(vb)
-		return vb
+			if ch is ItemList:
+				return _ensure_list_container(ch)
+		var il2 := ItemList.new()
+		il2.name = "List"
+		il2.select_mode = ItemList.SELECT_SINGLE
+		il2.allow_reselect = true
+		il2.focus_mode = Control.FOCUS_ALL
+		il2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		il2.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		sc.add_child(il2)
+		return il2
 
+	# Qualquer Control -> cria um ItemList dentro
 	if node is Control:
 		var host := node as Control
-		var vb2 := VBoxContainer.new()
-		vb2.name = "ListContainer"
-		vb2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		vb2.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		host.add_child(vb2)
-		return vb2
+		for ch in host.get_children():
+			if ch is ItemList:
+				return _ensure_list_container(ch)
+		var il3 := ItemList.new()
+		il3.name = "List"
+		il3.select_mode = ItemList.SELECT_SINGLE
+		il3.allow_reselect = true
+		il3.focus_mode = Control.FOCUS_ALL
+		il3.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		il3.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		host.add_child(il3)
+		return il3
 
 	return null
 
@@ -651,3 +645,30 @@ func _ensure_menu_layout() -> void:
 				cc.custom_minimum_size = Vector2(0, 4)
 		if cont and cont.has_method("add_theme_constant_override"):
 			(cont as Node).call("add_theme_constant_override", "separation", 6)
+
+func _on_list_item_activated(index: int, list: ItemList) -> void:
+	var meta = list.get_item_metadata(index)
+	var title: String = str(meta.get("title", list.get_item_text(index)))
+	var done: bool = bool(meta.get("done", false))
+	# Aqui você faz o que significa "entrar na missão/seleção":
+	# - abrir detalhes
+	# - iniciar rastreamento
+	# - emitir sinal/evento global, etc.
+	print("Quest ativada → ", title, " | concluída?: ", done)
+
+
+func _focus_other_list(current: ItemList, to_right: bool) -> void:
+	var a_ok := active_quests_container and active_quests_container is ItemList
+	var c_ok := completed_quests_container and completed_quests_container is ItemList
+	if not a_ok or not c_ok:
+		return
+
+	var a := active_quests_container as ItemList
+	var c := completed_quests_container as ItemList
+
+	var target := c if (current == a and to_right) else a if (current == c and not to_right) else null
+	if target:
+		target.grab_focus()
+		# Se nada estiver selecionado ali, seleciona o primeiro
+		if target.get_selected_items().size() == 0 and target.item_count > 0:
+			target.select(0)
