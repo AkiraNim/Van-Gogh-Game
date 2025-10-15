@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctpo7yejgohfx"]
+
+[ext_resource type="Shader" uid="uid://di4ktd3qigubu" path="res://Shaders/Test/main_menu_test.gdshader" id="1_us50k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l5fng"]
+shader = ExtResource("1_us50k")
+shader_parameter/fade_color = Color(0, 0, 0, 1)
+shader_parameter/radius = 0.5
+shader_parameter/softness = 0.5
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_l5fng")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+
+[node name="UI" type="MarginContainer" parent="."]
+z_index = 10
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -59.0
+offset_right = 40.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="UI/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Van Gogh Game"
+
+[node name="Menu" type="VBoxContainer" parent="UI/VBox"]
+layout_mode = 2
+
+[node name="BtnPlay" type="Button" parent="UI/VBox/Menu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Jogar"
+
+[node name="BtnOption" type="Button" parent="UI/VBox/Menu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Opções"
+
+[node name="BtnQuit" type="Button" parent="UI/VBox/Menu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Sair"

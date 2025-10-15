@@ -1,13 +1,6 @@
 [signal arg="quest_accept:Coletar estrela vermelha:collect"]
 [signal arg="quest_set_req:Coletar estrela vermelha:estrela_vermelha:1"]
-[signal arg="quest_accept:Coletars estrela vermelha:collect"]
-[signal arg="quest_set_req:Coletars estrela vermelha:estrela_vermelha:1"]
-[signal arg="quest_accept:Coletarr estrela vermelha:collect"]
-[signal arg="quest_set_req:Coletarr estrela vermelha:estrela_vermelha:1"]
-[signal arg="quest_accept:Coletarss estrela vermelha:collect"]
-[signal arg="quest_set_req:Coletarss estrela vermelha:estrela_vermelha:1"]
-[signal arg="quest_accept:Coletarss estrelas vermelha:collect"]
-[signal arg="quest_set_req:Coletarss estrelas vermelha:estrela_vermelha:1"]
+
 # Sincroniza o contador com o inventário e aplica progresso
 [signal arg="inv_sync"]
 
