@@ -18,8 +18,11 @@ signal star_count_changed(count: int)                      # Quando número de e
 signal important_item_collected(item_name: String)
 
 # --- ZONA / AMBIENTE ---
-signal player_entered_zone(zone_name: String)              # Quando o jogador entra em uma zona
-signal zone_changed(zone_name: String)                     # Quando iluminação ou efeito muda
+# --- ZONA / AMBIENTE ---
+signal player_entered_zone(zone_name: String)
+signal player_exited_zone(zone_name: String)  
+signal zone_changed(zone_name: String)
+signal zone_conquered(zone_name: String)
 
 # --- PLAYER / MOVIMENTO ---
 signal player_moved(direction: Vector3)                    # Para broadcast de movimento
@@ -87,6 +90,12 @@ func emit_player_entered_zone(zone_name: String) -> void:
 
 func emit_zone_changed(zone_name: String) -> void:
 	zone_changed.emit(zone_name)
+
+func emit_zone_conquered(zone_name: String) -> void:
+	zone_conquered.emit(zone_name)	
+
+func emit_player_exited_zone(zone_name: String) -> void:
+	player_exited_zone.emit(zone_name)
 
 func emit_inventory_updated() -> void:
 	inventory_updated.emit()

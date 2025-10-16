@@ -6,11 +6,13 @@ extends Node
 # correspondam EXATAMENTE aos nomes que você configurou em Projeto -> Configurações do Projeto -> Autoload.
 @onready var save_service: SaveService = get_node("/root/SaveService")
 @onready var scene_service: SceneService = get_node("/root/SceneService")
+@onready var audio_service: AudioService = get_node("/root/AudioService")
 # Se você tiver um AudioService, faça o mesmo:
 # @onready var audio_service: AudioService = get_node("/root/AudioService")
 
 @export var state: GameState
 
+var zone_controller: ZoneController
 var _paused := false
 
 func _ready():
@@ -31,6 +33,65 @@ func _ready():
 
 	# conectar retorno do scene_service
 	scene_service.scene_loaded.connect(_on_scene_loaded)
+	
+	EventBus.player_entered_zone.connect(_on_player_entered_zone)
+	EventBus.zone_conquered.connect(_on_zone_conquered)
+	
+	# Encontra o ZoneController na cena atual
+	call_deferred("_find_zone_controller")
+
+func _find_zone_controller():
+	zone_controller = get_tree().root.find_child("ZoneController", true, false)
+	# Dispara a lógica de música para a zona inicial
+	if zone_controller:
+		_on_player_entered_zone(zone_controller.zona_ativa.name if zone_controller.zona_ativa else zone_controller.zona_neutra_nome)
+
+
+# NOVO HANDLER: Chamado quando o jogador entra em uma nova zona
+func _on_player_entered_zone(zone_name: String):
+	if not audio_service or not zone_controller: return
+
+	# 1. VERIFICA SE HÁ UMA MÚSICA DE CONQUISTA ATIVA
+	var conquest_music = _get_active_conquest_music()
+	if conquest_music:
+		# Se houver, toca a música de conquista e ignora a da zona atual
+		audio_service.play_music(conquest_music)
+	else:
+		# Se não, toca a música normal da zona em que o jogador entrou
+		var zone_music = zone_controller.get_music_for_zone(zone_name)
+		audio_service.play_music(zone_music)
+
+
+# NOVO HANDLER: Chamado quando um evento de jogo conquista uma zona
+func _on_zone_conquered(zone_name: String):
+	if not state or not audio_service or not zone_controller: return
+
+	print("🏆 Zona '%s' foi conquistada!" % zone_name)
+	
+	# 1. ATUALIZA O ESTADO DO JOGO
+	state.conquered_zones[zone_name] = true
+	
+	# 2. SALVA O PROGRESSO
+	_try_save_game()
+	
+	# 3. MUDA A MÚSICA IMEDIATAMENTE
+	# Pega a música da zona que acabamos de conquistar
+	var conquest_music = zone_controller.get_music_for_zone(zone_name)
+	if conquest_music:
+		audio_service.play_music(conquest_music)
+
+# NOVA FUNÇÃO AUXILIAR: Encontra a música da primeira zona conquistada
+func _get_active_conquest_music() -> AudioStream:
+	if not state or not zone_controller: return null
+	
+	# Itera sobre as zonas conquistadas no estado do jogo
+	for zone_name in state.conquered_zones:
+		if state.conquered_zones[zone_name] == true:
+			# Se encontrar uma, retorna a música correspondente do ZoneController
+			return zone_controller.get_music_for_zone(zone_name)
+			
+	# Se nenhuma zona foi conquistada, retorna nulo
+	return null
 
 func goto_title_screen():
 	goto_scene("res://presentation/scenes/title_screen.tscn")

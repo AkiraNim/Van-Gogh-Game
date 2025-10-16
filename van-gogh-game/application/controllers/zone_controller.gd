@@ -7,11 +7,27 @@ class_name ZoneController
 
 # Estados de cada zona
 @export var zona_estados := {
-	"RedZone": { "cor": Color(0.227, 0.039, 0.039), "rotacao": Vector3(-29.3, 45.7, 0) },
-	"ZonaAzul":     { "cor": Color(0.062, 0.141, 0.294), "rotacao": Vector3(-29.3, 45.7, 0) },
-	"ZonaVerde":    { "cor": Color(0.051, 0.260, 0.068), "rotacao": Vector3(-29.3, 45.7, 0) },
-	"ZonaAmarela":  { "cor": Color(0.314, 0.301, 0.071), "rotacao": Vector3(-29.3, 45.7, 0) },
-	"ZonaNeutra":   { "cor": Color(0.004, 0.008, 0.004), "rotacao": Vector3(-29.3, 45.7, 0) }
+	"RedZone": { 
+		"cor": Color(0.227, 0.039, 0.039), 
+		"rotacao": Vector3(-29.3, 45.7, 0),
+		"musica": null # Arraste o AudioStream da RedZone aqui no Inspector
+	},
+	"ZonaAzul": { 
+		"cor": Color(0.062, 0.141, 0.294), 
+		"rotacao": Vector3(-29.3, 45.7, 0),
+		"musica": null # Arraste o AudioStream da ZonaAzul aqui
+	},
+	"ZonaVerde": { 
+		"cor": Color(0.051, 0.260, 0.068), 
+		"rotacao": Vector3(-29.3, 45.7, 0),
+		"musica": null
+	},
+	# ... e assim por diante para as outras zonas ...
+	"ZonaNeutra": { 
+		"cor": Color(0.004, 0.008, 0.004), 
+		"rotacao": Vector3(-29.3, 45.7, 0),
+		"musica": null # Música ambiente padrão ou deixe nulo para silêncio
+	}
 }
 
 # Prioridades
@@ -100,27 +116,42 @@ func _zona_preferencial() -> Area3D:
 # Atualiza iluminação e emite eventos globais
 # ============================================================
 
+# Dentro de ZoneController.gd
+
 func _atualizar_estado_ambiente(zona: Area3D) -> void:
+	# Guarda a referência da zona que estava ativa ANTES da mudança
+	var zona_anterior: Area3D = zona_ativa
+
 	# Se nada foi detectado, assume ZonaNeutra
 	if zona == null:
-		if zona_ativa != null and zona_ativa.name == zona_neutra_nome:
+		if zona_anterior != null and zona_anterior.name == zona_neutra_nome:
 			return  # Já está neutra
 		_aplicar_zona_neutra()
+
+		# EMITE O SINAL DE SAÍDA PARA A ZONA ANTERIOR, SE ELA EXISTIA
+		if is_instance_valid(zona_anterior):
+			EventBus.emit_player_exited_zone(zona_anterior.name)
 		return
 
 	# Evita reprocessar a mesma zona
-	if zona_ativa == zona:
+	if zona_anterior == zona:
 		return
 
+	# ATUALIZA A ZONA ATIVA
 	zona_ativa = zona
 
-	var nome_zona: String = zona.name
+	# EMITE O SINAL DE SAÍDA PARA A ZONA ANTERIOR, SE ELA EXISTIA
+	if is_instance_valid(zona_anterior):
+		EventBus.emit_player_exited_zone(zona_anterior.name)
+
+	# Aplica os novos efeitos e emite o sinal de entrada para a nova zona
+	var nome_zona: String = zona_ativa.name
 	if zona_estados.has(nome_zona):
 		var estado: Dictionary = zona_estados[nome_zona]
 		var cor: Color = estado["cor"]
 		var rot: Vector3 = estado["rotacao"]
 		lighting_service.transicionar(cor, rot)
-		EventBus.player_entered_zone.emit(nome_zona)
+		EventBus.emit_player_entered_zone(nome_zona) # Este sinal já existia e está correto
 	else:
 		_aplicar_zona_neutra()
 
@@ -153,3 +184,8 @@ func _detectar_zona_inicial() -> void:
 		_aplicar_zona_neutra()
 	else:
 		_atualizar_estado_ambiente(zona_inicial)
+
+func get_music_for_zone(zone_name: String) -> AudioStream:
+	if zona_estados.has(zone_name):
+		return zona_estados[zone_name].get("musica", null)
+	return null
