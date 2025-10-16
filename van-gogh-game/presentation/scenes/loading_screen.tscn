@@ -67,3 +67,7 @@ vertical_alignment = 1
 
 [node name="LabelDots" type="Label" parent="BlockBR/VBox/TextRow"]
 layout_mode = 2
+
+[node name="MinimumWaitTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true

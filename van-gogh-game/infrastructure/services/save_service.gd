@@ -1,5 +1,4 @@
 extends Node
-class_name SaveService
 
 const SAVE_PATH := "user://savegame.json"
 

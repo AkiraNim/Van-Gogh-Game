@@ -3,7 +3,7 @@ class_name GameState
 
 @export var player_stars: int = 0
 @export var npc_states: Dictionary = {}
-@export var current_scene: String = "res://src/presentation/scenes/main_scene.tscn"
+@export var current_scene: String = "res://Scenes/mainScene.tscn"
 
 func to_dict() -> Dictionary:
 	return {

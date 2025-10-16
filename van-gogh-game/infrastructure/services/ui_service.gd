@@ -28,6 +28,7 @@ class_name UIService
 @export var icon_size: Vector2 = Vector2(32, 32)
 @export var show_count_badge: bool = true
 			  # 0 = ativas, 1 = concluídas
+@onready var game_manager = get_node("/root/GameManager")
 
 func _ready() -> void:
 	_rebind_services()
@@ -772,10 +773,26 @@ func _wire_pause_signals() -> void:
 func _on_pause_resume_pressed() -> void:
 	_unpause_game()
 
+# Substitua a função existente em UIService.gd por esta
+
 func _on_pause_quit_pressed() -> void:
-	# coloque aqui a lógica de “sair” (ex.: voltar ao menu principal)
-	# Exemplo simples:
-	get_tree().quit()
+	# 1. Fornece feedback visual e previne cliques duplos.
+	if pause_btn_quit:
+		pause_btn_quit.disabled = true
+		pause_btn_quit.text = "Salvando..."
+	
+	# 2. Conecta ao sinal 'game_saved' UMA ÚNICA VEZ. 
+	#    Quando o sinal for emitido, a função get_tree().quit será chamada.
+	#    CONNECT_ONE_SHOT é crucial para que isso não aconteça em todo save futuro.
+	EventBus.game_saved.connect(get_tree().quit, CONNECT_ONE_SHOT)
+	
+	# 3. Dispara o processo de salvamento através do GameManager.
+	#    O GameManager fará o save e, no final, emitirá o sinal 'game_saved'
+	#    através do EventBus, o que ativará a conexão que fizemos acima.
+	game_manager.save_game()
+
+	# NOTA: Não chamamos get_tree().quit() diretamente aqui.
+	# A execução do jogo só terminará quando o salvamento for confirmado.
 
 # permite Esc para sair do pause também
 func _on_pause_gui_input(event: InputEvent) -> void:
