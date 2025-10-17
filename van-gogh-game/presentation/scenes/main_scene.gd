@@ -15,5 +15,4 @@ func _ready():
 	main_controller.zone_controller = zone_controller
 	main_controller.dialog_service = dialog_controller
 
-	player_controller.player_view = player_view
-	player_controller.light_service = player_light_service
+	#

@@ -29,6 +29,7 @@ QuestManager="*res://infrastructure/services/quest_service.gd"
 SceneService="*res://infrastructure/services/scene_service.gd"
 SaveService="*res://infrastructure/services/save_service.gd"
 AudioService="*res://infrastructure/services/audio_service.gd"
+PlayerRegistry="*res://presentation/player_registry.gd"
 
 [dialogic]
 
