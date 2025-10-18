@@ -17,10 +17,10 @@
 &"portraits": {
 "AnimatedSprite3D-removebg-preview": {
 "export_overrides": {
-"image": "\"res://Dialogic/Portraits/Test/AnimatedSprite3D-removebg-preview.png\""
+"image": "\"res://Dialogic/Portraits/Test/npc.png\""
 },
 "ignore_char_scale": true,
-"mirror": false,
+"mirror": true,
 "offset": Vector2(100, 0),
 "scale": 0.8,
 "scene": ""

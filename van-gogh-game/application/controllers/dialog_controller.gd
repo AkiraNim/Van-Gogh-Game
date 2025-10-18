@@ -12,6 +12,15 @@ var falante_atual: Node3D = null
 var _precisa_abrir_camera: bool = false
 
 func _ready() -> void:
+	# --- INÍCIO DA CORREÇÃO: GUARDA SINGLETON ---
+	add_to_group("dialog_controller")
+	if get_tree().get_nodes_in_group("dialog_controller").size() > 1:
+		print("⚠️ DialogController duplicado detectado. Removendo nova instância:", name)
+		queue_free()
+		return
+	print("✅ DialogController inicializado como instância única.")
+	# --- FIM DA CORREÇÃO ---
+
 	if dialogic_service != null:
 		if not dialogic_service.dialogo_iniciou.is_connected(_on_dialogo_iniciado):
 			dialogic_service.dialogo_iniciou.connect(_on_dialogo_iniciado)
@@ -21,7 +30,6 @@ func _ready() -> void:
 			dialogic_service.evento_recebido.connect(_on_evento_dialogic)
 		if not EventBus.important_item_collected.is_connected(_on_important_item):
 			EventBus.important_item_collected.connect(_on_important_item)
-
 # -------------------------------------------------
 # Início do diálogo — Passo 1
 # -------------------------------------------------

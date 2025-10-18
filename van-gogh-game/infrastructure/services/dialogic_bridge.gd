@@ -111,30 +111,45 @@ func _quest_dump() -> void:
 # -----------------------------------------------------------
 
 func _ready() -> void:
+	# 1. Guarda Singleton: Garante que o Bridge seja uma instância única.
+	add_to_group("dialog_bridge")
+	if get_tree().get_nodes_in_group("dialog_bridge").size() > 1:
+		print("⚠️ DialogicBridge duplicado detectado! Removendo nova instância:", name)
+		queue_free()
+		return
+	print("✅ DialogicBridge inicializado como instância única.")
+
+	# 2. Conexão Cirúrgica: Conecta-se diretamente ao Autoload do Dialogic.
+	var D := _get_dialogic()
+	if D != null:
+		if not D.is_connected("signal_event", Callable(self, "_on_dialogic_signal_name_args")):
+			D.connect("signal_event", Callable(self, "_on_dialogic_signal_name_args"))
+		if not D.is_connected("timeline_started", Callable(self, "_on_dialogic_timeline_started")):
+			D.connect("timeline_started", Callable(self, "_on_dialogic_timeline_started"))
+		if not D.is_connected("timeline_ended", Callable(self, "_on_dialogic_timeline_ended")):
+			D.connect("timeline_ended", Callable(self, "_on_dialogic_timeline_ended"))
+		print("🔌 DialogicBridge conectado diretamente ao Autoload do Dialogic.")
+	else:
+		push_warning("DialogicBridge: Autoload do Dialogic não encontrado.")
+
+	# 3. Escuta o EventBus: Recebe o comando para iniciar os diálogos.
 	if has_node("/root/EventBus"):
 		var eb := get_node("/root/EventBus")
 		if not eb.npc_dialog_triggered.is_connected(_on_npc_dialog_triggered):
 			eb.npc_dialog_triggered.connect(_on_npc_dialog_triggered)
-
-	add_to_group("dialog_bridge")
-	_connect_dialogic_signals()
-	get_tree().connect("node_added", Callable(self, "_on_node_added"))
-
-	for n in get_tree().get_nodes_in_group("dialogic"):
-		_try_hook_node(n)
-	for n in get_tree().get_nodes_in_group("Dialogic"):
-		_try_hook_node(n)
-	for n in get_tree().get_root().get_children():
-		_try_hook_node(n)
-
+			
+	
 func _on_npc_dialog_triggered(_npc_name: String, timeline: String) -> void:
 	var now := Time.get_ticks_msec() / 1000.0
 	if (now - _last_start_time) < START_COOLDOWN or _active or _starting:
-		print("DialogicBridge: diálogo já ativo/pendente; ignorando start:", timeline)
 		return
 	_last_start_time = now
+
 	var D := _get_dialogic()
-	if D and D.has_method("start_timeline"):
+	if D and D.has_method("start"):
+		_starting = true
+		D.call_deferred("start", timeline)
+	elif D and D.has_method("start_timeline"):
 		_starting = true
 		D.call_deferred("start_timeline", timeline)
 
@@ -178,19 +193,21 @@ func _try_hook_node(n: Node) -> void:
 		print("🔌 DialogicBridge hooked em nó:", n.name, "classe:", n.get_class())
 
 func _on_dialogic_timeline_started() -> void:
+	# --- INÍCIO DA CORREÇÃO FINAL ---
+	# Se o diálogo já está ativo, este é um sinal duplicado ("eco"). Ignoramos.
+	if _active:
+		return
+	# --- FIM DA CORREÇÃO FINAL ---
+
 	_starting = false
-	_active = true
+	_active = true # Trava o estado para "ativo"
 	if has_node("/root/EventBus"):
-		var eb := get_node("/root/EventBus")
-		if "dialog_started" in eb:
-			eb.dialog_started.emit()
+		get_node("/root/EventBus").dialog_started.emit()
 
 func _on_dialogic_timeline_ended() -> void:
-	_active = false
+	_active = false # Destrava o estado
 	if has_node("/root/EventBus"):
-		var eb := get_node("/root/EventBus")
-		if "dialog_ended" in eb:
-			eb.dialog_ended.emit()
+		get_node("/root/EventBus").dialog_ended.emit()
 
 func _on_dialogic_signal_single(arg: Variant) -> void:
 	_route_dialogic_signal(arg, null)

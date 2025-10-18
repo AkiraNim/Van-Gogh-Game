@@ -4,5 +4,5 @@ NPC_Teste: Eu guardei isto para você. É um item especial!
 NPC_Teste: Espero que voce goste
 [signal arg="unlock_anim"]
 [signal arg="npc_unlock:NPC_Teste"]
-[signal arg="npc_drop:estrela_vermelha"]
+[signal arg="npc_drop:estrela_amarela"]
 [end_timeline]

@@ -27,10 +27,34 @@ class_name UIService
 # --- Visual ---
 @export var icon_size: Vector2 = Vector2(32, 32)
 @export var show_count_badge: bool = true
+@export var interaction_prompt_scene: PackedScene
 			  # 0 = ativas, 1 = concluídas
 @onready var game_manager = get_node("/root/GameManager")
 
+
+var _interaction_prompt_instance: Control
+var _current_interactable: Node3D = null
+
 func _ready() -> void:
+	if interaction_prompt_scene:
+		_interaction_prompt_instance = interaction_prompt_scene.instantiate()
+		add_child(_interaction_prompt_instance)
+		_interaction_prompt_instance.visible = false
+	else:
+		push_warning("A cena do aviso de interação não foi definida no UIService.")
+		set_process(false)
+		return
+
+	# Conecta-se aos sinais de área
+	EventBus.player_entered_interactable_area.connect(_on_player_entered_interactable_area)
+	EventBus.player_exited_interactable_area.connect(_on_player_exited_interactable_area)
+	
+	# --- NOVO: Conecta-se aos sinais de estado da interação ---
+	EventBus.interaction_started.connect(_on_interaction_started)
+	EventBus.interaction_ended.connect(_on_interaction_ended)
+	
+	set_process(false)
+	
 	_rebind_services()
 	_connect_signals()
 	call_deferred("_rebind_services")
@@ -41,7 +65,50 @@ func _ready() -> void:
 		quest_menu_root.visible = false
 
 	_autowire_pause_menu()
-	_hide_pause_menu() # começa escondido
+	_hide_pause_menu()
+
+func _process(_delta: float) -> void:
+	if not is_instance_valid(_current_interactable):
+		if is_instance_valid(_interaction_prompt_instance):
+			_interaction_prompt_instance.visible = false
+		set_process(false)
+		return
+
+	var camera = get_viewport().get_camera_3d()
+	if not camera: return
+
+	var world_position_3d = _current_interactable.global_position + Vector3.UP * 0.5
+	var screen_position_2d = camera.unproject_position(world_position_3d)
+
+	var prompt_size = _interaction_prompt_instance.size
+	_interaction_prompt_instance.position = screen_position_2d - (prompt_size / 2)
+
+func _on_interaction_started() -> void:
+	# Esconde o letreiro e para de o atualizar
+	if is_instance_valid(_interaction_prompt_instance):
+		_interaction_prompt_instance.visible = false
+	set_process(false)
+
+func _on_interaction_ended() -> void:
+	# Reavalia se o letreiro deve ser mostrado novamente.
+	# Isto acontece se o jogador ainda estiver na área do objeto.
+	if is_instance_valid(_current_interactable):
+		if is_instance_valid(_interaction_prompt_instance):
+			_interaction_prompt_instance.visible = true
+		set_process(true)
+
+func _on_player_entered_interactable_area(interactable_node: Node3D) -> void:
+	_current_interactable = interactable_node
+	if is_instance_valid(_interaction_prompt_instance):
+		_interaction_prompt_instance.visible = true
+		set_process(true)
+
+func _on_player_exited_interactable_area(interactable_node: Node3D) -> void:
+	if _current_interactable == interactable_node:
+		_current_interactable = null
+		if is_instance_valid(_interaction_prompt_instance):
+			_interaction_prompt_instance.visible = false
+		set_process(false)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_WINDOW_FOCUS_IN:

@@ -10,7 +10,7 @@ region = Rect2(6, 6, 20, 22)
 
 [resource]
 script = ExtResource("1_tjdlf")
-id_item = "estrela_vermelha"
+id_item = "estrela_amarela"
 nome = "Estrela vermelha"
 tipo = "estrela"
 icone = SubResource("AtlasTexture_og037")

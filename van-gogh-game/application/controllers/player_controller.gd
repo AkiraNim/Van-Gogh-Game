@@ -12,6 +12,7 @@ var _awaiting_important_start: bool = false
 var _important_active: bool = false
 var _current_seat: Seat = null
 var _is_sitting: bool = false
+var _is_initiating_sit: bool = false
 
 const APPROACH_SPEED := 1.0
 
@@ -23,7 +24,6 @@ func _ready() -> void:
 		return
 	print("🎮 PlayerController inicializado como instância única.")
 
-	# Conecta os sinais. A resolução do player_view será feita sob demanda.
 	if not EventBus.item_collected.is_connected(_on_item_collected):
 		EventBus.item_collected.connect(_on_item_collected)
 	if not EventBus.dialog_started.is_connected(_on_dialog_started):
@@ -43,17 +43,12 @@ func _initial_setup() -> void:
 # ... (Suas funções de diálogo _resolve_player_view, _bind_dialog_bridge, etc., permanecem as mesmas) ...
 func _resolve_player_view() -> bool:
 	if is_instance_valid(player_view):
-		return true # Já temos uma referência válida, não faz nada.
-
-	player_view = PlayerRegistry.player
-	
-	if is_instance_valid(player_view):
-		print("✅ PlayerView resolvido sob demanda via PlayerRegistry:", player_view.name)
 		return true
-	else:
-		# Esta mensagem só aparecerá se algo muito errado acontecer
-		push_warning("❌ _resolve_player_view() não encontrou PlayerView no PlayerRegistry.")
-		return false
+	player_view = PlayerRegistry.player
+	if is_instance_valid(player_view):
+		return true
+	push_warning("❌ _resolve_player_view() não encontrou PlayerView no PlayerRegistry.")
+	return false
 	
 func _bind_dialog_bridge() -> void:
 	var bridge := get_tree().get_first_node_in_group("dialog_bridge")
@@ -254,40 +249,45 @@ func _print_inventory_grouped(label: String) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
-		if _is_sitting:
-			print("⬆️ Player levantando...")
-			_stand_up()
+		# --- CORREÇÃO: Protege contra múltiplas chamadas ---
+		# Se já estamos sentados ou no processo de sentar/levantar, não faz nada.
+		if _is_sitting or _is_initiating_sit:
+			if _is_sitting: # Permite levantar se já estiver sentado
+				print("⬆️ Player levantando...")
+				_stand_up()
 			return
+
 		var seat := _find_nearby_seat()
 		print("🔍 Seat encontrado:", seat)
 		if seat:
+			EventBus.interaction_started.emit()
+			_is_initiating_sit = true 
 			print("🪑 Player vai sentar em:", seat.name)
 			await _sit_on(seat)
 
 func _sit_on(seat: Seat) -> void:
-	if not _resolve_player_view(): return
-	
-	if not seat.try_reserve(player_view):
+	# 1. Garante que temos um player_view válido. Se não, libera a trava e sai.
+	if not _resolve_player_view():
+		_is_initiating_sit = false
 		return
 	
-	if player_view == null:
-		var players = get_tree().get_nodes_in_group("player")
-		if players.size() > 0:
-			player_view = players[0]
-			print("✅ PlayerView resolvido dinamicamente em _sit_on():", player_view.name)
-		else:
-			push_error("❌ Nenhum PlayerView encontrado no grupo 'player'!")
-			return
+	# 2. Tenta reservar o assento. Se falhar, libera a trava e sai.
 	if not seat.try_reserve(player_view):
+		_is_initiating_sit = false
 		return
+	
+	# 3. Congela o movimento do jogador para a animação de aproximação.
 	_freeze_player_view()
 	await get_tree().process_frame
+
+	# 4. Calcula o movimento e a animação de aproximação.
 	var xf := seat.get_sit_transform()
 	var target := xf.origin
 	var start := player_view.global_position
 	var dist := start.distance_to(target)
 	var travel_time = max(0.1, dist / APPROACH_SPEED)
 	var anim_name := "sitting_down"
+
 	if player_view.anim_sprite and player_view.anim_sprite.sprite_frames.has_animation(anim_name):
 		var frames := player_view.anim_sprite.sprite_frames.get_frame_count(anim_name)
 		var base_fps := player_view.anim_sprite.sprite_frames.get_animation_speed(anim_name)
@@ -300,19 +300,30 @@ func _sit_on(seat: Seat) -> void:
 		print("🎬 'sitting_down' tocando durante a aproximação (scale=", scale, ", t=", travel_time, "s)")
 	else:
 		print("⚠️ AnimatedSprite3D não tem 'sitting_down'; movendo sem anim.")
+
 	if "look_at" in player_view:
 		player_view.look_at(xf.origin + xf.basis.z)
+
+	# 5. Executa o movimento suave (tween) até o assento.
 	var tween := get_tree().create_tween()
 	tween.tween_property(player_view, "global_position", target, travel_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	player_view.global_position = target
+
+	# 6. Finaliza o estado: o jogador agora está oficialmente sentado.
 	_is_sitting = true
 	_current_seat = seat
+	# Libera a trava, permitindo que o jogador possa se levantar.
+	_is_initiating_sit = false
 
 func _stand_up() -> void:
+	# --- CORREÇÃO: Usa a trava para evitar conflitos ---
+	_is_initiating_sit = true
 	if _current_seat:
 		_current_seat.release(player_view)
 		_current_seat = null
+	
+	
 	if "velocity" in player_view:
 		player_view.velocity = Vector3.ZERO
 	if player_view.has_method("set_default_idle"):
@@ -333,7 +344,10 @@ func _stand_up() -> void:
 	await get_tree().process_frame
 	_unfreeze_player_view()
 	_is_sitting = false
-
+	_unfreeze_player_view()
+	# Libera a trava ao final da ação
+	_is_initiating_sit = false
+	EventBus.interaction_ended.emit()
 
 func _find_nearby_seat() -> Seat:
 	for seat in get_tree().get_nodes_in_group("seats"):

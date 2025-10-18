@@ -24,10 +24,14 @@ signal player_exited_zone(zone_name: String)
 signal zone_changed(zone_name: String)
 signal zone_conquered(zone_name: String)
 
+
 # --- PLAYER / MOVIMENTO ---
 signal player_moved(direction: Vector3)                    # Para broadcast de movimento
 signal player_stopped                                      # Para broadcast de parada
-
+signal player_entered_interactable_area(interactable_node: Node3D)
+signal player_exited_interactable_area(interactable_node: Node3D)
+signal interaction_started
+signal interaction_ended
 # --- NPC / INTERAÇÃO ---
 signal npc_dropped_item(npc_name: String, id_item: String)
 signal npc_dialog_triggered(npc_name: String, timeline: String)

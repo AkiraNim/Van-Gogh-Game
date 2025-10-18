@@ -23,11 +23,13 @@ func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		_player_na_area = true
 		print("👋 Player entrou na área de interação de", name)
+		EventBus.player_entered_interactable_area.emit(self)
 
 func _on_body_exited(body: Node) -> void:
 	if body.is_in_group("player"):
 		_player_na_area = false
 		print("👋 Player saiu na área de interação de", name)
+		EventBus.player_exited_interactable_area.emit(self)
 
 func _unhandled_input(e: InputEvent) -> void:
 	if _player_na_area and e.is_action_pressed("interact"):
@@ -39,6 +41,7 @@ func trigger_dialog() -> void:
 		return
 	var timeline_to_play := timelines[_current_timeline_index]
 	print("🎭 Iniciando timeline:", timeline_to_play)
+	EventBus.interaction_started.emit()
 	EventBus.npc_dialog_triggered.emit(name, timeline_to_play)
 
 func avancar_timeline() -> void:

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ck414t0qevlux"]
+[gd_scene load_steps=4 format=3 uid="uid://ck414t0qevlux"]
 
 [ext_resource type="Script" uid="uid://bi7wgafvj6gd0" path="res://infrastructure/services/ui_service.gd" id="1_b0k6s"]
 [ext_resource type="Texture2D" uid="uid://64vb0shr3rhm" path="res://Assets/UI/paper.png" id="2_eybty"]
+[ext_resource type="PackedScene" uid="uid://kg1g3c56rja0" path="res://presentation/scenes/interaction_prompt.tscn" id="2_hxomw"]
 
 [node name="UIService" type="Node" node_paths=PackedStringArray("hud_root", "stars_container", "important_container", "pause_menu_root", "pause_label", "pause_btn_resume", "pause_btn_quit", "quest_menu_root", "active_quests_container", "completed_quests_container")]
 script = ExtResource("1_b0k6s")
@@ -15,6 +16,11 @@ pause_btn_quit = NodePath("Control/CenterContainer/VBoxContainer/Button2")
 quest_menu_root = NodePath("QuestMenu")
 active_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer/ActiveQuestContainer")
 completed_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2/CompletedQuestContainer")
+toggle_action = null
+pause_action = null
+icon_size = null
+show_count_badge = null
+interaction_prompt_scene = ExtResource("2_hxomw")
 metadata/_custom_type_script = "uid://bi7wgafvj6gd0"
 
 [node name="HUD" type="Control" parent="."]

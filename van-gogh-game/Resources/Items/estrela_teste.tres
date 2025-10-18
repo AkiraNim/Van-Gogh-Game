@@ -10,9 +10,9 @@ region = Rect2(6, 6, 20, 22)
 
 [resource]
 script = ExtResource("1_v2qan")
-id_item = "estrela"
+id_item = "estrela_vermelha"
 nome = "Estrela"
-tipo = "importante"
+tipo = "estrela"
 icone = SubResource("AtlasTexture_dumwf")
 cena_do_item = ExtResource("1_mhusl")
 metadata/_custom_type_script = "uid://c0dp7ns08lwmk"

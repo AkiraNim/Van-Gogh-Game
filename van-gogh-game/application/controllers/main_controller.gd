@@ -24,7 +24,6 @@ func _ready() -> void:
 	else:
 		push_error("❌ PlayerView não encontrado na cena.")
 
-	# Reforça conexões do EventBus
 	if not EventBus.dialog_started.is_connected(_on_dialogo_iniciou):
 		EventBus.dialog_started.connect(_on_dialogo_iniciou)
 	if not EventBus.dialog_ended.is_connected(_on_dialogo_terminou):
@@ -57,6 +56,7 @@ func _on_dialogo_terminou() -> void:
 		print("🏃 Player liberado para mover")
 	else:
 		push_warning("⚠️ MainController: Player não definido para liberar movimento")
+	EventBus.interaction_ended.emit()
 
 
 # ======================================================

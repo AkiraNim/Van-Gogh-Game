@@ -13,7 +13,7 @@ recent_projects=["res://QuestManager/NPC_Teste.quest"]
 [application]
 
 config/name="Van Gogh Game"
-run/main_scene="uid://byea2f83c6rla"
+run/main_scene="uid://83hgnpcbrin3"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -100,6 +100,7 @@ player=""
 coletaveis=""
 estrelas=""
 seats=""
+interactables=""
 
 [input]
 

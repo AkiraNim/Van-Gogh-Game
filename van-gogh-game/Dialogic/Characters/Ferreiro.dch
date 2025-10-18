@@ -8,12 +8,23 @@
 "sound_moods": {},
 "style": ""
 },
-&"default_portrait": "",
+&"default_portrait": "Idle",
 &"description": "",
 &"display_name": "Ferreiro",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"Idle": {
+"export_overrides": {
+"image": "\"res://Dialogic/Portraits/Test/ferreiro.png\""
+},
+"ignore_char_scale": true,
+"mirror": true,
+"offset": Vector2(0, 0),
+"scale": 0.8,
+"scene": ""
+}
+},
 &"scale": 1.0
 }

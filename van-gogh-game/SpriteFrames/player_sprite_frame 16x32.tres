@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://vdxnyk2yr3g4" path="res://Assets/Characters/Player/16x32/16x32 Walk Cycle-Sheet-right.png" id="2_cbwi6"]
 [ext_resource type="Texture2D" uid="uid://d3irscsh2dfci" path="res://Assets/Characters/Player/16x32/16x32 Idle-Sheet-right.png" id="2_ysspf"]
 [ext_resource type="Texture2D" uid="uid://dxgiua08jekpy" path="res://Assets/Characters/Player/16x32/sitting_down.png" id="3_ysspf"]
-[ext_resource type="Texture2D" uid="uid://cr0kl0i2b4puj" path="res://Assets/Characters/Player/16x32/surprise.png" id="4_lqaa8"]
+[ext_resource type="Texture2D" uid="uid://bs416crbcxft1" path="res://Assets/Characters/Player/16x32/surprise.png" id="4_lqaa8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0t3w1"]
 atlas = ExtResource("1_p6khm")

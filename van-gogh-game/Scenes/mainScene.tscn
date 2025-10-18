@@ -1,14 +1,14 @@
-[gd_scene load_steps=45 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=46 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
-[ext_resource type="PackedScene" path="res://presentation/scenes/ui_service.tscn" id="2_l42ic"]
+[ext_resource type="PackedScene" uid="uid://ck414t0qevlux" path="res://presentation/scenes/ui_service.tscn" id="2_l42ic"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_ly6xb"]
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
-[ext_resource type="PackedScene" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
+[ext_resource type="PackedScene" uid="uid://c3e6mtvxfv82q" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
@@ -19,13 +19,11 @@
 [ext_resource type="Script" uid="uid://bugdytqxhk2sc" path="res://application/controllers/npc_controller.gd" id="14_4djc3"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
 [ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="16_ekaqe"]
-[ext_resource type="PackedScene" uid="uid://c7yc3vr5y2t4u" path="res://presentation/items/estrela_vermelha.tscn" id="16_udkkk"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
 [ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
-[ext_resource type="PackedScene" uid="uid://cshg1wpq4e0rk" path="res://actors/npc_teste.tscn" id="19_mrjo7"]
 [ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="20_5bsxs"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
-[ext_resource type="PackedScene" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -69,6 +67,17 @@ size = Vector3(9.97998, 3.7212524, 9.982086)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w1dup"]
 size = Vector3(4.0394287, 3.7212524, 4.039345)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4djc3"]
+size = Vector3(0.4892273, 0.54956055, 0.5412445)
+
+[sub_resource type="Resource" id="Resource_ekaqe"]
+script = ExtResource("11_iypob")
+itens = Array[ExtResource("10_5bsxs")]([ExtResource("20_5bsxs")])
+metadata/_custom_type_script = "uid://nxieygehmgh6"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
+size = Vector3(0.42242432, 0.54086304, 0.5488281)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
 radius = 0.21191406
@@ -227,13 +236,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_w1dup")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
 
-[node name="AreaItem" parent="." groups=["coletaveis", "estrelas"] instance=ExtResource("17_4djc3")]
+[node name="AreaItem" parent="." instance=ExtResource("17_4djc3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9832748, 0.16228667, 0)
+id_item = "estrela_vermelha"
 item_data = ExtResource("16_ekaqe")
-
-[node name="Estrela Vermelha" parent="." instance=ExtResource("16_udkkk")]
-transform = Transform3D(0.9996968, 0.024624107, 0, -0.024624107, 0.9996968, 0, 0, 0, 1, -1, 0.17479438, 1.0913968)
-item_data = ExtResource("20_5bsxs")
 
 [node name="Camera3D_Principal" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.999195, 8.839)
@@ -263,8 +269,48 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="NPC_Teste" parent="." instance=ExtResource("19_mrjo7")]
+[node name="NPC_Teste" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
+script = ExtResource("18_oi7nq")
+anim_sprite = NodePath("AnimatedSprite3D")
+nome_npc = "NPC_Teste"
+
+[node name="DropPoint" type="Marker3D" parent="NPC_Teste"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0056233406, 0, 0.4861189)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="NPC_Teste"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+modulate = Color(0, 1, 1, 1)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
+autoplay = "idle_down"
+
+[node name="Interacao" type="Area3D" parent="NPC_Teste"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010421753, -0.05303955, 0.052330017)
+shape = SubResource("BoxShape3D_4djc3")
+
+[node name="NpcController" type="Node3D" parent="NPC_Teste"]
+script = ExtResource("14_4djc3")
+npc_entity_path = NodePath("../NpcEntity")
+
+[node name="NpcEntity" type="Node3D" parent="NPC_Teste" node_paths=PackedStringArray("drop_point")]
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_ekaqe")
+drop_point = NodePath("../DropPoint")
+nome_npc = "NPC_Teste"
+timelines = Array[String](["NPC_Teste_01_oferece_quest", "NPC_Teste_02_lembra_progresso", "NPC_Teste_03_completa_e_premia", "NPC_Teste_04_fim_loop"])
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NPC_Teste"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, -0.052963257, 0.0234375)
+shape = SubResource("BoxShape3D_ekaqe")
 
 [node name="Chair" parent="." instance=ExtResource("24_l42ic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3868)
@@ -296,7 +342,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.028386116, 0)
 billboard = 1
 shaded = true
 alpha_cut = 2
-texture_filter = 4
+texture_filter = 2
 sprite_frames = ExtResource("2_ly6xb")
 animation = &"idle_down"
 
@@ -314,7 +360,7 @@ modulate = Color(1, 0, 0, 1)
 billboard = 1
 shaded = true
 alpha_cut = 2
-texture_filter = 4
+texture_filter = 2
 sprite_frames = ExtResource("2_ly6xb")
 animation = &"idle_down"
 
@@ -333,7 +379,7 @@ script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_iypob")
 drop_point = NodePath("../Marker3D")
 nome_npc = "Ferreiro"
-timelines = Array[String](["Ferreiro_01_primeiro_contato"])
+timelines = Array[String](["Ferreiro_01_primeiro_contato", "Ferreiro_02"])
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ferreiro"]
 
