@@ -29,6 +29,6 @@ else:
 if {q_Coletar estrela vermelha_status} == "completed" and {q_falar_com_ferreiro_status} == "completed":
 	NPC_Teste: Tudo certo então, valeu pela força!
 	leave --All--
-	[signal arg="npc_give:estrela_amarela"]
+	[signal arg="npc_drop:estrela_amarela"]
 	[signal arg="npc_next:NPC_Teste"]
 leave --All--
