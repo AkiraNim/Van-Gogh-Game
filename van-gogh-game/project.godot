@@ -17,6 +17,10 @@ run/main_scene="uid://ctpo7yejgohfx"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[aseprite_importers]
+
+aseprite_executable_path="C:/Program Files/Aseprite/Aseprite.exe"
+
 [autoload]
 
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
@@ -25,7 +29,7 @@ GameManager="*res://application/controllers/game_manager.gd"
 NpcService="*res://infrastructure/services/npc_service.gd"
 DialogicBridge="*res://infrastructure/services/dialogic_bridge.gd"
 QuestSystem="*res://addons/quest_system/quest_manager.gd"
-QuestManager="*res://infrastructure/services/quest_service.gd"
+QuestManager="*res://addons/quest_manager/QuestManager.gd"
 SceneService="*res://infrastructure/services/scene_service.gd"
 SaveService="*res://infrastructure/services/save_service.gd"
 AudioService="*res://infrastructure/services/audio_service.gd"
@@ -93,7 +97,7 @@ window/size/resizable=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/quest_system/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/nklbdev.aseprite_importers/plugin.cfg", "res://addons/quest_manager/plugin.cfg", "res://addons/quest_system/plugin.cfg")
 
 [global_group]
 

@@ -1,7 +1,7 @@
 [gd_resource type="MeshLibrary" load_steps=7 format=3 uid="uid://b1o2dbkvdahbp"]
 
-[ext_resource type="Texture2D" uid="uid://crcgtyctkbiwv" path="res://Assets/Scenarios/Enviroment/grassFloor1.png" id="1_vt76r"]
-[ext_resource type="Texture2D" uid="uid://bjklkg7c1ktyr" path="res://Assets/Scenarios/Enviroment/grassFloor2.png" id="2_trtvb"]
+[ext_resource type="Texture2D" uid="uid://br622od26s78j" path="res://Assets/Scenarios/Enviroment/grassFloor1.aseprite" id="1_vt76r"]
+[ext_resource type="Texture2D" uid="uid://5cfrx3rr7v3k" path="res://Assets/Scenarios/Enviroment/grassFloor2.aseprite" id="2_trtvb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mec78"]
 albedo_texture = ExtResource("1_vt76r")
