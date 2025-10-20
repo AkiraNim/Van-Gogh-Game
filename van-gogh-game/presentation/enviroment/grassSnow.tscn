@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://48pqockt0kqd"]
+
+[ext_resource type="Script" uid="uid://ogpr238jfdb1" path="res://presentation/grass.gd" id="1_c1yo7"]
+[ext_resource type="Texture2D" uid="uid://c77gjwktebnu2" path="res://Assets/Scenarios/Enviroment/grass1-1.png" id="2_er02m"]
+[ext_resource type="Texture2D" uid="uid://dl6de2ds4aumm" path="res://Assets/Scenarios/Enviroment/grass1-2.png" id="3_igqu4"]
+[ext_resource type="Texture2D" uid="uid://cks73tawi3res" path="res://Assets/Scenarios/Enviroment/snowBlock2.png" id="4_er02m"]
+[ext_resource type="Texture2D" uid="uid://dnhppsh4xrwnn" path="res://Assets/Scenarios/Enviroment/snowBlock1.png" id="5_igqu4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jcsxo"]
+size = Vector3(0.109680176, 0.11401367, 0.07006836)
+
+[node name="Grass" type="Node3D"]
+top_level = true
+script = ExtResource("1_c1yo7")
+boost_decay_duration = null
+
+[node name="LeftSwaySprite" type="Sprite3D" parent="."]
+offset = Vector2(0, 16)
+shaded = true
+texture_filter = 2
+texture = ExtResource("2_er02m")
+
+[node name="RightSwaySprite" type="Sprite3D" parent="."]
+offset = Vector2(0, 16)
+shaded = true
+texture_filter = 2
+texture = ExtResource("3_igqu4")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.0027927607, 0, 0.017216772)
+offset = Vector2(0, 32)
+shaded = true
+texture_filter = 2
+texture = ExtResource("4_er02m")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, -0.010061771)
+offset = Vector2(0, 32)
+shaded = true
+texture_filter = 2
+texture = ExtResource("5_igqu4")
+
+[node name="TouchArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16066751, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TouchArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02078247, -0.10046387, 0.0032958984)
+shape = SubResource("BoxShape3D_jcsxo")

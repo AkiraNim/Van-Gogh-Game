@@ -46,4 +46,4 @@ overrides = {
 script = ExtResource("10_d6dur")
 name = "narrator"
 layers = Array[ExtResource("1_kynyd")]([SubResource("Resource_v81rm"), SubResource("Resource_k3do0"), SubResource("Resource_7aj54"), SubResource("Resource_48kfb"), SubResource("Resource_42php"), SubResource("Resource_8poqn"), SubResource("Resource_o6wvf")])
-metadata/_latest_layer = 6
+metadata/_latest_layer = 3

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4mfobsf0cw0e"]
+
+[ext_resource type="Script" uid="uid://d2avup6c0uxtn" path="res://presentation/snow_view_2d.gd" id="1_bxgs2"]
+[ext_resource type="Texture2D" uid="uid://lmbt0khvl7ok" path="res://Assets/Scenarios/Enviroment/snow2.png" id="2_45x5l"]
+[ext_resource type="Texture2D" uid="uid://31i4vmdqlx0e" path="res://Assets/Scenarios/Enviroment/snow1.png" id="3_ydqbv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_45x5l"]
+
+[node name="SnowView2D" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_45x5l")
+script = ExtResource("1_bxgs2")
+snowflake_texture = ExtResource("2_45x5l")
+snowball_texture = ExtResource("3_ydqbv")
+
+[node name="SnowLayer" type="Node2D" parent="PanelContainer"]

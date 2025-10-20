@@ -244,18 +244,76 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 		return
 
 	if sig == "inv_sync":
-		var count := 0
 		var pc := _player_controller()
-		if pc and "inventory" in pc and pc.inventory:
-			for it in pc.inventory.itens:
-				if it and String(it.id_item) == "estrela_vermelha":
-					count += 1
-		var D := _get_dialogic()
-		if D and D.has_subsystem("VAR"):
-			D.VAR.set_variable("count_estrela_vermelha", count)
-		elif "Variables" in Dialogic:
-			Dialogic.Variables.set_variable("count_estrela_vermelha", count)
-		print("🔎 inv_sync → count_estrela_vermelha =", count)
+		if not pc or not ("inventory" in pc) or pc.inventory == null:
+			push_warning("DialogicBridge: 'inv_sync' falhou, PlayerController ou inventário não encontrado.")
+			return
+
+		var inv: PlayerInventory = pc.inventory
+		
+		# 1. Usamos sua função get_counts() do PlayerInventory
+		var counts: Dictionary = inv.get_counts() 
+
+		# 2. Iteramos por CADA item que o jogador possui
+		for id in counts.keys():
+			var rec: Dictionary = counts[id]
+			var qtd: int = rec.qtd
+			
+			# 3. Criamos as variáveis 'has_id' (bool) e 'count_id' (int)
+			_set_var("has_%s" % id, qtd > 0)
+			_set_var("count_%s" % id, qtd)
+		
+		print("🔎 inv_sync → Sincronizados ", counts.size(), " tipos de itens com o Dialogic.")
+		return
+	
+	if sig.begins_with("remove_item"):
+		# Formato: remove_item:<item_id>:<amount=1>
+		var parts := sig.split(":")
+		if parts.size() < 2:
+			push_warning("DialogicBridge: 'remove_item' sinal inválido. Formato: remove_item:<id>:<qtd>")
+			return
+
+		var item_id := parts[1].strip_edges()
+		var amount_to_remove := 1
+		if parts.size() >= 3:
+			amount_to_remove = int(parts[2])
+
+		if item_id == "":
+			push_warning("DialogicBridge: 'remove_item' ID do item está vazio.")
+			return
+
+		# 1. Encontra o inventário do player
+		var pc := _player_controller()
+		if not pc or not ("inventory" in pc) or pc.inventory == null:
+			push_warning("DialogicBridge: PlayerController ou seu inventário não encontrado.")
+			return
+			
+		var inv: PlayerInventory = pc.inventory
+		
+		# 2. Remove os itens um por um (seguindo a lógica do seu PlayerInventory)
+		var removed_count := 0
+		for i in range(amount_to_remove):
+			var removed_data: ItemData = inv.remove_item_by_id(item_id)
+			if removed_data != null:
+				removed_count += 1
+			else:
+				# Para de remover se o item acabar no inventário
+				break 
+
+		# 3. Atualiza as variáveis do Dialogic
+		var counts := inv.get_counts()
+		var current_qty := 0
+		if counts.has(item_id):
+			current_qty = counts[item_id].qtd
+
+		_set_var("has_%s" % item_id, current_qty > 0)
+		_set_var("count_%s" % item_id, current_qty)
+		
+		if removed_count > 0:
+			print("♻️ DialogicBridge: removido '", item_id, "' x", removed_count, ". Restante: ", current_qty)
+		else:
+			push_warning("DialogicBridge: 'remove_item' falhou. Jogador não possui '", item_id, "'.")
+		
 		return
 
 # -------- quests (usa QuestService se existir; senão, fallback local) --------

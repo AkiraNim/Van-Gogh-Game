@@ -36,7 +36,6 @@ func _ready() -> void:
 func _on_dialogo_iniciado() -> void:
 	modo_ativo = ModoAtivo.DIALOGO
 	_precisa_abrir_camera = true
-	EventBus.emit_dialog_started()
 
 # -------------------------------------------------
 # Fim do diálogo — Passo 3 (zoom out)
@@ -47,7 +46,6 @@ func _on_dialogo_finalizado() -> void:
 	modo_ativo = ModoAtivo.NENHUM
 	falante_atual = null
 	_precisa_abrir_camera = false
-	EventBus.emit_dialog_ended()
 
 # -------------------------------------------------
 # Evento do Dialogic — Passo 1/2 (foco) + Signal (drop/give)

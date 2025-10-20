@@ -1,4 +1,16 @@
 join NPC_Teste right [animation="Fade In Up" length="0.7"]
+[signal arg="inv_sync"]
 NPC_Teste: Bom ver você novamente! Obrigado por ajudar com tudo aquilo.
+if {has_estrela_amarela} == true:
+	NPC_Teste: Vi que você tem {count_estrela_amarela} Estrela(s) Amarela(s)! Eu estava precisando de UMA para meu projeto, você poderia me dar?
+	
+	- Sim
+		[signal arg="remove_item:estrela_amarela:1"]
+		NPC_Teste: Muito obrigado amigo!
+	- Não
+		NPC_Teste: Entendi, parece que voce precisa mais dela do que eu
+		NPC_Teste: Se um dia encontrar uma outra Estrela Amarela, lembre-se de mim!
+	
+
 leave --All--
 [end_timeline]

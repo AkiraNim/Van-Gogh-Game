@@ -2,9 +2,7 @@
 join NPC_Teste right [animation="Fade In Up" length="0.7"]
 [signal arg="quest_set_req:Coletar estrela vermelha:estrela_vermelha:1"]
 
-# Sincroniza o contador com o inventário e aplica progresso
 [signal arg="inv_sync"]
-
 
 if {q_Coletar estrela vermelha_status} != "completed":
 	NPC_Teste: Ei! Pode me ajudar? Preciso que pegue uma Estrela Vermelha.
@@ -30,6 +28,7 @@ else:
 # Se as DUAS quests já estiverem concluídas, avança a timeline deste NPC
 if {q_Coletar estrela vermelha_status} == "completed" and {q_falar_com_ferreiro_status} == "completed":
 	NPC_Teste: Tudo certo então, valeu pela força!
+	leave --All--
 	[signal arg="npc_give:estrela_amarela"]
 	[signal arg="npc_next:NPC_Teste"]
 leave --All--

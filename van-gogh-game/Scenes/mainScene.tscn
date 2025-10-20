@@ -1,8 +1,9 @@
-[gd_scene load_steps=46 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=51 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_2c717"]
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
+[ext_resource type="PackedScene" uid="uid://d4mfobsf0cw0e" path="res://presentation/enviroment/snow_view_2d.tscn" id="2_eol8w"]
 [ext_resource type="PackedScene" uid="uid://ck414t0qevlux" path="res://presentation/scenes/ui_service.tscn" id="2_l42ic"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_ly6xb"]
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
@@ -17,10 +18,16 @@
 [ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="10_5bsxs"]
 [ext_resource type="Script" uid="uid://nxieygehmgh6" path="res://domain/entities/npc_inventory.gd" id="11_iypob"]
 [ext_resource type="Script" uid="uid://bugdytqxhk2sc" path="res://application/controllers/npc_controller.gd" id="14_4djc3"]
+[ext_resource type="PackedScene" uid="uid://dloynp6b607de" path="res://presentation/enviroment/grass.tscn" id="15_l42ic"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
 [ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="16_ekaqe"]
+[ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
+[ext_resource type="PackedScene" uid="uid://48pqockt0kqd" path="res://presentation/enviroment/grassSnow.tscn" id="18_boirm"]
+[ext_resource type="MeshLibrary" uid="uid://b1o2dbkvdahbp" path="res://presentation/enviroment/grassFloor.tres" id="18_daoup"]
 [ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
+[ext_resource type="PackedScene" uid="uid://ckuxqxnje5o8l" path="res://presentation/enviroment/snow_block.tscn" id="19_7ew7i"]
+[ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
 [ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="20_5bsxs"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
@@ -39,16 +46,10 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_xhr7v"]
 material = SubResource("StandardMaterial3D_eol8w")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_xhr7v"]
-size = Vector3(1, 0.22705078, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2c717"]
-albedo_color = Color(1, 0, 1, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_ly6xb"]
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_hewda"]
 size = Vector3(1, 0.4215088, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ly6xb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ly6xb"]
 size = Vector3(1.8698254, 1.4350586, 2.6168108)
@@ -100,6 +101,11 @@ player_controller = NodePath("PlayerNode/PlayerController")
 dialog_controller = NodePath("DialogNode/DialogController")
 zone_controller = NodePath("EnviromentNode/ZoneController")
 player_light_service = NodePath("PlayerNode/PlayerController/PlayerLightService")
+
+[node name="SnowView2D" parent="." instance=ExtResource("2_eol8w")]
+unique_name_in_owner = true
+process_mode = 1
+visible = false
 
 [node name="UIService" parent="." instance=ExtResource("2_l42ic")]
 
@@ -159,18 +165,6 @@ transform = Transform3D(0.05, 0, 0, 0, -8.742278e-07, -0.05, 0, 20, -2.1855695e-
 mesh = SubResource("BoxMesh_xhr7v")
 skeleton = NodePath("../..")
 
-[node name="floor2" type="StaticBody3D" parent="Scenario"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Scenario/floor2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14233398, 0)
-shape = SubResource("BoxShape3D_xhr7v")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Scenario/floor2"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.0001514554, 0)
-material_override = SubResource("StandardMaterial3D_2c717")
-mesh = SubResource("PlaneMesh_ly6xb")
-skeleton = NodePath("../../floor2")
-
 [node name="floor" type="StaticBody3D" parent="Scenario"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scenario/floor"]
@@ -189,11 +183,71 @@ transform = Transform3D(0.8333878, 0, 0.55268866, 0, 0.9999942, 0, -0.5526829, 0
 shape = SubResource("BoxShape3D_ly6xb")
 
 [node name="Sprite3D2" type="Sprite3D" parent="Scenario/StaticBody3D"]
-transform = Transform3D(1, 0, 2.9802322e-08, 2.9802315e-08, 0.9999997, 0, -5.960463e-08, 0, 0.99999976, -0.0029804707, 0, 0)
+transform = Transform3D(1, 0, 2.9802322e-08, 2.9802314e-08, 0.99999964, 0, -5.9604627e-08, 0, 0.9999997, -0.0029194355, 0.01560998, 0.0011706352)
 billboard = 1
 shaded = true
 alpha_cut = 2
 texture = ExtResource("1_2c717")
+
+[node name="Grass" type="Node3D" parent="Scenario"]
+
+[node name="Grass" parent="Scenario/Grass" instance=ExtResource("15_l42ic")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.034547627, 0.95067644)
+top_level = false
+boost_decay_duration = 2.0
+
+[node name="Grass2" parent="Scenario/Grass" instance=ExtResource("15_l42ic")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.075157404, 0.034547627, 0.87616134)
+top_level = false
+boost_decay_duration = 2.0
+
+[node name="Grass3" parent="Scenario/Grass" instance=ExtResource("15_l42ic")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.063806236, 0.034547627, 0.87616134)
+top_level = false
+boost_decay_duration = 2.0
+
+[node name="TallGrass" type="Node3D" parent="Scenario"]
+
+[node name="TallGrass" parent="Scenario/TallGrass" instance=ExtResource("16_mrjo7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63999844, 0.032798827, 0.4861436)
+offset_between_sprites_deg = 30.0
+
+[node name="TallGrass2" parent="Scenario/TallGrass" instance=ExtResource("16_mrjo7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9274335, 0.032798827, 0.33077884)
+offset_between_sprites_deg = 30.0
+
+[node name="SnowGrass" type="Node3D" parent="Scenario"]
+
+[node name="Grass" parent="Scenario/SnowGrass" instance=ExtResource("18_boirm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3100195, 0, 3.1378393)
+
+[node name="Grass2" parent="Scenario/SnowGrass" instance=ExtResource("18_boirm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.069494, 0, 3.2940154)
+
+[node name="Grass3" parent="Scenario/SnowGrass" instance=ExtResource("18_boirm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5880377, 0, 3.2940154)
+
+[node name="SnowBlock" parent="Scenario/SnowGrass" instance=ExtResource("19_7ew7i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.7008476, 0, 3.2533598)
+
+[node name="GrassFloor" type="Node3D" parent="Scenario"]
+
+[node name="GridMap" type="GridMap" parent="Scenario/GrassFloor"]
+mesh_library = ExtResource("18_daoup")
+cell_size = Vector3(1, 0.001, 1)
+data = {
+"cells": PackedInt32Array(65535, 0, 1441793, 0, 0, 1441793, 0, 65535, 1441792, 65535, 65535, 1441793, 65535, 65534, 1441792, 0, 65534, 1441793, 1, 65534, 1441793, 1, 65535, 1441792, 1, 0, 1441792, 65534, 0, 1441792, 65534, 65535, 1441793, 65534, 65534, 1441792, 65534, 65533, 1441793, 65535, 65533, 1441792, 0, 65533, 1441793, 1, 65533, 1441792, 65534, 1, 1441792, 65535, 1, 1441793, 0, 1, 1441792, 1, 1, 1441793)
+}
+
+[node name="SnowFloor" type="Node3D" parent="Scenario"]
+
+[node name="GridMap" type="GridMap" parent="Scenario/SnowFloor"]
+mesh_library = ExtResource("19_bofyi")
+cell_size = Vector3(1, 0.001, 1)
+data = {
+"cells": PackedInt32Array(65535, 2, 1441792, 65534, 2, 1441792, 65533, 2, 1441792, 65532, 2, 1441792, 65531, 2, 1441792, 65530, 2, 1441792, 65529, 2, 1441792, 65528, 2, 1441792, 65527, 2, 1441792, 65526, 2, 1441792, 65526, 3, 1441792, 65527, 3, 1441792, 65528, 3, 1441792, 65529, 3, 1441792, 65530, 3, 1441792, 65531, 3, 1441792, 65532, 3, 1441792, 65533, 3, 1441793, 65535, 3, 1441792, 65534, 3, 1441793, 65526, 4, 1441793, 65527, 4, 1441793, 65528, 4, 1441793, 65529, 4, 1441793, 65530, 4, 1441793, 65531, 4, 1441793, 65532, 4, 1441793, 65535, 4, 1441793, 65534, 4, 1441793, 65533, 4, 1441793, 65526, 5, 1441793, 65527, 5, 1441793, 65528, 5, 1441793, 65529, 5, 1441793, 65530, 5, 1441793, 65531, 5, 1441793, 65532, 5, 1441793, 65533, 5, 1441793, 65534, 5, 1441793, 65535, 5, 1441793)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="Zones" type="Node3D" parent="."]
 

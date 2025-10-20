@@ -75,14 +75,15 @@ save/encryption_on_exports_only=true
 text/autopauses={}
 glossary/default_case_sensitive=true
 variables={
-"count_estrela_vermelha": 0,
+"count_estrela_amarela": "",
+"count_estrela_vermelha": "",
+"has_estrela_amarela": false,
+"has_estrela_vermelha": false,
 "last_item_name": "",
 "q_Coletar estrela vermelha_need_estrela_vermelha": 0,
 "q_Coletar estrela vermelha_progress_estrela_vermelha": 0,
 "q_Coletar estrela vermelha_status": "",
-"q_falar_com_ferreiro_status": "false",
-"quest/coletar_estrela_vermelha/title": "Coletar Estrela Vermelha",
-"quest/falar_com_ferreiro/title": "Falar com o Ferreiro"
+"q_falar_com_ferreiro_status": "false"
 }
 
 [display]
