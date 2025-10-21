@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3e6mtvxfv82q"]
+
+[ext_resource type="Script" uid="uid://dgku8rqggmyuw" path="res://infrastructure/services/lighting_service.gd" id="1_veyac"]
+
+[sub_resource type="Environment" id="Environment_xhr7v"]
+ambient_light_source = 2
+
+[node name="LightingService" type="Node" node_paths=PackedStringArray("world_environment", "directional_light")]
+script = ExtResource("1_veyac")
+world_environment = NodePath("Sky/WorldEnvironment")
+directional_light = NodePath("Sky/DirectionalLight3D")
+
+[node name="Sky" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky"]
+environment = SubResource("Environment_xhr7v")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Sky"]
+transform = Transform3D(0.6293204, -0.3636498, 0.6868149, 0, 0.88376564, 0.4679298, -0.777146, -0.29447776, 0.5561717, 0, 3.600955, 0)
+layers = 2
+light_energy = 0.835
+shadow_enabled = true
+shadow_opacity = 0.85

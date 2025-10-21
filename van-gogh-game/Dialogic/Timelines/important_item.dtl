@@ -1,0 +1,4 @@
+[style name="narrator"]
+Player_3D: Você recebeu um item importante\: {last_item_name}!
+Player_3D: Guarde bem este item — ele pode ser útil mais tarde.
+[end_timeline]

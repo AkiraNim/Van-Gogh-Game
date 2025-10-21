@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://2h4233rifleu"]
+
+[ext_resource type="Texture2D" uid="uid://di2mu4m4ro1g1" path="res://Assets/UI/Keyboard Extras.png" id="1_bnc11"]
+
+[resource]
+atlas = ExtResource("1_bnc11")
+region = Rect2(98, 18, 28, 12)
+filter_clip = true

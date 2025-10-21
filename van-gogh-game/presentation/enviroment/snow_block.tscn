@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckuxqxnje5o8l"]
+
+[ext_resource type="Texture2D" uid="uid://dnhppsh4xrwnn" path="res://Assets/Scenarios/Enviroment/snowBlock1.png" id="1_qos82"]
+[ext_resource type="Texture2D" uid="uid://cks73tawi3res" path="res://Assets/Scenarios/Enviroment/snowBlock2.png" id="2_87a2w"]
+
+[node name="SnowBlock" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+offset = Vector2(0, 32)
+shaded = true
+texture_filter = 2
+texture = ExtResource("1_qos82")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1702317, 0, -0.026224703)
+offset = Vector2(0, 32)
+shaded = true
+texture_filter = 2
+texture = ExtResource("2_87a2w")
