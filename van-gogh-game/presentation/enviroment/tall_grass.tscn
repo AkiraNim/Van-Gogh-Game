@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cch7o06d0bsr0"]
+
+[ext_resource type="Script" uid="uid://ogpr238jfdb1" path="res://presentation/grass.gd" id="1_upq7k"]
+[ext_resource type="Texture2D" uid="uid://byhfglb0k0s4y" path="res://Assets/Scenarios/Enviroment/grass2-1.png" id="2_gjp00"]
+[ext_resource type="Texture2D" uid="uid://crp4vrkfdhjr4" path="res://Assets/Scenarios/Enviroment/grass2-2.png" id="3_u3ios"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eirvv"]
+size = Vector3(0.39069366, 0.45526123, 0.10583496)
+
+[node name="TallGrass" type="Node3D"]
+script = ExtResource("1_upq7k")
+
+[node name="LeftSwaySprite" type="Sprite3D" parent="."]
+transform = Transform3D(0.97117174, 0.23838091, 0, -0.23838091, 0.97117174, 0, 0, 0, 1, 0, 0, 0)
+offset = Vector2(0, 32)
+shaded = true
+texture_filter = 2
+texture = ExtResource("2_gjp00")
+
+[node name="RightSwaySprite" type="Sprite3D" parent="."]
+offset = Vector2(0, 32)
+shaded = true
+texture_filter = 2
+texture = ExtResource("3_u3ios")
+
+[node name="TouchArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16066751, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TouchArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03106308, 0.070108324, -0.014587402)
+shape = SubResource("BoxShape3D_eirvv")

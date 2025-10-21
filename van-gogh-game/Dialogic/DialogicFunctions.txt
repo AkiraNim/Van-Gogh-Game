@@ -1,0 +1,73 @@
+### Animations (Player and NPC)
+
+`[signal arg="lock_anim:surprise_up:1"]`
+* **Action:** Locks the player's animation (`player_view`) to the specified animation.
+* **Parameters:** `animation_name`, `duration_in_seconds`.
+
+`[signal arg="unlock_anim"]`
+* **Action:** Frees the `player_view` from its animation lock.
+
+`[signal arg="npc_lock:NPC_Teste:idle_down:1.0"]`
+* **Action:** Locks the animation of a specific NPC.
+* **Parameters:** `npc_name`, `animation_name`, `duration_in_seconds`.
+
+`[signal arg="npc_unlock:NPC_Teste"]`
+* **Action:** Frees the specified NPC from its animation lock.
+* **Parameters:** `npc_name`.
+
+`[signal arg="npc_next:NPC_Teste"]`
+* **Action:** Makes the NPC advance to its next dialogue timeline.
+* **Parameters:** `npc_name`.
+
+`[signal arg="npc_timeline_index:NPC_Teste:2"]`
+* **Action:** Forces the NPC to jump to a specific index in its timeline list.
+* **Parameters:** `npc_name`, `timeline_index`.
+
+### Inventory and Items
+
+`{last_item_name}`
+* **Action:** (Variable) Displays the name of the last "important" item collected.
+* **Usage:** `NPC: "Wow, you collected {last_item_name}!"`
+
+`[signal arg="inv_sync"]`
+* **Action:** Synchronizes the player's inventory with Dialogic's variables. **(Essential)**
+* **Function:** Reads the actual inventory and creates/updates the `has_<item_id>` (bool) and `count_<item_id>` (int) variables for **all** items.
+* **Usage:** Must be used **before** any `[IF]` check that involves the inventory.
+
+`[signal arg="remove_item:estrela_amarela:1"]`
+* **Action:** Removes a specific quantity of an item from the player's inventory.
+* **Parameters:** `item_id`, `quantity` (if omitted, defaults to 1).
+
+### Quest System
+
+`[signal arg="quest_accept:coletar_item:collect"]`
+* **Action:** Accepts a new quest and marks it as "accepted".
+* **Parameters:** `quest_name`, `quest_type` ("collect" or "talk").
+
+`[signal arg-"quest_set_req:coletar_item:estrela_vermelha:1"]`
+* **Action:** Defines the items required to complete a quest.
+* **Parameters:** `quest_name`, `required_item_id`, `required_quantity`.
+
+`[signal arg="quest_talk_target:falar_com_ferreiro:Ferreiro"]`
+* **Action:** Defines which NPC is the target of a "talk" type quest.
+* **Parameters:** `quest_name`, `target_npc_name`.
+
+`[signal arg="quest_add:coletar_item:estrela_vermelha:{count_estrela_vermelha}"]`
+* **Action:** Adds progress to a quest (usually used after `inv_sync`).
+* **Function:** If the progress meets or exceeds the requirement, the quest is **automatically completed**.
+* **Parameters:** `quest_name`, `item_id`, `variable_with_the_quantity`.
+
+`[signal arg="quest_talk_hit:Ferreiro"]`
+* **Action:** Signals that the player has spoken to an NPC.
+* **Function:** **Automatically completes** any "talk" type quest that has this NPC as its target.
+* **Parameters:** `target_npc_name`.
+
+`[signal arg="quest_complete:my_manual_quest"]`
+* **Action:** Manually forces a quest to complete.
+* **Parameters:** `quest_name`.
+
+### Debug
+
+`[signal arg="quest_dump"]`
+* **Action:** Prints the status of all quests (active and completed) to the Godot debug console.
+* **Parameters:** None.

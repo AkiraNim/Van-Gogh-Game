@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmg16myd3gn5u"]
+
+[ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="1_2lamr"]
+[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_j53js"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
+radius = 0.21191406
+height = 0.53894997
+
+[node name="Player_3D" type="CharacterBody3D" node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
+script = ExtResource("1_2lamr")
+anim_sprite = NodePath("AnimatedSprite3D")
+ponto_item_acima = NodePath("PontoItemAcima")
+
+[node name="PontoItemAcima" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43016624, 0)
+
+[node name="SpotLight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.023332926, 0.9997278, 0, -0.9997278, -0.023332926, -8.85725e-05, 0.8540602, 0.053795934)
+visible = false
+light_color = Color(1, 1, 0, 1)
+light_energy = 0.4
+shadow_enabled = true
+spot_range = 2.1029348
+spot_angle = 39.45476
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03626728, 0)
+shape = SubResource("CapsuleShape3D_uvydw")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.028386116, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("2_j53js")
+animation = &"idle_down"

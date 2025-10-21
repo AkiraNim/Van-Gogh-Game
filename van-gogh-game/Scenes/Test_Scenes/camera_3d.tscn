@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dpul6ki1565qd"]
+
+[node name="Camera3D" type="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 0, 0)
+projection = 1
+current = true
+size = 4.563
+far = 611.26

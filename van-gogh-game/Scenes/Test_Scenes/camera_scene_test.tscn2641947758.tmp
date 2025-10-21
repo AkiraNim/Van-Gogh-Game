@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://cb4g22g8dvd6y"]
+
+[ext_resource type="Script" uid="uid://ta1d0v2y2rco" path="res://Scripts/Test_Scripts/screen_shot.gd" id="1_dam1d"]
+[ext_resource type="PackedScene" uid="uid://d3k4jdp8k4j05" path="res://Assets/Scenarios/Buildings/Test/GBL/Simple Buildings/factory_medium.glb" id="2_dam1d"]
+
+[sub_resource type="Environment" id="Environment_cv4w0"]
+background_mode = 2
+sky_rotation = Vector3(0, 2.7925267, 0)
+ambient_light_source = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cv4w0"]
+size = Vector3(1, 0.4215088, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_e11ji"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Sky" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky"]
+environment = SubResource("Environment_cv4w0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Sky"]
+transform = Transform3D(0.97741574, 0.098885156, -0.18676156, 0, 0.88376546, 0.46792972, 0.21132475, -0.45736197, 0.8638064, 0, 3.600955, 0)
+layers = 2
+shadow_opacity = 0.85
+
+[node name="floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20691067, 0)
+shape = SubResource("BoxShape3D_cv4w0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_e11ji")
+
+[node name="Camera3D2" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, -2.9464598, 5.89448, 4.220218)
+projection = 1
+size = 4.563
+far = 611.26
+script = ExtResource("1_dam1d")
+
+[node name="factory_medium" parent="Camera3D2" instance=ExtResource("2_dam1d")]
+transform = Transform3D(-7.836934, 0, -6.211478, -3.1712263, 8.598522, 4.0010915, 5.3409534, 5.105429, -6.7386055, -0.05354023, -0.5504763, -10.618405)

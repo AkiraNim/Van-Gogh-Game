@@ -1,0 +1,289 @@
+[gd_scene load_steps=20 format=3 uid="uid://ctpo7yejgohfx"]
+
+[ext_resource type="Shader" uid="uid://di4ktd3qigubu" path="res://Shaders/Test/main_menu_test.gdshader" id="1_us50k"]
+[ext_resource type="Script" uid="uid://dtw2umjsoa6i3" path="res://presentation/scenes/title_screen.gd" id="1_vnkip"]
+[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="2_cb5hy"]
+[ext_resource type="Script" uid="uid://c431ubd465sn4" path="res://presentation/scenes/flickering_light.gd" id="3_p8yhp"]
+[ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="3_vnkip"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l5fng"]
+shader = ExtResource("1_us50k")
+shader_parameter/fade_color = Color(0, 0, 0.18039216, 1)
+shader_parameter/radius = 0.3610000171475
+shader_parameter/softness = 0.306000014535
+
+[sub_resource type="Environment" id="Environment_p8yhp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6hbo"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7qcj0"]
+material = SubResource("StandardMaterial3D_h6hbo")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ms02d"]
+size = Vector3(1, 0.22705078, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_opbj5"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wrqoe"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3w5ex"]
+size = Vector3(1, 0.4215088, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ybg8w"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 2.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3sst4"]
+transparency = 1
+albedo_color = Color(2.9083786, 2.9083786, 1.1128923, 0.17254902)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cpdf5"]
+material = SubResource("StandardMaterial3D_3sst4")
+top_radius = 0.045
+
+[sub_resource type="Animation" id="Animation_ms02d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpotLight3D:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.0]
+}
+
+[sub_resource type="Animation" id="Animation_7qcj0"]
+resource_name = "flashing_light"
+length = 10.0
+loop_mode = 2
+step = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2, 1.5, 3, 3.1, 4.5, 5.7, 5.74, 5.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, true, false, true, true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpotLight3D:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2, 1.5, 3, 3.1, 4.5, 5.7, 5.74, 5.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [3.0, 0.0, 3.0, 3.0, 0.0, 3.0, 3.0, 0.0, 3.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_opbj5"]
+_data = {
+&"RESET": SubResource("Animation_ms02d"),
+&"flashing_light": SubResource("Animation_7qcj0")
+}
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vnkip")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_l5fng")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Node3D"]
+environment = SubResource("Environment_p8yhp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, -0.9993812, 0.035178587, 0, -0.035178587, -0.9993812, 0, 0, 0)
+
+[node name="Scenario" type="Node3D" parent="SubViewportContainer/SubViewport/Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario"]
+transform = Transform3D(-2.1855695e-09, 20, -2.1855695e-09, 0, -8.742278e-07, -0.05, -0.05, -8.742278e-07, 9.553427e-17, 0, 0, 0)
+mesh = SubResource("BoxMesh_7qcj0")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario"]
+transform = Transform3D(0.05, 0, 0, 0, -8.742278e-07, -0.05, 0, 20, -2.1855695e-09, 0, 0, 0)
+mesh = SubResource("BoxMesh_7qcj0")
+skeleton = NodePath("../..")
+
+[node name="floor2" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario/floor2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14233398, 0)
+shape = SubResource("BoxShape3D_ms02d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario/floor2"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.0001514554, 0)
+material_override = SubResource("StandardMaterial3D_opbj5")
+mesh = SubResource("PlaneMesh_wrqoe")
+skeleton = NodePath("../../floor2")
+
+[node name="floor" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20691067, 0)
+shape = SubResource("BoxShape3D_3w5ex")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario/floor"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_wrqoe")
+
+[node name="LampPost" type="Node3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario"]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario/LampPost"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1262901, 0)
+mesh = SubResource("CylinderMesh_ybg8w")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/Scenario/LampPost"]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0, 2.0142272, 0)
+mesh = SubResource("CylinderMesh_ybg8w")
+skeleton = NodePath("../..")
+
+[node name="LightPost" type="Node3D" parent="SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8182796, 1.0201142, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Node3D/LightPost" node_paths=PackedStringArray("animation_player")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.9215541, 0)
+light_color = Color(1, 1, 0.36078432, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 2.7193682
+spot_angle = 13.345613
+script = ExtResource("3_p8yhp")
+animation_player = NodePath("../AnimationPlayer")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/LightPost"]
+mesh = SubResource("CylinderMesh_cpdf5")
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Node3D/LightPost"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1.62, 0.9215541, 0)
+light_color = Color(1, 1, 0.36078432, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 2.7193682
+spot_angle = 13.345613
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Node3D/LightPost"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62, 0, 0)
+mesh = SubResource("CylinderMesh_cpdf5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/Node3D/LightPost"]
+libraries = {
+&"": SubResource("AnimationLibrary_opbj5")
+}
+
+[node name="Timer" type="Timer" parent="SubViewportContainer/SubViewport/Node3D/LightPost"]
+unique_name_in_owner = true
+
+[node name="Camera3D_Principal" type="Camera3D" parent="SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.999195, 8.839)
+projection = 1
+current = true
+size = 4.563
+far = 611.26
+
+[node name="Chair" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_cb5hy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.93382454, 0, -0.065111876)
+script = null
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="SubViewportContainer/SubViewport/Node3D/Chair"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.30722046, 0.065111876)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 4
+sprite_frames = ExtResource("3_vnkip")
+animation = &"sitted"
+
+[node name="UI" type="MarginContainer" parent="."]
+z_index = 10
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -59.0
+offset_right = 40.0
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="UI/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Van Gogh Game"
+
+[node name="Menu" type="VBoxContainer" parent="UI/VBox"]
+layout_mode = 2
+
+[node name="BtnPlay" type="Button" parent="UI/VBox/Menu"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Jogar"
+
+[node name="BtnOption" type="Button" parent="UI/VBox/Menu"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Opções"
+
+[node name="BtnQuit" type="Button" parent="UI/VBox/Menu"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Sair"
+
+[connection signal="pressed" from="UI/VBox/Menu/BtnPlay" to="." method="_on_btn_play_pressed"]
+[connection signal="pressed" from="UI/VBox/Menu/BtnQuit" to="." method="_on_btn_quit_pressed"]

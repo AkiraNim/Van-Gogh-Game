@@ -1,0 +1,8 @@
+NPC_Teste: Eu guardei isto para você. É um item especial!
+[signal arg="lock_anim:surprise_up:1"]
+[signal arg="npc_lock:NPC_Teste:idle_down:1.0"]
+NPC_Teste: Espero que voce goste
+[signal arg="unlock_anim"]
+[signal arg="npc_unlock:NPC_Teste"]
+[signal arg="npc_drop:estrela_amarela"]
+[end_timeline]
