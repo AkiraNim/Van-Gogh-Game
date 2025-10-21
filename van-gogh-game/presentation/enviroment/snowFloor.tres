@@ -1,7 +1,7 @@
 [gd_resource type="MeshLibrary" load_steps=7 format=3 uid="uid://8ftmod2fb0ha"]
 
 [ext_resource type="Texture2D" uid="uid://df4yu4yjrg8nd" path="res://Assets/Scenarios/Enviroment/snowFloor2.aseprite" id="1_7ww1c"]
-[ext_resource type="Texture2D" uid="uid://u6vrkjmehxve" path="res://Assets/Scenarios/Enviroment/snowFloor1.aseprite" id="2_5ghyc"]
+[ext_resource type="Texture2D" uid="uid://b7aq742jln7wi" path="res://Assets/Scenarios/Enviroment/snowFloor1.aseprite" id="2_5ghyc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ww1c"]
 albedo_texture = ExtResource("1_7ww1c")
