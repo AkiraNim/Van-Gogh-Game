@@ -1,5 +1,5 @@
 # =============== #
-#      GODOT      #
+#      GODOT      #
 # =============== #
 
 ## Godot 4+ (Essential)
@@ -27,7 +27,7 @@ export_credentials.cfg
 *.translation
 
 # ================================ #
-#      MONO / C# (Optional)      #
+#      MONO / C# (Optional)      #
 # ================================ #
 # Files and cache specific to C# projects.
 .mono/
@@ -35,7 +35,7 @@ data_*/
 mono_crash.*.json
 
 # ==================================================== #
-#      Generic Binaries & Cache (Good Practice)      #
+#      Generic Binaries & Cache (Good Practice)      #
 # ==================================================== #
 
 ## Compiled Binaries
