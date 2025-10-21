@@ -1,57 +1,69 @@
 # =============== #
-#      GODOT      #
+#      GODOT      #
 # =============== #
 
-## Godot 4+ (Essential)
-# The .godot/ directory contains all project cache, including asset import data,
-# shader cache, and resource UIDs (uid_cache.bin).
-# Ignoring this single directory covers your requests for "cache", "import", and "uid".
+## Godot 4+ (Essencial)
 .godot/
 
-## Godot 3 Compatibility
-# Ignores metadata files that were generated alongside assets.
+## Godot 3 (compatibilidade)
 *.import
 
-## Export Files & Credentials
-# Sensitive credentials that should NEVER be versioned.
+## Export (bins e credenciais)
 export_credentials.cfg
-
-# Packages and binaries generated when exporting the game.
 *.pck
 *.zip
 *.apk
 *.aab
 
-## Compiled Translations
-# Ignores translation files automatically generated from other sources (e.g., CSVs).
+## Traduções compiladas
 *.translation
 
+
 # ================================ #
-#      MONO / C# (Optional)      #
+#        MONO / C# (Opcional)      #
 # ================================ #
-# Files and cache specific to C# projects.
 .mono/
 data_*/
 mono_crash.*.json
 
+
 # ==================================================== #
-#      Generic Binaries & Cache (Good Practice)      #
+#  Binários / Cache genéricos (boa prática)
 # ==================================================== #
 
-## Compiled Binaries
+## Binários compilados
 *.exe
 *.exe.config
 *.dll
 *.so
 *.dylib
 
-## Cache and Build Folders
+## Pastas de build / cache
 [Bb]uild/
 [Bb]in/
 [Cc]ache/
 *.cache
 
-## Operating System Files
+## Arquivos do SO
 .DS_Store
 Thumbs.db
 .nomedia
+
+
+# ==================================================== #
+#      Regras específicas do projeto (IMPORTANTE)
+# ==================================================== #
+
+# Se em algum momento você usou padrões amplos (ex.: "*", "/*", "Assets/**"),
+# as exceções abaixo "reabrem" o caminho até a pasta dos .aseprite.
+
+# Reabrir caminho até Assets (caso alguma regra anterior ignore a pasta)
+!Assets/
+!Assets/Scenarios/
+!Assets/Scenarios/Enviroment/
+
+# Permitir .aseprite nessa pasta (e subpastas)
+!Assets/Scenarios/Enviroment/**/*.aseprite
+
+# (Opcional) Se você também usa .ase, libere-os aqui:
+!Assets/Scenarios/Enviroment/**/*.ase
