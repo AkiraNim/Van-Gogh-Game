@@ -1,10 +1,11 @@
 [gd_resource type="MeshLibrary" load_steps=7 format=3 uid="uid://8ftmod2fb0ha"]
 
-[ext_resource type="Texture2D" uid="uid://df4yu4yjrg8nd" path="res://Assets/Scenarios/Enviroment/snowFloor2.aseprite" id="1_7ww1c"]
-[ext_resource type="Texture2D" uid="uid://b7aq742jln7wi" path="res://Assets/Scenarios/Enviroment/snowFloor1.aseprite" id="2_5ghyc"]
+[ext_resource type="Texture2D" uid="uid://b31kfvq42w02n" path="res://Assets/Scenarios/Enviroment/snowFloor1.png" id="1_7ww1c"]
+[ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="2_5ghyc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ww1c"]
 albedo_texture = ExtResource("1_7ww1c")
+texture_filter = 2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5ghyc"]
 material = SubResource("StandardMaterial3D_7ww1c")
@@ -12,6 +13,7 @@ size = Vector2(1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5ghyc"]
 albedo_texture = ExtResource("2_5ghyc")
+texture_filter = 2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_nsvde"]
 material = SubResource("StandardMaterial3D_5ghyc")
