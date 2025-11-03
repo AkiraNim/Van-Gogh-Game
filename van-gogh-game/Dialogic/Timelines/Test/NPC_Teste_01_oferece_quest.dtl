@@ -3,24 +3,24 @@ join NPC_Teste right [animation="Fade In Up" length="0.7"]
 [signal arg="quest_set_req:Coletar estrela vermelha:estrela_vermelha:1"]
 
 [signal arg="inv_sync"]
+[signal arg="npc_next:Ferreiro"]
+NPC_Teste: Ei! Pode me ajudar? Preciso que pegue uma Estrela Vermelha.
+[signal arg="quest_add:Coletar estrela vermelha:estrela_vermelha:{count_estrela_vermelha}"]
 
 if {q_Coletar estrela vermelha_status} != "completed":
-	NPC_Teste: Ei! Pode me ajudar? Preciso que pegue uma Estrela Vermelha.
-	[signal arg="quest_add:Coletar estrela vermelha:estrela_vermelha:{count_estrela_vermelha}"]
-if {q_Coletar estrela vermelha_status} == "completed":
-	NPC_Teste: Uau! Você já conseguiu. Obrigado!
-	if {q_falar_com_ferreiro_status} == "completed":
-		NPC_Teste: Voce falou com o ferreiro tambem?! Que ótimo
-	
-	if {q_falar_com_ferreiro_status} == "accepted":
-		NPC_Teste: Agora, por favor, vá conversar com o Ferreiro. Ele está te esperando.
-	# Se ainda não houver a quest de falar com o Ferreiro, aceita e define o alvo
-	if {q_falar_com_ferreiro_status} != "accepted" and {q_falar_com_ferreiro_status} != "completed":
-		[signal arg="quest_accept:falar_com_ferreiro:talk"]
-		[signal arg="quest_talk_target:falar_com_ferreiro:Ferreiro"]
-		NPC_Teste: Agora, por favor, vá conversar com o Ferreiro. Ele está te esperando.
+NPC_Teste: Uau! Você já conseguiu. Obrigado!
+if {q_falar_com_ferreiro_status} == "completed":
+	NPC_Teste: Voce falou com o ferreiro tambem?! Que ótimo
+
+if {q_falar_com_ferreiro_status} == "accepted":
+	NPC_Teste: Agora, por favor, vá conversar com o Ferreiro. Ele está te esperando.
+# Se ainda não houver a quest de falar com o Ferreiro, aceita e define o alvo
+if {q_falar_com_ferreiro_status} != "accepted" and {q_falar_com_ferreiro_status} != "completed":
+	[signal arg="quest_accept:falar_com_ferreiro:talk"]
+	[signal arg="quest_talk_target:falar_com_ferreiro:Ferreiro"]
+	NPC_Teste: Agora, por favor, vá conversar com o Ferreiro. Ele está te esperando.
 else:
-	NPC_Teste: Traga 1 Estrela Vermelha e eu te agradeço.
+NPC_Teste: Traga 1 Estrela Vermelha e eu te agradeço.
 
 # (Opcional) debug do estado atual
 [signal arg="quest_dump"]
@@ -29,6 +29,6 @@ else:
 if {q_Coletar estrela vermelha_status} == "completed" and {q_falar_com_ferreiro_status} == "completed":
 	NPC_Teste: Tudo certo então, valeu pela força!
 	leave --All--
-	[signal arg="npc_drop:estrela_amarela"]
+	[signal arg="npc_drop:estrela"]
 	[signal arg="npc_next:NPC_Teste"]
 leave --All--

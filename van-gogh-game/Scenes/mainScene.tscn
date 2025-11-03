@@ -28,9 +28,9 @@
 [ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
 [ext_resource type="PackedScene" uid="uid://ckuxqxnje5o8l" path="res://presentation/enviroment/snow_block.tscn" id="19_7ew7i"]
 [ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
-[ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="20_5bsxs"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="Resource" uid="uid://nj8lhv52hxbi" path="res://Resources/Items/estrela.tres" id="28_7ew7i"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -74,7 +74,7 @@ size = Vector3(0.4892273, 0.54956055, 0.5412445)
 
 [sub_resource type="Resource" id="Resource_ekaqe"]
 script = ExtResource("11_iypob")
-itens = Array[ExtResource("10_5bsxs")]([ExtResource("20_5bsxs")])
+itens = Array[ExtResource("10_5bsxs")]([ExtResource("28_7ew7i")])
 metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://ciqqwdialb2lo"]
+
+[ext_resource type="PackedScene" uid="uid://d3oe06ae2bq01" path="res://presentation/items/milho.tscn" id="1_svosy"]
+[ext_resource type="Texture2D" uid="uid://b7bql2eva10nx" path="res://Assets/Items/Corn.png" id="2_621o2"]
+[ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="3_0c13s"]
+
+[resource]
+script = ExtResource("3_0c13s")
+id_item = "milho"
+nome = "Milho"
+tipo = "importante"
+icone = ExtResource("2_621o2")
+cena_do_item = ExtResource("1_svosy")
+empilhavel = true
+max_stack = 20
+metadata/_custom_type_script = "uid://c0dp7ns08lwmk"

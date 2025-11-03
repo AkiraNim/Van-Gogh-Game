@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://chou6r3uerm6n"]
+
+[ext_resource type="Script" uid="uid://b4ko84yfejxhd" path="res://presentation/collectable_area.gd" id="1_vv7w4"]
+[ext_resource type="Texture2D" uid="uid://bnpey85jxjkds" path="res://Assets/Items/Yellow_star.png" id="2_ygd6h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjk4h"]
+atlas = ExtResource("2_ygd6h")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsm30"]
+atlas = ExtResource("2_ygd6h")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsjsp"]
+atlas = ExtResource("2_ygd6h")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sixuw"]
+atlas = ExtResource("2_ygd6h")
+region = Rect2(180, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_agwqm"]
+atlas = ExtResource("2_ygd6h")
+region = Rect2(240, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0mtb"]
+atlas = ExtResource("2_ygd6h")
+region = Rect2(300, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i6vvp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjk4h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsm30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dsjsp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sixuw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_agwqm")
+}, {
+"duration": 10.0,
+"texture": SubResource("AtlasTexture_i0mtb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j4thh"]
+size = Vector3(0.3157959, 0.26586914, 0.32104492)
+
+[node name="Estrela" type="Area3D"]
+script = ExtResource("1_vv7w4")
+id_item = "estrela"
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+shaded = true
+texture_filter = 4
+sprite_frames = SubResource("SpriteFrames_i6vvp")
+autoplay = "default"
+frame = 5
+frame_progress = 0.84239733
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03253174, 0, 0.013549805)
+shape = SubResource("BoxShape3D_j4thh")

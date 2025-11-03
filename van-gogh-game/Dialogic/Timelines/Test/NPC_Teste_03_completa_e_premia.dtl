@@ -3,7 +3,7 @@ NPC_Teste: Mandou bem! Você concluiu uma das tarefas. Eu tinha guardado isto pr
 [signal arg="npc_lock:NPC_Teste:idle_down:1.0"]
 
 NPC_Teste: Pegue este presente!
-[signal arg="npc_drop:NPC_Teste:estrela_vermelha"]
+[signal arg="npc_drop:NPC_Teste:estrela"]
 
 [signal arg="unlock_anim"]
 [signal arg="npc_unlock:NPC_Teste"]
@@ -11,4 +11,3 @@ NPC_Teste: Pegue este presente!
 NPC_Teste: Agora siga sua jornada. Vou atualizar o que eu falo daqui pra frente.
 [signal arg="npc_next:NPC_Teste"]
 [end_timeline]
-

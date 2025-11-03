@@ -3,10 +3,11 @@ join Ferreiro right [animation="Fade In Up" length="0.7"]
 [signal arg="quest_talk_hit:Ferreiro"]
 
 Ferreiro: Olá! Então você veio a meu pedido.
+[signal arg="npc_next:Ferreiro"]
 
 if {q_falar_com_ferreiro_status} == "completed":
 	Ferreiro: Perfeito, podemos considerar essa parte resolvida.
-	[signal arg="npc_next:Ferreiro"]
+	[signal arg="npc_dropt:Ferreiro:estrela"]
 else:
 	Ferreiro: Certo. Pronto, podemos considerar que conversamos.
 leave --All--

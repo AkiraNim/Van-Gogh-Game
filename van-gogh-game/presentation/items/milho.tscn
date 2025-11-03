@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3oe06ae2bq01"]
+
+[ext_resource type="Script" uid="uid://b4ko84yfejxhd" path="res://presentation/collectable_area.gd" id="1_88tcu"]
+[ext_resource type="Texture2D" uid="uid://b7bql2eva10nx" path="res://Assets/Items/Corn.png" id="1_bdl4w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_88tcu"]
+size = Vector3(0.25073242, 0.26586914, 0.32104492)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spx3j"]
+atlas = ExtResource("1_bdl4w")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8g3t8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spx3j")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Milho" type="Area3D"]
+script = ExtResource("1_88tcu")
+id_item = "milho"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.013549805)
+shape = SubResource("BoxShape3D_88tcu")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shaded = true
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_8g3t8")
+autoplay = "default"

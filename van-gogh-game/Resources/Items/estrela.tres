@@ -1,10 +1,19 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://nj8lhv52hxbi"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=5 format=3 uid="uid://nj8lhv52hxbi"]
 
-[ext_resource type="Script" uid="uid://cqw52m0yuh7ia" path="res://Deprecated/Scripts/Test_Scripts/item_data.gd" id="1_dvakx"]
-[ext_resource type="PackedScene" uid="uid://u87qhguhwgf5" path="res://Scenes/Test_Scenes/Items/estrela.tscn" id="1_o1iai"]
+[ext_resource type="PackedScene" uid="uid://chou6r3uerm6n" path="res://presentation/items/estrela.tscn" id="1_k13m4"]
+[ext_resource type="Texture2D" uid="uid://bnpey85jxjkds" path="res://Assets/Items/Yellow_star.png" id="2_6ld5b"]
+[ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="3_4tac1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6vvp"]
+atlas = ExtResource("2_6ld5b")
+region = Rect2(321, 19, 23, 25)
 
 [resource]
-script = ExtResource("1_dvakx")
+script = ExtResource("3_4tac1")
 id_item = "estrela"
-cena_do_item = ExtResource("1_o1iai")
-metadata/_custom_type_script = "uid://cqw52m0yuh7ia"
+nome = "Estrela"
+tipo = "estrela"
+icone = SubResource("AtlasTexture_i6vvp")
+cena_do_item = ExtResource("1_k13m4")
+grants_star = true
+metadata/_custom_type_script = "uid://c0dp7ns08lwmk"
