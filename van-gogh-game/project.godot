@@ -40,6 +40,7 @@ PlayerRegistry="*res://presentation/player_registry.gd"
 directories/dch_directory={
 "Fazendeiro": "res://Dialogic/Characters/Fazendeiro.dch",
 "Ferreiro": "res://Dialogic/Characters/Ferreiro.dch",
+"Florista": "res://Dialogic/Characters/Florista.dch",
 "NPC_Teste": "res://Dialogic/Characters/NPC_Teste.dch",
 "Player_3D": "res://Dialogic/Characters/Player_3D.dch",
 "character": "res://Dialogic/Characters/character.dch",
@@ -49,6 +50,7 @@ directories/dtl_directory={
 "Fazendeiro_01": "res://Dialogic/Timelines/Fazendeiro/Fazendeiro_01.dtl",
 "Ferreiro_01_primeiro_contato": "res://Dialogic/Timelines/Test/Ferreiro_01_primeiro_contato.dtl",
 "Ferreiro_02": "res://Dialogic/Timelines/Test/Ferreiro_02.dtl",
+"Florista_01": "res://Dialogic/Portraits/Florista/Florista_01.dtl",
 "NPC_Teste_01_oferece_quest": "res://Dialogic/Timelines/Test/NPC_Teste_01_oferece_quest.dtl",
 "NPC_Teste_02_lembra_progresso": "res://Dialogic/Timelines/Test/NPC_Teste_02_lembra_progresso.dtl",
 "NPC_Teste_03_completa_e_premia": "res://Dialogic/Timelines/Test/NPC_Teste_03_completa_e_premia.dtl",

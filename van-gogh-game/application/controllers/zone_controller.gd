@@ -22,6 +22,11 @@ class_name ZoneController
 		"rotacao": Vector3(-29.3, 45.7, 0),
 		"musica": null
 	},
+	"ZonaAmarela": { 
+		"cor": Color(0.537, 0.416, 0.018, 1.0), 
+		"rotacao": Vector3(-29.3, 45.7, 0),
+		"musica": null
+	},
 	# ... e assim por diante para as outras zonas ...
 	"ZonaNeutra": { 
 		"cor": Color(0.004, 0.008, 0.004), 
