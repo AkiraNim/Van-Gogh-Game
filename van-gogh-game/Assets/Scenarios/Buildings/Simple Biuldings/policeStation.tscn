@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://8h42y2f5waqa"]
+
+[ext_resource type="Texture2D" uid="uid://c5ucp7myk2rj2" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Police_station.png" id="1_17qk1"]
+
+[node name="PoliceStation" type="MeshInstance3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_17qk1")

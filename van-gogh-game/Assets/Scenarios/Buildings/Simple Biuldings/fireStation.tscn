@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://5251kub45p5a"]
+
+[ext_resource type="Texture2D" uid="uid://buvbnweciisdg" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Fire Station.png" id="1_nqn10"]
+
+[node name="FireStation" type="MeshInstance3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_nqn10")

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxiqfk3viag0v"]
+
+[ext_resource type="Texture2D" uid="uid://c3i88ike7tums" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Town_hall.png" id="1_tm5yg"]
+
+[node name="TownHall" type="MeshInstance3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_tm5yg")
