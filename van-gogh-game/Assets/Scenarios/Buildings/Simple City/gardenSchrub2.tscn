@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4hxvq1kx4a7h"]
+
+[ext_resource type="Texture2D" uid="uid://bc6npa5dnvnen" path="res://Assets/Scenarios/Buildings/Simple City/Garden_Schrub.png" id="1_pqkn5"]
+
+[node name="GardenSchrub" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_pqkn5")

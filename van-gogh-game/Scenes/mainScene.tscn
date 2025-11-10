@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
-[ext_resource type="PackedScene" uid="uid://c3e6mtvxfv82q" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
+[ext_resource type="PackedScene" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://b5bf6fgy7mj5q" path="res://Assets/Scenarios/Enviroment/Water.png" id="15_wrx63"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
 [ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="16_ekaqe"]
-[ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
+[ext_resource type="Texture2D" uid="uid://bhd7spqexayhh" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
 [ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
 [ext_resource type="PackedScene" uid="uid://48pqockt0kqd" path="res://presentation/enviroment/grassSnow.tscn" id="18_boirm"]
@@ -31,7 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://ckuxqxnje5o8l" path="res://presentation/enviroment/snow_block.tscn" id="19_7ew7i"]
 [ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
-[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="PackedScene" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 [ext_resource type="Texture2D" uid="uid://bwol3optg0fh0" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Shop.png" id="24_swlrs"]
 [ext_resource type="PackedScene" uid="uid://bxiqfk3viag0v" path="res://Assets/Scenarios/Buildings/Simple Biuldings/townHall.tscn" id="25_llqta"]
 [ext_resource type="PackedScene" uid="uid://8h42y2f5waqa" path="res://Assets/Scenarios/Buildings/Simple Biuldings/policeStation.tscn" id="26_qshdt"]
@@ -282,7 +282,7 @@ texture_filter = 2
 texture = ExtResource("24_swlrs")
 
 [node name="TownHall" parent="Scenario/Buildings" instance=ExtResource("25_llqta")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.080959, 1.7116227, -9.77863)
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 9.080959, 1.2959933, -9.77863)
 
 [node name="PoliceStation" parent="Scenario/Buildings" instance=ExtResource("26_qshdt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2629533, 1.7165208, -10.645934)

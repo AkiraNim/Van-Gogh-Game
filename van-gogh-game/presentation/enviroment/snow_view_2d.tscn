@@ -23,7 +23,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_45x5l")
 script = ExtResource("1_bxgs2")
-snowflake_texture = ExtResource("2_45x5l")
-snowball_texture = ExtResource("3_ydqbv")
+flake_texture = ExtResource("2_45x5l")
+ball_texture = ExtResource("3_ydqbv")
+max_flakes = 40
+drift_strength = 50.0
+flake_scale = Vector2(2, 2)
 
 [node name="SnowLayer" type="Node2D" parent="PanelContainer"]

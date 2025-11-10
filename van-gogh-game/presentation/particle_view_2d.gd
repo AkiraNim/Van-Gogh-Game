@@ -1,8 +1,8 @@
 extends PanelContainer
 
 # === Texturas para os Sprite2D ===
-@export var snowflake_texture: Texture2D
-@export var snowball_texture: Texture2D
+@export var flake_texture: Texture2D
+@export var ball_texture: Texture2D
 
 # === Limites de instâncias ===
 @export var max_flakes: int = 10
@@ -69,7 +69,7 @@ func _count_kind(kind: String) -> int:
 	return n
 
 func _make_particle(kind: String) -> void:
-	var tex: Texture2D = snowflake_texture if kind == "flake" else snowball_texture
+	var tex: Texture2D = flake_texture if kind == "flake" else ball_texture
 	if tex == null:
 		return
 
