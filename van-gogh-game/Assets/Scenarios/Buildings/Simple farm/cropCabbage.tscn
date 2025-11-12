@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvxf1ygss8yje"]
+
+[ext_resource type="Texture2D" uid="uid://bt3v7cf0dibfd" path="res://Assets/Scenarios/Buildings/Simple farm/crop_cabbage.png" id="1_yoqu6"]
+
+[node name="cropCabbage" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_yoqu6")

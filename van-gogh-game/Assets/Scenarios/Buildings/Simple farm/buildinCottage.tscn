@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cp1juirg6wy24"]
+
+[ext_resource type="Texture2D" uid="uid://catfxtfsw3juh" path="res://Assets/Scenarios/Buildings/Simple farm/building_cottage.png" id="1_xoyc6"]
+
+[node name="BuildinCottage" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_xoyc6")

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://boayib4b73tfx" path="res://Assets/Scenarios/Buildings/Simple City/Garden_Tree.png" id="1_y5016"]
 
-[node name="GardenSchrub" type="Node3D"]
+[node name="GardenTree" type="Node3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 billboard = 1

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bo8nfvoe0vyx7" path="res://Assets/Scenarios/Buildings/Simple City/Prop_entrance 1.2.png" id="1_432d4"]
 
-[node name="GardenSchrub" type="Node3D"]
+[node name="PropEntrance2" type="Node3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 billboard = 1

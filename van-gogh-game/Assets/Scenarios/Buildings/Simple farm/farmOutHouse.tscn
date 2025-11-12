@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://daaoq48gg74rp"]
+
+[ext_resource type="Texture2D" uid="uid://ly1tnjfq6geh" path="res://Assets/Scenarios/Buildings/Simple farm/Farm_out_house2.png" id="1_2b81i"]
+
+[node name="farmFlatbeed" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_2b81i")

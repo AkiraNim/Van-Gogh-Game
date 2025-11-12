@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bik0m3ao8hbmy"]
+
+[ext_resource type="Texture2D" uid="uid://b75dtdv6nkc53" path="res://Assets/Scenarios/Buildings/Simple farm/farm_flatbed_1.png" id="1_xm1nc"]
+
+[node name="farmFlatbeed" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_xm1nc")

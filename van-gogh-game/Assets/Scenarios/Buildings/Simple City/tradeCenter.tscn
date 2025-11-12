@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0seao3bldc8s"]
+
+[ext_resource type="Texture2D" uid="uid://1nvs7myb67ai" path="res://Assets/Scenarios/Buildings/Simple City/Trade_center.png" id="1_xeesp"]
+
+[node name="RoofWater" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_xeesp")

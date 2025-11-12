@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://fhkfbg6jfwrr"]
+
+[ext_resource type="Texture2D" uid="uid://diijhlksxtpj0" path="res://Assets/Scenarios/Buildings/Simple farm/building_barn_big.png" id="1_tpywx"]
+
+[node name="BuildinBarnBig" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_tpywx")

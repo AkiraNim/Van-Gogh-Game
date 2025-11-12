@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dta452uhudjk0"]
+
+[ext_resource type="Texture2D" uid="uid://baftqp232m4yg" path="res://Assets/Scenarios/Buildings/Simple farm/chicken.png" id="1_7cu2j"]
+
+[node name="Chicken" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("1_7cu2j")
