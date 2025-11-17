@@ -11,24 +11,21 @@ var _active := false
 var _last_start_time := 0.0
 const START_COOLDOWN := 0.15
 
-# ---------------- Quests (fallback interno) ----------------
-# { qid: { "status":String, "tipo":String, "title":String, "giver":String,
-#          "reqs":{id->int}, "progress":{id->int}, "talk_target":String } }
-var _q_ativas := {}
-var _q_concluidas := {}  # { qid: true }
+var _q_actives := {}
+var _q_finished := {}  # { qid: true }
 
 func _ensure_q(qid: String) -> Dictionary:
-	if not _q_ativas.has(qid) and not _q_concluidas.has(qid):
-		_q_ativas[qid] = {
+	if not _q_actives.has(qid) and not _q_finished.has(qid):
+		_q_actives[qid] = {
 			"status": "none",
-			"tipo": "",
+			"type": "",
 			"title": qid,
 			"giver": "",
 			"reqs": {},
 			"progress": {},
 			"talk_target": ""
 		}
-	return _q_ativas.get(qid, {})
+	return _q_actives.get(qid, {})
 
 func _set_var(name: String, value: Variant) -> void:
 	var D := _get_dialogic()
@@ -38,18 +35,18 @@ func _set_var(name: String, value: Variant) -> void:
 		Dialogic.Variables.set_variable(name, value)
 
 func _sync_status_vars(qid: String) -> void:
-	if _q_concluidas.has(qid):
+	if _q_finished.has(qid):
 		_set_var("q_%s_status" % qid, "completed")
-	elif _q_ativas.has(qid):
-		var q = _q_ativas[qid]
+	elif _q_actives.has(qid):
+		var q = _q_actives[qid]
 		_set_var("q_%s_status" % qid, str(q.get("status", "none")))
 	else:
 		_set_var("q_%s_status" % qid, "none")
 
 func _sync_req_vars(qid: String) -> void:
-	if not _q_ativas.has(qid):
+	if not _q_actives.has(qid):
 		return
-	var q = _q_ativas[qid]
+	var q = _q_actives[qid]
 	var reqs = q.get("reqs", {})
 	var prog = q.get("progress", {})
 	for id in reqs.keys():
@@ -58,12 +55,12 @@ func _sync_req_vars(qid: String) -> void:
 		_set_var("q_%s_progress_%s" % [qid, id], int(prog[id]))
 
 func _quest_try_autocomplete(qid: String) -> void:
-	if not _q_ativas.has(qid):
+	if not _q_actives.has(qid):
 		return
-	var q = _q_ativas[qid]
+	var q = _q_actives[qid]
 	if str(q.get("status", "")) != "accepted":
 		return
-	if str(q.get("tipo", "")) == "talk":
+	if str(q.get("type", "")) == "talk":
 		# talk completa apenas via quest_talk_hit
 		return
 	var reqs = q.get("reqs", {})
@@ -76,50 +73,44 @@ func _quest_try_autocomplete(qid: String) -> void:
 	_quest_complete_local(qid, "auto")
 
 func _quest_complete_local(qid: String, source: String) -> void:
-	if _q_concluidas.has(qid):
+	if _q_finished.has(qid):
 		return
 	var title := qid
-	if _q_ativas.has(qid):
-		var q = _q_ativas[qid]
+	if _q_actives.has(qid):
+		var q = _q_actives[qid]
 		title = str(q.get("title", qid))
-	_q_concluidas[qid] = true
-	_q_ativas.erase(qid)
+	_q_finished[qid] = true
+	_q_actives.erase(qid)
 	_set_var("q_%s_status" % qid, "completed")
-	print("🏁 QUEST CONCLUÍDA →", title, " (", qid, ", via:", source, ")")
 	if has_node("/root/EventBus"):
 		var eb := get_node("/root/EventBus")
 		if "quest_done" in eb:
 			eb.quest_done.emit("", qid)
 
 func _quest_dump() -> void:
-	print("📜 Quests ATIVAS:")
-	for qid in _q_ativas.keys():
-		var q = _q_ativas[qid]
-		print("- ", qid, " (", str(q.get("title", qid)), ")",
-			  " | status=", str(q.get("status", "")),
-			  " tipo=", str(q.get("tipo", "")),
-			  " talk_target=", str(q.get("talk_target", "")))
+	for qid in _q_actives.keys():
+		var q = _q_actives[qid]
+		#print("- ", qid, " (", str(q.get("title", qid)), ")",
+			  #" | status=", str(q.get("status", "")),
+			  #" type=", str(q.get("type", "")),
+			  #" talk_target=", str(q.get("talk_target", "")))
 		var reqs = q.get("reqs", {})
 		var prog = q.get("progress", {})
 		if reqs.size() > 0:
 			for id in reqs.keys():
-				print("  • req ", id, ": ", int(prog.get(id, 0)), "/", int(reqs.get(id, 0)))
-	print("✅ Quests CONCLUÍDAS:")
-	for qid in _q_concluidas.keys():
-		print("- ", qid)
-
-# -----------------------------------------------------------
+				#print("  • req ", id, ": ", int(prog.get(id, 0)), "/", int(reqs.get(id, 0)))
+				return
+	for qid in _q_finished.keys():
+		#print("- ", qid)
+		return
 
 func _ready() -> void:
 	# 1. Guarda Singleton: Garante que o Bridge seja uma instância única.
 	add_to_group("dialog_bridge")
 	if get_tree().get_nodes_in_group("dialog_bridge").size() > 1:
-		print("⚠️ DialogicBridge duplicado detectado! Removendo nova instância:", name)
 		queue_free()
 		return
-	print("✅ DialogicBridge inicializado como instância única.")
 
-	# 2. Conexão Cirúrgica: Conecta-se diretamente ao Autoload do Dialogic.
 	var D := _get_dialogic()
 	if D != null:
 		if not D.is_connected("signal_event", Callable(self, "_on_dialogic_signal_name_args")):
@@ -128,11 +119,7 @@ func _ready() -> void:
 			D.connect("timeline_started", Callable(self, "_on_dialogic_timeline_started"))
 		if not D.is_connected("timeline_ended", Callable(self, "_on_dialogic_timeline_ended")):
 			D.connect("timeline_ended", Callable(self, "_on_dialogic_timeline_ended"))
-		print("🔌 DialogicBridge conectado diretamente ao Autoload do Dialogic.")
-	else:
-		push_warning("DialogicBridge: Autoload do Dialogic não encontrado.")
 
-	# 3. Escuta o EventBus: Recebe o comando para iniciar os diálogos.
 	if has_node("/root/EventBus"):
 		var eb := get_node("/root/EventBus")
 		if not eb.npc_dialog_triggered.is_connected(_on_npc_dialog_triggered):
@@ -164,8 +151,6 @@ func _connect_dialogic_signals() -> void:
 	var D := _get_dialogic()
 	if D != null:
 		_try_hook_node(D)
-	else:
-		push_warning("Dialogic não encontrado (autoload).")
 
 func _on_node_added(n: Node) -> void:
 	_try_hook_node(n)
@@ -190,22 +175,18 @@ func _try_hook_node(n: Node) -> void:
 		n.connect("timeline_ended", Callable(self, "_on_dialogic_timeline_ended"))
 	if hooked:
 		_hooked[key] = true
-		print("🔌 DialogicBridge hooked em nó:", n.name, "classe:", n.get_class())
 
 func _on_dialogic_timeline_started() -> void:
-	# --- INÍCIO DA CORREÇÃO FINAL ---
-	# Se o diálogo já está ativo, este é um sinal duplicado ("eco"). Ignoramos.
 	if _active:
 		return
-	# --- FIM DA CORREÇÃO FINAL ---
 
 	_starting = false
-	_active = true # Trava o estado para "ativo"
+	_active = true
 	if has_node("/root/EventBus"):
 		get_node("/root/EventBus").dialog_started.emit()
 
 func _on_dialogic_timeline_ended() -> void:
-	_active = false # Destrava o estado
+	_active = false
 	if has_node("/root/EventBus"):
 		get_node("/root/EventBus").dialog_ended.emit()
 
@@ -229,16 +210,13 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 	if sig == "":
 		return
 
-	# Expande placeholders {minha_variavel}
 	sig = _expand_vars(sig)
 
-	# (Opcional) expandir também strings em payload
 	if typeof(payload) == TYPE_DICTIONARY:
 		for k in payload.keys():
 			if typeof(payload[k]) == TYPE_STRING:
 				payload[k] = _expand_vars(str(payload[k]))
 
-	# -------- util ----------
 	if sig == "quest_dump":
 		_quest_dump()
 		return
@@ -246,31 +224,23 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 	if sig == "inv_sync":
 		var pc := _player_controller()
 		if not pc or not ("inventory" in pc) or pc.inventory == null:
-			push_warning("DialogicBridge: 'inv_sync' falhou, PlayerController ou inventário não encontrado.")
 			return
 
 		var inv: PlayerInventory = pc.inventory
 		
-		# 1. Usamos sua função get_counts() do PlayerInventory
 		var counts: Dictionary = inv.get_counts() 
 
-		# 2. Iteramos por CADA item que o jogador possui
 		for id in counts.keys():
 			var rec: Dictionary = counts[id]
 			var qtd: int = rec.qtd
 			
-			# 3. Criamos as variáveis 'has_id' (bool) e 'count_id' (int)
 			_set_var("has_%s" % id, qtd > 0)
 			_set_var("count_%s" % id, qtd)
-		
-		print("🔎 inv_sync → Sincronizados ", counts.size(), " tipos de itens com o Dialogic.")
 		return
 	
 	if sig.begins_with("remove_item"):
-		# Formato: remove_item:<item_id>:<amount=1>
 		var parts := sig.split(":")
 		if parts.size() < 2:
-			push_warning("DialogicBridge: 'remove_item' sinal inválido. Formato: remove_item:<id>:<qtd>")
 			return
 
 		var item_id := parts[1].strip_edges()
@@ -279,28 +249,22 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 			amount_to_remove = int(parts[2])
 
 		if item_id == "":
-			push_warning("DialogicBridge: 'remove_item' ID do item está vazio.")
 			return
 
-		# 1. Encontra o inventário do player
 		var pc := _player_controller()
 		if not pc or not ("inventory" in pc) or pc.inventory == null:
-			push_warning("DialogicBridge: PlayerController ou seu inventário não encontrado.")
 			return
 			
 		var inv: PlayerInventory = pc.inventory
 		
-		# 2. Remove os itens um por um (seguindo a lógica do seu PlayerInventory)
 		var removed_count := 0
 		for i in range(amount_to_remove):
 			var removed_data: ItemData = inv.remove_item_by_id(item_id)
 			if removed_data != null:
 				removed_count += 1
 			else:
-				# Para de remover se o item acabar no inventário
 				break 
-
-		# 3. Atualiza as variáveis do Dialogic
+		
 		var counts := inv.get_counts()
 		var current_qty := 0
 		if counts.has(item_id):
@@ -310,35 +274,27 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 		_set_var("count_%s" % item_id, current_qty)
 		
 		if removed_count > 0:
-			print("♻️ DialogicBridge: removido '", item_id, "' x", removed_count, ". Restante: ", current_qty)
+			return
 		else:
-			push_warning("DialogicBridge: 'remove_item' falhou. Jogador não possui '", item_id, "'.")
+			return
 		
 		return
-
-# -------- quests (usa QuestService se existir; senão, fallback local) --------
 	if sig.begins_with("quest_accept"):
-		# quest_accept:<qid>:<tipo> (payload opcional: title,giver,req_talk_to)
 		var parts := sig.split(":")
 		if parts.size() >= 3:
 			var qid := parts[1].strip_edges()
-			var tipo := parts[2].strip_edges()
+			var type := parts[2].strip_edges()
 
-			# 💡 BLOQUEIOS: não reaceitar se já concluída ou ativa
 			if Engine.has_singleton("QuestService"):
 				var QS := Engine.get_singleton("QuestService")
 				if QS.has_method("is_completed") and QS.is_completed(qid):
-					print("⛔ Quest já concluída, ignorando accept:", qid)
 					return
 				if QS.has_method("is_active") and QS.is_active(qid):
-					print("⛔ Quest já ativa, ignorando accept:", qid)
 					return
 			else:
-				if _q_concluidas.has(qid):
-					print("⛔ Quest já concluída (fallback), ignorando accept:", qid)
+				if _q_finished.has(qid):
 					return
-				if _q_ativas.has(qid):
-					print("⛔ Quest já ativa (fallback), ignorando accept:", qid)
+				if _q_actives.has(qid):
 					return
 
 			var title := qid
@@ -350,36 +306,30 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 				if payload.has("req_talk_to"): req_talk_to = str(payload["req_talk_to"])
 
 			if Engine.has_singleton("QuestService"):
-				Engine.get_singleton("QuestService").accept(qid, title, tipo, {}, req_talk_to, giver)
+				Engine.get_singleton("QuestService").accept(qid, title, type, {}, req_talk_to, giver)
 			else:
 				var q := _ensure_q(qid)
 				q["status"]      = "accepted"
-				q["tipo"]        = tipo
+				q["type"]        = type
 				q["title"]       = title
 				q["giver"]       = giver
 				q["talk_target"] = req_talk_to
-				_q_ativas[qid]   = q
+				_q_actives[qid]   = q
 				_sync_status_vars(qid)
-				print("📜 Quest aceita:", qid, "| tipo=", tipo, "| title=", title)
 		return
 
 	if sig.begins_with("quest_set_req"):
-		# quest_set_req:<qid>:<item_id>:<need>
 		var parts := sig.split(":")
 		if parts.size() >= 4:
 			var qid := parts[1].strip_edges()
 			var item_id := parts[2].strip_edges()
 			var need := int(parts[3])
-
-			# ⛔ ignore se concluída
 			if Engine.has_singleton("QuestService"):
 				var QS := Engine.get_singleton("QuestService")
 				if QS.has_method("is_completed") and QS.is_completed(qid):
-					print("⛔ quest_set_req ignorado; quest concluída:", qid)
 					return
 			else:
-				if _q_concluidas.has(qid):
-					print("⛔ quest_set_req ignorado (fallback); quest concluída:", qid)
+				if _q_finished.has(qid):
 					return
 
 			if Engine.has_singleton("QuestService"):
@@ -389,14 +339,12 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 				var reqs = q.get("reqs", {})
 				reqs[item_id] = need
 				q["reqs"] = reqs
-				_q_ativas[qid] = q
+				_q_actives[qid] = q
 				_set_var("q_%s_need_%s" % [qid, item_id], need)
 				_quest_try_autocomplete(qid)
-				print("🧩 Req set:", qid, "→", item_id, "=", need)
 		return
 
 	if sig.begins_with("quest_add"):
-		# quest_add:<qid>:<item_id>:<amount=1>
 		var parts := sig.split(":")
 		if parts.size() >= 3:
 			var qid := parts[1].strip_edges()
@@ -404,36 +352,29 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 			var amount := 1
 			if parts.size() >= 4:
 				amount = int(parts[3])
-
-			# ⛔ ignore se não aceita OU se concluída
 			if Engine.has_singleton("QuestService"):
 				var QS := Engine.get_singleton("QuestService")
 				if QS.has_method("is_completed") and QS.is_completed(qid):
-					print("⛔ quest_add ignorado; quest concluída:", qid)
 					return
 				if QS.has_method("is_active") and not QS.is_active(qid):
-					print("⛔ quest_add ignorado; quest não está ativa:", qid)
 					return
 				Engine.get_singleton("QuestService").add_progress(qid, item_id, amount)
 			else:
-				if _q_concluidas.has(qid):
-					print("⛔ quest_add ignorado (fallback); quest concluída:", qid)
+				if _q_finished.has(qid):
 					return
-				if not _q_ativas.has(qid) or str(_q_ativas[qid].get("status","")) != "accepted":
-					print("⛔ quest_add ignorado (fallback); quest não aceita:", qid)
+				if not _q_actives.has(qid) or str(_q_actives[qid].get("status","")) != "accepted":
 					return
 				var q := _ensure_q(qid)
 				var prog = q.get("progress", {})
 				prog[item_id] = int(prog.get(item_id, 0)) + amount
 				q["progress"] = prog
-				_q_ativas[qid] = q
+				_q_actives[qid] = q
 				_set_var("q_%s_progress_%s" % [qid, item_id], int(prog[item_id]))
 				print("➕ Progresso:", qid, "→", item_id, "=", int(prog[item_id]), "/", int(q.get("reqs", {}).get(item_id, 0)))
 				_quest_try_autocomplete(qid)
 		return
 
 	if sig.begins_with("quest_talk_target"):
-		# quest_talk_target:<qid>:<NPC>
 		var parts := sig.split(":")
 		if parts.size() >= 3:
 			var qid := parts[1].strip_edges()
@@ -443,26 +384,24 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 			else:
 				var q := _ensure_q(qid)
 				q["talk_target"] = who
-				_q_ativas[qid] = q
+				_q_actives[qid] = q
 				print("🗣️ Target set:", qid, "→", who)
 		return
 
 	if sig.begins_with("quest_talk_hit"):
-		# quest_talk_hit:<NPC>
 		var parts := sig.split(":")
 		if parts.size() >= 2:
 			var who := parts[1].strip_edges()
 			if Engine.has_singleton("QuestService"):
 				Engine.get_singleton("QuestService").talk_hit(who)
 			else:
-				for qid in _q_ativas.keys():
-					var q = _q_ativas[qid]
-					if str(q.get("tipo","")) == "talk" and str(q.get("status","")) == "accepted" and str(q.get("talk_target","")) == who:
+				for qid in _q_actives.keys():
+					var q = _q_actives[qid]
+					if str(q.get("type","")) == "talk" and str(q.get("status","")) == "accepted" and str(q.get("talk_target","")) == who:
 						_quest_complete_local(qid, "talk_hit")
 		return
 
 	if sig.begins_with("quest_complete"):
-		# quest_complete:<qid>
 		var parts := sig.split(":")
 		if parts.size() >= 2:
 			var qid := parts[1].strip_edges()
@@ -472,7 +411,6 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 				_quest_complete_local(qid, "manual")
 		return
 
-	# ------ animações/npclocks ------
 	if sig.begins_with("lock_anim"):
 		var anim_name := "idle_down"
 		var duration := 0.25
@@ -510,12 +448,10 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 			var d := str(payload["duration"]).replace(",", ".").to_float()
 			if d > 0.0:
 				duration = d
-		print("🔔 DialogicBridge → lock:", anim_name, "dur=", duration)
 		emit_signal("dialogic_lock_animation", anim_name, duration)
 		return
 
 	if sig == "unlock_anim":
-		print("🔔 DialogicBridge → unlock")
 		emit_signal("dialogic_unlock_animation")
 		return
 
@@ -535,14 +471,12 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 			var dv := dt.to_float()
 			if dv > 0.0:
 				duration = dv
-		print("🔔 DialogicBridge → npc_lock key=", npc_key, " anim=", anim_name, " dur=", duration)
 		emit_signal("npc_lock_animation", npc_key, anim_name, duration)
 		return
 
 	if sig.begins_with("npc_unlock"):
 		var parts := sig.split(":")
 		var npc_key := parts[1].strip_edges() if parts.size() >= 2 else ""
-		print("🔔 DialogicBridge → npc_unlock key=", npc_key)
 		emit_signal("npc_unlock_animation", npc_key)
 		return
 
@@ -554,7 +488,7 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 			if npc and npc.has_method("avancar_timeline"):
 				npc.avancar_timeline()
 			else:
-				print("DialogicBridge: NPC não encontrado ou sem avancar_timeline():", npc_key)
+				return
 		return
 
 	if sig.begins_with("npc_timeline_index"):
@@ -566,15 +500,14 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 			if npc and ("_current_timeline_index" in npc) and ("timelines" in npc):
 				npc._current_timeline_index = clamp(idx, 0, npc.timelines.size()-1)
 			else:
-				print("DialogicBridge: não foi possível setar índice em", npc_key)
+				return
 		return
 
-# ---- Helpers ----
 func _find_npc_by_name(npc_name: String) -> Node:
 	for n in get_tree().get_nodes_in_group("npcs"):
 		if n.name == npc_name:
 			return n
-		if "nome_npc" in n and String(n.nome_npc) == npc_name:
+		if "npc_name" in n and String(n.npc_name) == npc_name:
 			return n
 	var root := get_tree().get_current_scene()
 	if root:
@@ -584,10 +517,9 @@ func _find_npc_by_name(npc_name: String) -> Node:
 	var possiveis := []
 	for n in get_tree().get_nodes_in_group("npcs"):
 		var tag := n.name
-		if "nome_npc" in n:
-			tag += " (nome_npc=" + String(n.nome_npc) + ")"
+		if "npc_name" in n:
+			tag += " (npc_name=" + String(n.npc_name) + ")"
 		possiveis.append(tag)
-	print("DialogicBridge: NPC '", npc_name, "' não encontrado. Candidatos:", possiveis)
 	return null
 
 func _player_controller() -> Node:

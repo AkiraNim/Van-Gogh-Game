@@ -2,59 +2,47 @@
 extends Node
 class_name DialogController
 
-enum ModoAtivo { NENHUM, DIALOGO }
+enum ActiveMode { NONE, DIALOG }
 
 @export var camera_service: DialogCameraService
 @export var dialogic_service: DialogicService
 
-var modo_ativo: int = ModoAtivo.NENHUM
-var falante_atual: Node3D = null
-var _precisa_abrir_camera: bool = false
+var active_mode: int = ActiveMode.NONE
+var actual_speaker: Node3D = null
+var _need_open_camera: bool = false
 
 func _ready() -> void:
-	# --- INÍCIO DA CORREÇÃO: GUARDA SINGLETON ---
 	add_to_group("dialog_controller")
 	if get_tree().get_nodes_in_group("dialog_controller").size() > 1:
-		print("⚠️ DialogController duplicado detectado. Removendo nova instância:", name)
 		queue_free()
 		return
-	print("✅ DialogController inicializado como instância única.")
-	# --- FIM DA CORREÇÃO ---
 
 	if dialogic_service != null:
-		if not dialogic_service.dialogo_iniciou.is_connected(_on_dialogo_iniciado):
-			dialogic_service.dialogo_iniciou.connect(_on_dialogo_iniciado)
-		if not dialogic_service.dialogo_terminou.is_connected(_on_dialogo_finalizado):
-			dialogic_service.dialogo_terminou.connect(_on_dialogo_finalizado)
-		if not dialogic_service.evento_recebido.is_connected(_on_evento_dialogic):
-			dialogic_service.evento_recebido.connect(_on_evento_dialogic)
+		if not dialogic_service.dialog_started.is_connected(_on_dialog_started):
+			dialogic_service.dialog_started.connect(_on_dialog_started)
+		if not dialogic_service.dialog_ended.is_connected(_on_dialog_ended):
+			dialogic_service.dialog_ended.connect(_on_dialog_ended)
+		if not dialogic_service.event_received.is_connected(_on_event_dialogic):
+			dialogic_service.event_received.connect(_on_event_dialogic)
 		if not EventBus.important_item_collected.is_connected(_on_important_item):
 			EventBus.important_item_collected.connect(_on_important_item)
-# -------------------------------------------------
-# Início do diálogo — Passo 1
-# -------------------------------------------------
-func _on_dialogo_iniciado() -> void:
-	modo_ativo = ModoAtivo.DIALOGO
-	_precisa_abrir_camera = true
 
-# -------------------------------------------------
-# Fim do diálogo — Passo 3 (zoom out)
-# -------------------------------------------------
-func _on_dialogo_finalizado() -> void:
+func _on_dialog_started() -> void:
+	active_mode = ActiveMode.DIALOG
+	_need_open_camera = true
+
+func _on_dialog_ended() -> void:
 	if camera_service != null:
-		camera_service.finalizar_dialogo()
-	modo_ativo = ModoAtivo.NENHUM
-	falante_atual = null
-	_precisa_abrir_camera = false
+		camera_service.finish_dialog()
+	active_mode = ActiveMode.NONE
+	actual_speaker = null
+	_need_open_camera = false
 
-# -------------------------------------------------
-# Evento do Dialogic — Passo 1/2 (foco) + Signal (drop/give)
-# -------------------------------------------------
-func _on_evento_dialogic(event_resource: Object) -> void:
+
+func _on_event_dialogic(event_resource: Object) -> void:
 	if event_resource == null:
 		return
 
-	# 2.1) Se for um "Signal" do Dialogic, tratamos aqui (npc_drop:nome / npc_give:nome)
 	var event_name: String = ""
 	if event_resource.has_method("get"):
 		var ev: Variant = event_resource.get("event_name")
@@ -72,7 +60,6 @@ func _on_evento_dialogic(event_resource: Object) -> void:
 		_handle_dialogic_signal(arg_line)
 		return
 
-	# 2.2) Pipeline de foco/zoom conforme o repo
 	var char_res: Object = null
 	if event_resource.has_method("get"):
 		var tmp_char: Variant = event_resource.get("character")
@@ -96,23 +83,18 @@ func _on_evento_dialogic(event_resource: Object) -> void:
 		return
 	var node3d := node_found as Node3D
 
-	# Passo 1: primeiro evento após iniciar o diálogo → zoom e foco
-	if _precisa_abrir_camera:
+	if _need_open_camera:
 		if camera_service != null:
-			camera_service.iniciar_dialogo(node3d)
-		_precisa_abrir_camera = false
-		falante_atual = node3d
+			camera_service.start_dialog(node3d)
+		_need_open_camera = false
+		actual_speaker = node3d
 		return
 
-	# Passo 2: troca de foco se falante mudou
-	if falante_atual != node3d:
-		falante_atual = node3d
+	if actual_speaker != node3d:
+		actual_speaker = node3d
 		if camera_service != null:
 			camera_service.focar_personagem(node3d)
 
-# -------------------------------------------------
-# Trata linha "[signal arg=\"...:\"]" do Dialogic
-# -------------------------------------------------
 func _handle_dialogic_signal(line: String) -> void:
 	if line == "":
 		return
@@ -132,41 +114,32 @@ func _handle_dialogic_signal(line: String) -> void:
 		"npc_give":
 			ent.give_item_to_player(payload, null)
 		_:
-			# sinais futuros
 			pass
 
 func _resolve_active_npc_entity() -> NpcEntity:
-	# Convenção da cena: NpcEntity é filho do nó do falante (NPC_Teste/NpcEntity)
-	if falante_atual:
-		var ent: Node = falante_atual.get_node_or_null("NpcEntity")
+	if actual_speaker:
+		var ent: Node = actual_speaker.get_node_or_null("NpcEntity")
 		if ent and (ent is NpcEntity):
 			return ent as NpcEntity
 	return null
 
-# -------------------------------------------------
-# Abre a timeline "important_item" com o nome do item capturado
-# -------------------------------------------------
+
 func _on_important_item(item_name: String) -> void:
 	var D = Dialogic
 	if Engine.has_singleton("Dialogic"):
-		var var_store: Variant = Dialogic.get("VAR")  # pega o storage de variáveis
+		var var_store: Variant = Dialogic.get("VAR")
 		if var_store != null and var_store.has_method("set"):
 			var_store.set("last_item_name", item_name)
 		else:
-			# fallback para versões antigas
 			if Dialogic.has_method("set_variable"):
 				Dialogic.set_variable("last_item_name", item_name)
-		# Dialogic 2 – duas formas comuns:
 		if D.has_method("set_variable"):
 			D.set_variable("last_item_name", item_name)
 		elif D.has_method("get_subsystem"):
 			var vars_ss = D.get_subsystem("Variables")
 			if vars_ss and vars_ss.has_method("set_variable"):
 				vars_ss.set_variable("last_item_name", item_name)
-
-	# Abrir a timeline 'important_item'
-	# (pode ser via EventBus -> NpcController -> Dialogic, ou direto)
+	
 	Dialogic.VAR.set("last_item_name", item_name)
 	if D.has_method("start"):
-		
 		D.start("important_item")

@@ -1,34 +1,34 @@
 extends Resource
 class_name PlayerInventory
 
-@export var itens: Array[ItemData] = []
+@export var items: Array[ItemData] = []
 
 func add_item(data: ItemData) -> void:
 	if data == null:
 		return
-	itens.append(data)
+	items.append(data)
 	if "inventory_item_added" in EventBus:
 		EventBus.inventory_item_added.emit(data.id_item)
 
 func remove_item_by_id(id_item: String) -> ItemData:
-	for i in range(itens.size()):
-		var it: ItemData = itens[i]
+	for i in range(items.size()):
+		var it: ItemData = items[i]
 		if it and it.id_item == id_item:
-			itens.remove_at(i)
+			items.remove_at(i)
 			if "inventory_item_removed" in EventBus:
 				EventBus.inventory_item_removed.emit(id_item)
 			return it
 	return null
 
-func print_contents() -> void:
-	print("📦 Inventário do Player (", itens.size(), " itens )")
-	for it in itens:
-		if it:
-			print("- ", it.id_item, " | ", it.nome)
-			
+#func print_contents() -> void:
+	#print(" Inventário do Player (", items.size(), " items )")
+	#for it in items:
+		#if it:
+			#print("- ", it.id_item, " | ", it.nome)
+	
 func get_counts() -> Dictionary:
 	var counts := {}
-	for it in itens:
+	for it in items:
 		if it == null:
 			continue
 		var id := it.id_item
@@ -38,14 +38,14 @@ func get_counts() -> Dictionary:
 	return counts
 
 # Imprime inventário agrupado (nome + quantidade)
-func print_grouped(label: String = "") -> void:
-	var counts := get_counts()
-	var header := "📦 Inventário do Player"
-	if label != "":
-		header += " (" + label + ")"
-	print(header, ": ", str(counts.size()), " tipo(s)")
-	for id in counts.keys():
-		var rec = counts[id]
-		var data: ItemData = rec.data
-		var nome = (data.nome if data else id)
-		print("- ", id, " | ", nome, " x", rec.qtd)
+#func print_grouped(label: String = "") -> void:
+	#var counts := get_counts()
+	#var header := " Inventário do Player"
+	#if label != "":
+		#header += " (" + label + ")"
+	#print(header, ": ", str(counts.size()), " tipo(s)")
+	#for id in counts.keys():
+		#var rec = counts[id]
+		#var data: ItemData = rec.data
+		#var nome = (data.nome if data else id)
+		#print("- ", id, " | ", nome, " x", rec.qtd)

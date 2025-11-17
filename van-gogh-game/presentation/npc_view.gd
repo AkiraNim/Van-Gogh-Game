@@ -3,14 +3,14 @@ class_name NpcView
 
 @export var anim_sprite: AnimatedSprite3D
 @export var default_idle: StringName = "idle_down"   # animação idle padrão do NPC
-@export var nome_npc: String = "NPC"
+@export var npc_name: String = "NPC"
 @export var auto_listen_dialogic: bool = true
 @export var dialogic_key: String = ""                # chave p/ "npc_lock:<key>:anim:dur"
 
 var anim_lock_name: StringName = ""
 var anim_lock_time: float = 0.0
 var is_sitting: bool = false
-var pode_mover: bool = true
+var can_move: bool = true
 
 var last_direction := Vector3.FORWARD   # será corrigido no _ready de acordo com o default_idle
 var _prev_pos := Vector3.ZERO
@@ -22,7 +22,6 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	_prev_pos = global_position
-	# 🔧 alinhar direção inicial ao idle padrão
 	last_direction = _dir_from_idle(String(default_idle))
 	if auto_listen_dialogic:
 		_connect_dialog_bridge()
@@ -40,11 +39,11 @@ func _physics_process(delta: float) -> void:
 				_play_safe(default_idle)
 		return
 
-	if not pode_mover:
+	if not can_move:
 		_update_animation(false)
 		return
 
-	# estima “velocidade” pelo delta de posição (para NPCs Node3D)
+
 	var cur := global_position
 	var disp := cur - _prev_pos
 	_prev_pos = cur
@@ -56,28 +55,22 @@ func _physics_process(delta: float) -> void:
 
 	_update_animation(is_moving)
 
-# ===================== API pública =====================
-
 func lock_animation(name: StringName, duration: float = -1.0) -> void:
 	anim_lock_name = name
 	anim_lock_time = duration
 	_freeze()
 	_play_safe(name)
-	print("[NPC:", nome_npc, "] 🔒 lock_animation:", name, "por", duration, "s")
 
 func unlock_animation() -> void:
 	anim_lock_name = ""
 	anim_lock_time = 0.0
 	_play_safe(default_idle)
 	_unfreeze()
-	print("[NPC:", nome_npc, "] 🔓 unlock_animation →", default_idle)
 
 func set_default_idle(anim: StringName) -> void:
 	default_idle = anim
-	# 🔧 sempre alinhe a direção ao novo idle
 	last_direction = _dir_from_idle(String(default_idle))
-	# se estiver ocioso e sem lock, aplica imediatamente
-	if anim_lock_name == "" and pode_mover and not is_sitting:
+	if anim_lock_name == "" and can_move and not is_sitting:
 		_play_safe(default_idle)
 
 func freeze() -> void: _freeze()
@@ -90,21 +83,20 @@ func face_direction(dir: Vector3) -> void:
 		last_direction = dir.normalized()
 		_update_animation(false)
 
-# ===================== Helpers =====================
 
 func _freeze() -> void:
 	if has_method("set_physics_process"):
 		set_physics_process(false)
 	if has_method("set_process"):
 		set_process(false)
-	pode_mover = false
+	can_move = false
 
 func _unfreeze() -> void:
 	if has_method("set_physics_process"):
 		set_physics_process(true)
 	if has_method("set_process"):
 		set_process(true)
-	pode_mover = true
+	can_move = true
 	_prev_pos = global_position
 
 func _play_safe(name: StringName) -> void:
@@ -119,7 +111,6 @@ func _play_safe(name: StringName) -> void:
 		elif frames.has_animation("idle"):
 			final_name = "idle"
 		else:
-			print("[NPC:", nome_npc, "] ⚠️ animação não encontrada:", name)
 			return
 	anim_sprite.stop()
 	anim_sprite.play(final_name)
@@ -144,7 +135,6 @@ func _update_animation(is_moving: bool) -> void:
 	if anim_sprite.animation != anim:
 		anim_sprite.play(anim)
 
-# === Mapear idle_* para direção padrão (garante idle correto no 1º frame) ===
 func _dir_from_idle(idle: String) -> Vector3:
 	match idle:
 		"idle_down":       return Vector3.BACK      # (0,0, 1)
@@ -157,7 +147,6 @@ func _dir_from_idle(idle: String) -> Vector3:
 		"idle_down_right": return (Vector3.BACK + Vector3.RIGHT).normalized()
 		_:                 return Vector3.BACK      # fallback: down
 
-# ===================== Integração Dialogic (opcional) =====================
 
 func _connect_dialog_bridge() -> void:
 	var bridge := get_tree().get_first_node_in_group("dialog_bridge")

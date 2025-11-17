@@ -3,58 +3,49 @@ class_name QuestService
 
 signal quest_accepted(qid: String, title: String)
 signal quest_progress(qid: String, have: Dictionary)
-signal quest_completed(qid: String, title: String, motivo: String)
+signal quest_completed(qid: String, title: String, description: String)
 
-var quests_ativas := {}      # { qid: { title, tipo, status, req_items?, have?, req_talk_to?, giver? } }
-var quests_concluidas := {}  # { qid: true }
+var active_quests := {}     
+var finished_quests := {} 
 
 func _ready() -> void:
-	# Atualização automática por coleta (dinâmico via jogo)
+
 	if has_node("/root/EventBus"):
 		var eb := get_node("/root/EventBus")
 		if not eb.item_collected.is_connected(_on_item_collected):
 			eb.item_collected.connect(_on_item_collected)
 
-# ---------------------------------------
-# API p/ Dialogic (aceitar/atualizar/fechar)
-# ---------------------------------------
-
-func accept(qid: String, title: String, tipo: String, req_items := {}, req_talk_to := "", giver := "") -> void:
-	if quests_concluidas.has(qid):
-		print("ℹ️ Quest já concluída:", qid)
+func accept(qid: String, title: String, type: String, req_items := {}, req_talk_to := "", giver := "") -> void:
+	if finished_quests.has(qid):
 		_set_var("quest/%s/status" % qid, "completed")
 		return
-	if quests_ativas.has(qid) and String(quests_ativas[qid].get("status","")) == "accepted":
-		print("ℹ️ Quest já aceita:", qid)
+	if active_quests.has(qid) and String(active_quests[qid].get("status","")) == "accepted":
 		return
 
 	var q := {
 		"title": title,
-		"tipo": tipo,
+		"type": type,
 		"status": "accepted",
 		"giver": giver
 	}
 
-	if tipo == "collect":
+	if type == "collect":
 		q.req_items = req_items.duplicate(true)
 		q.have = {}
 		for id in q.req_items.keys():
 			q.have[id] = 0
-	elif tipo == "talk":
+	elif type == "talk":
 		q.req_talk_to = req_talk_to
 
-	quests_ativas[qid] = q
-	print("✅ Quest aceita:", title, "(", qid, ")")
+	active_quests[qid] = q
 	emit_signal("quest_accepted", qid, title)
 	_sync_vars(qid)
 
 func set_req(qid: String, item_id: String, need: int) -> void:
-	var q = quests_ativas.get(qid, null)
+	var q = active_quests.get(qid, null)
 	if q == null:
-		print("⚠️ set_req: quest não encontrada:", qid)
 		return
-	if String(q.get("tipo","")) != "collect":
-		print("⚠️ set_req: quest não é do tipo 'collect':", qid)
+	if String(q.get("type","")) != "collect":
 		return
 	if not q.has("req_items"):
 		q.req_items = {}
@@ -62,71 +53,62 @@ func set_req(qid: String, item_id: String, need: int) -> void:
 		q.have = {}
 	q.req_items[item_id] = need
 	q.have[item_id] = q.have.get(item_id, 0)
-	quests_ativas[qid] = q
+	active_quests[qid] = q
 	_sync_vars(qid)
 
 func add_progress(qid: String, item_id: String, amount := 1) -> void:
-	var q = quests_ativas.get(qid, null)
-	if q == null or String(q.get("tipo","")) != "collect" or String(q.get("status","")) != "accepted":
+	var q = active_quests.get(qid, null)
+	if q == null or String(q.get("type","")) != "collect" or String(q.get("status","")) != "accepted":
 		return
 	if not q.req_items.has(item_id):
 		return
 	q.have[item_id] = int(q.have.get(item_id, 0)) + int(amount)
-	quests_ativas[qid] = q
+	active_quests[qid] = q
 	emit_signal("quest_progress", qid, q.have)
 	_sync_vars(qid)
 	if _is_collect_done(q):
 		complete(qid, "collect")
 
 func set_talk_target(qid: String, npc_name: String) -> void:
-	var q = quests_ativas.get(qid, null)
+	var q = active_quests.get(qid, null)
 	if q == null:
-		print("⚠️ set_talk_target: quest não encontrada:", qid)
 		return
-	q.tipo = "talk"
+	q.type = "talk"
 	q.req_talk_to = npc_name
-	quests_ativas[qid] = q
+	active_quests[qid] = q
 	_sync_vars(qid)
 
 func talk_hit(npc_name: String) -> void:
-	for qid in quests_ativas.keys():
-		var q = quests_ativas[qid]
-		if String(q.get("tipo","")) != "talk":    continue
+	for qid in active_quests.keys():
+		var q = active_quests[qid]
+		if String(q.get("type","")) != "talk":    continue
 		if String(q.get("status","")) != "accepted": continue
 		if String(q.get("req_talk_to","")) != npc_name: continue
 		complete(qid, "talk")
 
-func complete(qid: String, motivo := "") -> void:
-	var q = quests_ativas.get(qid, null)
+func complete(qid: String, description := "") -> void:
+	var q = active_quests.get(qid, null)
 	if q == null:
-		print("❌ complete: quest não está ativa:", qid)
 		return
 	if String(q.get("status","")) != "accepted":
-		print("⛔ complete: quest não está 'accepted':", qid)
 		return
 	q.status = "completed"
-	quests_ativas.erase(qid)
-	quests_concluidas[qid] = true
+	active_quests.erase(qid)
+	finished_quests[qid] = true
 	var title := String(q.get("title", qid))
-	print("🏆 Missão concluída:", title, "(id:", qid, ", motivo:", motivo, ")")
-	emit_signal("quest_completed", qid, title, motivo)
+
+	emit_signal("quest_completed", qid, title, description)
 	_set_var("quest/%s/status" % qid, "completed")
 	_set_var("quest/%s/done" % qid, true)
 
-# ---------------------------------------
-# Atualização automática por item_collected
-# ---------------------------------------
 func _on_item_collected(id_item: String, _node: Node3D) -> void:
-	for qid in quests_ativas.keys():
-		var q = quests_ativas[qid]
-		if String(q.get("tipo","")) != "collect":   continue
+	for qid in active_quests.keys():
+		var q = active_quests[qid]
+		if String(q.get("type","")) != "collect":   continue
 		if String(q.get("status","")) != "accepted": continue
 		if not q.req_items.has(id_item):            continue
 		add_progress(qid, id_item, 1)
 
-# ---------------------------------------
-# Helpers
-# ---------------------------------------
 func _is_collect_done(q: Dictionary) -> bool:
 	for id in q.req_items.keys():
 		var need := int(q.req_items[id])
@@ -136,10 +118,9 @@ func _is_collect_done(q: Dictionary) -> bool:
 	return true
 
 func _sync_vars(qid: String) -> void:
-	var q = quests_ativas.get(qid, null)
+	var q = active_quests.get(qid, null)
 	if q == null:
-		# pode ser completed; ainda assim vamos expor status/done
-		if quests_concluidas.has(qid):
+		if finished_quests.has(qid):
 			_set_var("quest/%s/status" % qid, "completed")
 			_set_var("quest/%s/done" % qid, true)
 		return
@@ -147,11 +128,11 @@ func _sync_vars(qid: String) -> void:
 	_set_var("quest/%s/status" % qid, String(q.get("status","")))
 	_set_var("quest/%s/title"  % qid, String(q.get("title", qid)))
 
-	if String(q.get("tipo","")) == "collect":
+	if String(q.get("type","")) == "collect":
 		for id in q.req_items.keys():
 			_set_var("quest/%s/need/%s" % [qid, id], int(q.req_items[id]))
 			_set_var("quest/%s/have/%s" % [qid, id], int(q.have.get(id, 0)))
-	elif String(q.get("tipo","")) == "talk":
+	elif String(q.get("type","")) == "talk":
 		_set_var("quest/%s/req_talk_to" % qid, String(q.get("req_talk_to","")))
 
 func _set_var(path: String, value: Variant) -> void:

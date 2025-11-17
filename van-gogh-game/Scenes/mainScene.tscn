@@ -122,6 +122,10 @@ process_mode = 1
 visible = false
 
 [node name="UIService" parent="." instance=ExtResource("2_l42ic")]
+toggle_action = &"toggle"
+pause_action = &"pause"
+icon_size = Vector2(32, 32)
+show_count_badge = true
 
 [node name="MainController" type="Node" parent="." node_paths=PackedStringArray("dialog_service", "player", "zone_controller")]
 script = ExtResource("2_v2gni")
@@ -131,9 +135,9 @@ zone_controller = NodePath("../EnviromentNode/ZoneController")
 
 [node name="EnviromentNode" type="Node" parent="."]
 
-[node name="ZoneController" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("zonas", "lighting_service")]
+[node name="ZoneController" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("zones", "lighting_service")]
 script = ExtResource("2_0bgj2")
-zonas = [NodePath("../../Zones/RedZone"), NodePath("../../Zones/ZonaAzul"), NodePath("../../Zones/ZonaVerde"), NodePath("../../Zones/ZonaAmarela"), NodePath("../../Zones/ZonaNeutra")]
+zones = [NodePath("../../Zones/RedZone"), NodePath("../../Zones/BlueZone"), NodePath("../../Zones/GreenZone"), NodePath("../../Zones/YellowZone"), NodePath("../../Zones/NeutralZone")]
 lighting_service = NodePath("../LightingService")
 player_path = NodePath("../../Player_3D")
 
@@ -238,12 +242,15 @@ offset_between_sprites_deg = 30.0
 
 [node name="Grass" parent="Scenario/SnowGrass" instance=ExtResource("18_boirm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3100195, 0, 3.1378393)
+boost_decay_duration = 2.0
 
 [node name="Grass2" parent="Scenario/SnowGrass" instance=ExtResource("18_boirm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.069494, 0, 3.2940154)
+boost_decay_duration = 2.0
 
 [node name="Grass3" parent="Scenario/SnowGrass" instance=ExtResource("18_boirm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5880377, 0, 3.2940154)
+boost_decay_duration = 2.0
 
 [node name="SnowBlock" parent="Scenario/SnowGrass" instance=ExtResource("19_7ew7i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.7008476, 0, 3.2533598)
@@ -309,33 +316,33 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6097069, 1.7264099, 0.95204
 shape = SubResource("BoxShape3D_m8nr8")
 debug_color = Color(1, 0, 0, 0.41960785)
 
-[node name="ZonaAzul" type="Area3D" parent="Zones"]
+[node name="BlueZone" type="Area3D" parent="Zones"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3341866, 0, 5.9039717)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaAzul"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/BlueZone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33432007, 1.7264099, -0.06742573)
 shape = SubResource("BoxShape3D_47rga")
 debug_color = Color(0, 0, 1, 0.41960785)
 
-[node name="ZonaVerde" type="Area3D" parent="Zones"]
+[node name="GreenZone" type="Area3D" parent="Zones"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.568363, 0, 5.999136)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaVerde"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/GreenZone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.48953247, 1.7264099, -1.261754)
 shape = SubResource("BoxShape3D_yyxd1")
 debug_color = Color(0, 1, 0, 0.41960785)
 
-[node name="ZonaAmarela" type="Area3D" parent="Zones"]
+[node name="YellowZone" type="Area3D" parent="Zones"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.618267, 0, -7.9272738)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaAmarela"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/YellowZone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13458824, 1.7264099, 0.41093063)
 shape = SubResource("BoxShape3D_0vbqt")
 debug_color = Color(0.87058824, 1, 0, 0.41960785)
 
-[node name="ZonaNeutra" type="Area3D" parent="Zones"]
+[node name="NeutralZone" type="Area3D" parent="Zones"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaNeutra"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/NeutralZone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_w1dup")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
@@ -377,7 +384,6 @@ offset_bottom = 23.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
-nome_npc = "NPC_Teste"
 
 [node name="DropPoint" type="Marker3D" parent="NPC_Teste"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0056233406, 0, 0.4861189)
@@ -407,7 +413,6 @@ npc_entity_path = NodePath("../NpcEntity")
 script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_ekaqe")
 drop_point = NodePath("../DropPoint")
-nome_npc = "NPC_Teste"
 timelines = Array[String](["NPC_Teste_01_oferece_quest", "NPC_Teste_02_lembra_progresso", "NPC_Teste_03_completa_e_premia", "NPC_Teste_04_fim_loop"])
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NPC_Teste"]
@@ -454,7 +459,6 @@ animation = &"idle_down"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8067188, 0.34116307, 0)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
-nome_npc = "Ferreiro"
 
 [node name="Marker3D" type="Marker3D" parent="Ferreiro"]
 
@@ -482,7 +486,6 @@ npc_entity_path = NodePath("../NpcEntity")
 script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_iypob")
 drop_point = NodePath("../Marker3D")
-nome_npc = "Ferreiro"
 timelines = Array[String](["Ferreiro_01_primeiro_contato", "Ferreiro_02"])
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ferreiro"]

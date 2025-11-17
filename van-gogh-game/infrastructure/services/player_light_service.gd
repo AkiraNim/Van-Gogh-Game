@@ -3,8 +3,8 @@ class_name PlayerLightService
 
 @export var spotlight: SpotLight3D
 
-func ligar():
+func light_on():
 	if spotlight: spotlight.visible = true
 
-func desligar():
+func light_off():
 	if spotlight: spotlight.visible = false

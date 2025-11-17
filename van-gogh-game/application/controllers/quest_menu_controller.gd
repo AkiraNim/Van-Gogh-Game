@@ -11,7 +11,6 @@ class_name QuestMenuController
 func _ready() -> void:
 	visible = false
 
-	# Conecta sinais do QuestService se presente
 	var QS := _get_quest_service()
 	if QS:
 		if not QS.quest_accepted.is_connected(_on_q_accepted):
@@ -21,7 +20,6 @@ func _ready() -> void:
 		if not QS.quest_completed.is_connected(_on_q_completed):
 			QS.quest_completed.connect(_on_q_completed)
 
-	# popula do estado atual
 	_refresh_lists()
 
 func _input(event: InputEvent) -> void:
@@ -94,19 +92,15 @@ func _get_title_for(qid: String) -> String:
 		return String(act[qid].get("title", qid))
 	var done = QS.get_completed_quests()
 	if done.has(qid):
-		# se você quiser armazenar o título ao completar, pode persistir num dicionário; aqui tentamos o melhor esforço:
-		# 1) ver se Dialogic guardou em VAR (opcional)
 		if Engine.has_singleton("Dialogic"):
 			var D := Engine.get_singleton("Dialogic")
 			if D and D.has_subsystem("VAR"):
 				var t = D.VAR.get_variable("quest/%s/title" % qid)
 				if t != null and String(t) != "":
 					return String(t)
-		# 2) fallback para o id
 		return qid
 	return qid
 
 func _print_title(kind: String, title: String) -> void:
 	if title == "" or title == null:
 		title = "<untitled quest>"
-	print("📜 [", kind, "] ", title)

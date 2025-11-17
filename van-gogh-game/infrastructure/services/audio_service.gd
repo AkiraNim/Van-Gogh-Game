@@ -1,9 +1,7 @@
-# AudioService.gd - Versão Corrigida e Simplificada
 extends Node
 
 @export var fade_duration: float = 2.0
 
-# DECLARE as variáveis, mas não as atribua aqui
 var player_a: AudioStreamPlayer
 var player_b: AudioStreamPlayer
 
@@ -11,20 +9,14 @@ var _player_ativo: AudioStreamPlayer
 var _musica_atual: AudioStream
 
 func _ready() -> void:
-	# 1. CRIA os nós
 	add_child(AudioStreamPlayer.new())
 	add_child(AudioStreamPlayer.new())
 	
-	# 2. ATRIBUI as variáveis DEPOIS que os nós existem
 	player_a = get_child(0); player_a.name = "PlayerA"
 	player_b = get_child(1); player_b.name = "PlayerB"
-	
-	# O resto da lógica
+
 	_player_ativo = player_b
 
-# ... (o resto do seu AudioService.gd permanece o mesmo) ...
-
-# Função pública para o GameManager chamar
 func play_music(nova_musica: AudioStream):
 	if nova_musica == _musica_atual:
 		return

@@ -1,7 +1,7 @@
 extends Node
 class_name UIService
 
-# --- UI Roots / Containers ---
+
 @export var hud_root: Control
 @export var stars_container: Container
 @export var important_container: Container
@@ -14,23 +14,21 @@ class_name UIService
 @export var active_quests_container: ItemList
 @export var completed_quests_container: ItemList
 
-# --- Data sources ---
+
 @export var item_repository: ItemRepository
 @export var player_inventory: PlayerInventory
 @export var player_state: PlayerState
-@export var quest_service: Node    # QuestManager/QuestService/Bridge/etc
+@export var quest_service: Node
 
-# --- Input ---
+
 @export var toggle_action: StringName = "toggle"
 @export var pause_action: StringName = "pause"
 
-# --- Visual ---
+
 @export var icon_size: Vector2 = Vector2(32, 32)
 @export var show_count_badge: bool = true
 @export var interaction_prompt_scene: PackedScene
-			  # 0 = ativas, 1 = concluídas
 @onready var game_manager = get_node("/root/GameManager")
-
 
 var _interaction_prompt_instance: Control
 var _current_interactable: Node3D = null
@@ -45,11 +43,9 @@ func _ready() -> void:
 		set_process(false)
 		return
 
-	# Conecta-se aos sinais de área
 	EventBus.player_entered_interactable_area.connect(_on_player_entered_interactable_area)
 	EventBus.player_exited_interactable_area.connect(_on_player_exited_interactable_area)
 	
-	# --- NOVO: Conecta-se aos sinais de estado da interação ---
 	EventBus.interaction_started.connect(_on_interaction_started)
 	EventBus.interaction_ended.connect(_on_interaction_ended)
 	
@@ -84,14 +80,11 @@ func _process(_delta: float) -> void:
 	_interaction_prompt_instance.position = screen_position_2d - (prompt_size / 2)
 
 func _on_interaction_started() -> void:
-	# Esconde o letreiro e para de o atualizar
 	if is_instance_valid(_interaction_prompt_instance):
 		_interaction_prompt_instance.visible = false
 	set_process(false)
 
 func _on_interaction_ended() -> void:
-	# Reavalia se o letreiro deve ser mostrado novamente.
-	# Isto acontece se o jogador ainda estiver na área do objeto.
 	if is_instance_valid(_current_interactable):
 		if is_instance_valid(_interaction_prompt_instance):
 			_interaction_prompt_instance.visible = true
@@ -115,7 +108,6 @@ func _notification(what: int) -> void:
 		_rebind_services()
 
 func _input(event: InputEvent) -> void:
-	# Pause tem prioridade (se as ações estiverem na mesma tecla, só o pause roda)
 	if event.is_action_pressed(pause_action):
 		if _is_paused():
 			_unpause_game()
@@ -124,7 +116,6 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
-	# Toggle do QuestMenu só funciona quando NÃO está pausado
 	if event.is_action_pressed(toggle_action) and quest_menu_root and not _is_paused():
 		quest_menu_root.visible = not quest_menu_root.visible
 		if quest_menu_root.visible:
@@ -183,9 +174,6 @@ func _safe_connect(target: Object, signal_name: StringName, callable: Callable) 
 	if target and target.has_signal(signal_name) and not target.is_connected(signal_name, callable):
 		target.connect(signal_name, callable)
 
-# -----------------------------------------------------------------
-# Refresh
-# -----------------------------------------------------------------
 func _full_refresh() -> void:
 	_refresh_hud()
 	_refresh_quest_menu()
@@ -230,7 +218,6 @@ func _refresh_quest_menu() -> void:
 	_autowire_quest_menu()
 	_ensure_menu_layout()
 
-	# Agora são ItemList
 	if active_quests_container and active_quests_container is ItemList:
 		(active_quests_container as ItemList).clear()
 	if completed_quests_container and completed_quests_container is ItemList:
@@ -249,17 +236,13 @@ func _refresh_quest_menu() -> void:
 	for qid in done.keys():
 		var title := _get_dialogic_title(String(qid), String(qid))
 		_add_quest_line(completed_quests_container, title, true)
-
-	# Seleciona o primeiro por padrão (opcional)
+		
 	if active_quests_container and active_quests_container is ItemList:
 		var al := active_quests_container as ItemList
 		if al.item_count > 0:
 			al.select(0)
 			al.grab_focus()
 
-# -----------------------------------------------------------------
-# Dialogic helpers (título)
-# -----------------------------------------------------------------
 func _get_dialogic_title(qid: String, fallback: String) -> String:
 	var key := "quest/%s/title" % qid
 	if Engine.has_singleton("Dialogic"):
@@ -274,9 +257,6 @@ func _get_dialogic_title(qid: String, fallback: String) -> String:
 				return str(vv)
 	return fallback
 
-# -----------------------------------------------------------------
-# Builders
-# -----------------------------------------------------------------
 func _add_icon(parent: Node, data: ItemData, qty: int) -> void:
 	if parent == null or data == null:
 		return
@@ -313,13 +293,8 @@ func _add_quest_line(parent: Node, title: String, is_done: bool) -> void:
 		return
 	var list := parent as ItemList
 	var idx := list.add_item(title)
-	# cor do "dot": usamos o ícone lateral do ItemList como cor (via Theme override simples)
-	# Opcional: se quiser, configure ícones/cores no Theme do projeto.
 	list.set_item_metadata(idx, {"title": title, "done": is_done})
-	
-# -----------------------------------------------------------------
-# Data helpers
-# -----------------------------------------------------------------
+
 func _inventory_counts() -> Dictionary:
 	var dict: Dictionary = {}
 	var inv: PlayerInventory = _get_inventory()
@@ -344,9 +319,6 @@ func _get_inventory() -> PlayerInventory:
 		player_inventory = pc.inventory
 	return player_inventory
 
-# -----------------------------------------------------------------
-# Event handlers
-# -----------------------------------------------------------------
 func _on_star_count_changed(_count: int) -> void:
 	_refresh_star_icons()
 
@@ -361,9 +333,6 @@ func _on_quest_changed(_a = null, _b = null, _c = null) -> void:
 	if quest_menu_root and quest_menu_root.visible:
 		_refresh_quest_menu()
 
-# -----------------------------------------------------------------
-# Utils
-# -----------------------------------------------------------------
 func _clear_children(node: Node) -> void:
 	if node == null:
 		return
@@ -405,11 +374,9 @@ func _autowire_quest_menu() -> void:
 		quest_menu_root = _find_control_by_names(["QuestMenu","questmenu"])
 
 	if quest_menu_root:
-		# Scrolls tipados
 		var sc_act: ScrollContainer = quest_menu_root.find_child("ScrollContainer", true, false) as ScrollContainer
 		var sc_done: ScrollContainer = quest_menu_root.find_child("ScrollContainer2", true, false) as ScrollContainer
 
-		# Nós internos tipados como Node
 		var act: Node = null
 		if sc_act:
 			act = sc_act.find_child("ActiveQuestContainer", true, false)
@@ -418,20 +385,17 @@ func _autowire_quest_menu() -> void:
 		if sc_done:
 			done = sc_done.find_child("CompletedQuestContainer", true, false)
 
-		# ATIVAS -> sempre passe pelo _ensure_list_container (retorna ItemList)
 		if act:
 			active_quests_container = _ensure_list_container(act)
 		elif sc_act:
 			active_quests_container = _ensure_list_container(sc_act)
 
-		# CONCLUÍDAS
 		if done:
 			completed_quests_container = _ensure_list_container(done)
 		elif sc_done:
 			completed_quests_container = _ensure_list_container(sc_done)
 
 	_ensure_menu_layout()
-
 
 func _find_control_by_names(candidates: Array[String]) -> Control:
 	var root: Node = get_tree().get_root()
@@ -486,9 +450,6 @@ func _connect_quest_signals() -> void:
 	if quest_service.has_signal("quest_completed") and not quest_service.is_connected("quest_completed", Callable(self, "_on_quest_changed")):
 		quest_service.connect("quest_completed", Callable(self, "_on_quest_changed"))
 
-# -----------------------------------------------------------------
-# Quest collection + normalização
-# -----------------------------------------------------------------
 func _collect_quests() -> Dictionary:
 	var out: Dictionary = {"active": {}, "done": {}, "source": ""}
 
@@ -502,8 +463,8 @@ func _collect_quests() -> Dictionary:
 			return out
 
 	var candidates: Array = [
-		["quests_ativas", "quests_concluidas"],
-		["_q_ativas", "_q_concluidas"],
+		["active_quests", "finished_quests"],
+		["_q_active", "_q_finished"],
 		["active_quests", "completed_quests"],
 		["active", "completed"]
 	]
@@ -523,8 +484,8 @@ func _collect_quests() -> Dictionary:
 
 	var bridge: Node = _find_first_in_group("dialog_bridge")
 	if bridge:
-		var ba = bridge.get("_q_ativas")
-		var bd = bridge.get("_q_concluidas")
+		var ba = bridge.get("_q_active")
+		var bd = bridge.get("_q_finished")
 		var ba_norm: Dictionary = _normalize_variant_to_dict(ba)
 		var bd_norm: Dictionary = _normalize_variant_to_dict(bd)
 		if ba_norm.size() > 0 or bd_norm.size() > 0:
@@ -618,13 +579,11 @@ func _find_child_by_names_ci(parent: Node, candidates: Array[String]) -> Node:
 			if ch is Node:
 				stack.append(ch)
 	return null
-
-# Garante que vamos adicionar em um ItemList válido dentro do ScrollContainer.
+	
 func _ensure_list_container(node: Node) -> ItemList:
 	if node == null:
 		return null
 
-	# Se já for ItemList, só ajusta flags
 	if node is ItemList:
 		var il := node as ItemList
 		il.select_mode = ItemList.SELECT_SINGLE
@@ -634,7 +593,6 @@ func _ensure_list_container(node: Node) -> ItemList:
 		il.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		return il
 
-	# Se for ScrollContainer: procura/instala um ItemList
 	if node is ScrollContainer:
 		var sc := node as ScrollContainer
 		for ch in sc.get_children():
@@ -650,7 +608,6 @@ func _ensure_list_container(node: Node) -> ItemList:
 		sc.add_child(il2)
 		return il2
 
-	# Qualquer Control -> cria um ItemList dentro
 	if node is Control:
 		var host := node as Control
 		for ch in host.get_children():
@@ -669,7 +626,6 @@ func _ensure_list_container(node: Node) -> ItemList:
 	return null
 
 func _ensure_menu_layout() -> void:
-	# raiz do menu
 	if quest_menu_root and quest_menu_root is Control:
 		var c := quest_menu_root as Control
 		c.set_anchors_preset(Control.PRESET_FULL_RECT, true)
@@ -678,7 +634,6 @@ func _ensure_menu_layout() -> void:
 		if c.custom_minimum_size == Vector2.ZERO:
 			c.custom_minimum_size = Vector2(480, 320)
 
-	# Centraliza e ROTACIONA 90° o TextureRect do QuestMenu
 	var tex_node: Node = quest_menu_root.find_child("TextureRect", true, false)
 	if tex_node and tex_node is Control:
 		var t := tex_node as Control
@@ -688,7 +643,6 @@ func _ensure_menu_layout() -> void:
 		t.anchor_top = 0.5
 		t.anchor_bottom = 0.5
 
-		# tamanho de referência
 		var sz := t.size
 		if sz == Vector2.ZERO:
 			sz = t.custom_minimum_size
@@ -697,19 +651,16 @@ func _ensure_menu_layout() -> void:
 			if tex_node is TextureRect and (tex_node as TextureRect).texture:
 				sz = (tex_node as TextureRect).texture.get_size()
 			if sz == Vector2.ZERO:
-				sz = Vector2(880, 520) # fallback
+				sz = Vector2(880, 520)
 
-		# centraliza por offsets simétricos
 		t.offset_left = -sz.x * 0.5
 		t.offset_right =  sz.x * 0.5
 		t.offset_top =   -sz.y * 0.5
 		t.offset_bottom = sz.y * 0.5
 
-		# gira 90° com pivô exatamente no centro do retângulo
 		t.pivot_offset = sz * 0.5
 		t.rotation_degrees = 90.0
 
-	# scrolls
 	var sc_act := quest_menu_root.find_child("ScrollContainer", true, false)
 	var sc_done := quest_menu_root.find_child("ScrollContainer2", true, false)
 	for sc in [sc_act, sc_done]:
@@ -720,7 +671,6 @@ func _ensure_menu_layout() -> void:
 			if scc.custom_minimum_size == Vector2.ZERO:
 				scc.custom_minimum_size = Vector2(440, 120)
 
-	# Containers internos (as listas), com separação entre as linhas
 	active_quests_container = _ensure_list_container(active_quests_container)
 	completed_quests_container = _ensure_list_container(completed_quests_container)
 
@@ -738,11 +688,7 @@ func _on_list_item_activated(index: int, list: ItemList) -> void:
 	var meta = list.get_item_metadata(index)
 	var title: String = str(meta.get("title", list.get_item_text(index)))
 	var done: bool = bool(meta.get("done", false))
-	# Aqui você faz o que significa "entrar na missão/seleção":
-	# - abrir detalhes
-	# - iniciar rastreamento
-	# - emitir sinal/evento global, etc.
-	print("Quest ativada → ", title, " | concluída?: ", done)
+
 
 
 func _focus_other_list(current: ItemList, to_right: bool) -> void:
@@ -757,16 +703,13 @@ func _focus_other_list(current: ItemList, to_right: bool) -> void:
 	var target := c if (current == a and to_right) else a if (current == c and not to_right) else null
 	if target:
 		target.grab_focus()
-		# Se nada estiver selecionado ali, seleciona o primeiro
 		if target.get_selected_items().size() == 0 and target.item_count > 0:
 			target.select(0)
 
 func _autowire_pause_menu() -> void:
 	if pause_menu_root == null:
-		# Tenta achar por nome na árvore
 		pause_menu_root = _find_control_by_names(["PauseMenu","pausemenu"])
 	if pause_menu_root == null:
-		# Cria dinamicamente um menu simples
 		var root := Control.new()
 		root.name = "PauseMenu"
 		root.process_mode = Node.PROCESS_MODE_WHEN_PAUSED  # NOVO
@@ -812,7 +755,6 @@ func _autowire_pause_menu() -> void:
 		pause_btn_resume = btn_resume
 		pause_btn_quit = btn_quit
 
-	# Se veio do editor, tenta localizar subnós
 	if pause_label == null:
 		pause_label = pause_menu_root.find_child("Label", true, false)
 	if pause_btn_resume == null:
@@ -840,28 +782,15 @@ func _wire_pause_signals() -> void:
 func _on_pause_resume_pressed() -> void:
 	_unpause_game()
 
-# Substitua a função existente em UIService.gd por esta
 
 func _on_pause_quit_pressed() -> void:
-	# 1. Fornece feedback visual e previne cliques duplos.
 	if pause_btn_quit:
 		pause_btn_quit.disabled = true
 		pause_btn_quit.text = "Salvando..."
 	
-	# 2. Conecta ao sinal 'game_saved' UMA ÚNICA VEZ. 
-	#    Quando o sinal for emitido, a função get_tree().quit será chamada.
-	#    CONNECT_ONE_SHOT é crucial para que isso não aconteça em todo save futuro.
 	EventBus.game_saved.connect(get_tree().quit, CONNECT_ONE_SHOT)
-	
-	# 3. Dispara o processo de salvamento através do GameManager.
-	#    O GameManager fará o save e, no final, emitirá o sinal 'game_saved'
-	#    através do EventBus, o que ativará a conexão que fizemos acima.
 	game_manager.save_game()
 
-	# NOTA: Não chamamos get_tree().quit() diretamente aqui.
-	# A execução do jogo só terminará quando o salvamento for confirmado.
-
-# permite Esc para sair do pause também
 func _on_pause_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		var k := event as InputEventKey
@@ -873,7 +802,6 @@ func _is_paused() -> bool:
 	return get_tree().paused
 
 func _pause_game() -> void:
-	# Esconde o QuestMenu quando pausar (não reabre ao despausar)
 	if quest_menu_root:
 		quest_menu_root.visible = false
 
@@ -889,7 +817,6 @@ func _show_pause_menu() -> void:
 		_autowire_pause_menu()
 	if pause_menu_root:
 		pause_menu_root.visible = true
-		# foca o primeiro botão pra teclado funcionar na hora
 		if pause_btn_resume:
 			pause_btn_resume.grab_focus()
 

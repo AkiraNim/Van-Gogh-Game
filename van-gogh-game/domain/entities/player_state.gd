@@ -1,9 +1,9 @@
 extends Resource
 class_name PlayerState
 
-@export var estrelas: int = 0
-var item_segurado: Node3D = null
+@export var stars: int = 0
+var item_held: Node3D = null
 
-func adicionar_estrela() -> void:
-	estrelas += 1
-	EventBus.star_count_changed.emit(estrelas)
+func add_stars() -> void:
+	stars += 1
+	EventBus.star_count_changed.emit(stars)
