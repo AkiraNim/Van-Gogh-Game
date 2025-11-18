@@ -155,7 +155,6 @@ func _rebind_services() -> void:
 
 	if quest_service != null:
 		_connect_quest_signals()
-		print("UIService: conectado a ", str(quest_service))
 
 	_autowire_quest_menu()
 
@@ -212,7 +211,6 @@ func _refresh_important_icons() -> void:
 
 func _refresh_quest_menu() -> void:
 	if quest_menu_root == null:
-		print("UIService: quest_menu_root não setado — nada a exibir.")
 		return
 
 	_autowire_quest_menu()

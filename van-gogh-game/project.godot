@@ -40,9 +40,12 @@ PlayerRegistry="*res://presentation/player_registry.gd"
 directories/dch_directory={
 "Fazendeiro": "res://Dialogic/Characters/Fazendeiro.dch",
 "Ferreiro": "res://Dialogic/Characters/Ferreiro.dch",
+"Flint": "res://Dialogic/Portraits/Flint(Easter)/Flint.dch",
 "Florista": "res://Dialogic/Characters/Florista.dch",
 "NPC_Teste": "res://Dialogic/Characters/NPC_Teste.dch",
 "Player_3D": "res://Dialogic/Characters/Player_3D.dch",
+"Scot": "res://Dialogic/Characters/Scot.dch",
+"VanGogh": "res://Dialogic/Portraits/Van Gogh/VanGogh.dch",
 "character": "res://Dialogic/Characters/character.dch",
 "test_character": "res://Dialogic/Characters/test_character.dch"
 }
@@ -50,6 +53,7 @@ directories/dtl_directory={
 "Fazendeiro_01": "res://Dialogic/Timelines/Fazendeiro/Fazendeiro_01.dtl",
 "Ferreiro_01_primeiro_contato": "res://Dialogic/Timelines/Test/Ferreiro_01_primeiro_contato.dtl",
 "Ferreiro_02": "res://Dialogic/Timelines/Test/Ferreiro_02.dtl",
+"Flint_01": "res://Dialogic/Portraits/Flint(Easter)/Flint_01.dtl",
 "Florista_01": "res://Dialogic/Portraits/Florista/Florista_01.dtl",
 "NPC_Teste_01_oferece_quest": "res://Dialogic/Timelines/Test/NPC_Teste_01_oferece_quest.dtl",
 "NPC_Teste_02_lembra_progresso": "res://Dialogic/Timelines/Test/NPC_Teste_02_lembra_progresso.dtl",
@@ -91,6 +95,7 @@ variables={
 "q_Coletar estrela vermelha_need_estrela_vermelha": 0,
 "q_Coletar estrela vermelha_progress_estrela_vermelha": 0,
 "q_Coletar estrela vermelha_status": "",
+"q_Falar com Van Gogh_status": "false",
 "q_falar_com_ferreiro_status": "false"
 }
 

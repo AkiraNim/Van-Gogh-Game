@@ -1,9 +1,9 @@
 [gd_resource type="MeshLibrary" load_steps=13 format=3 uid="uid://8ftmod2fb0ha"]
 
-[ext_resource type="Texture2D" uid="uid://c6rp5ch2xmigt" path="res://Assets/Scenarios/Enviroment/snowFloor1.png" id="1_7ww1c"]
-[ext_resource type="Texture2D" uid="uid://bhd7spqexayhh" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="2_5ghyc"]
-[ext_resource type="Texture2D" uid="uid://dedwmjnolb0gn" path="res://Assets/Scenarios/Enviroment/snowRoad1.png" id="3_5ghyc"]
-[ext_resource type="Texture2D" uid="uid://d1xyi70p88pwe" path="res://Assets/Scenarios/Enviroment/snowRoad2.png" id="4_nsvde"]
+[ext_resource type="Texture2D" uid="uid://b31kfvq42w02n" path="res://Assets/Scenarios/Enviroment/snowFloor1.png" id="1_7ww1c"]
+[ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="2_5ghyc"]
+[ext_resource type="Texture2D" uid="uid://2cnpas88bmiu" path="res://Assets/Scenarios/Enviroment/snowRoad1.png" id="3_5ghyc"]
+[ext_resource type="Texture2D" uid="uid://b48hafsxiqxfc" path="res://Assets/Scenarios/Enviroment/snowRoad2.png" id="4_nsvde"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ww1c"]
 albedo_texture = ExtResource("1_7ww1c")

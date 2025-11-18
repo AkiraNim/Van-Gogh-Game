@@ -1,8 +1,8 @@
 extends CharacterBody3D
 class_name PlayerView
 
-signal item_coletado(item_node)
-signal contagem_estrelas_mudou(nova_contagem: int)
+signal item_collected(item_node)
+signal stars_count_changed(nova_contagem: int)
 signal quest_accepted(qid: String, title: String)
 signal quest_progress(qid: String, have: Dictionary)
 signal quest_completed(qid: String, title: String, motivo: String)
@@ -16,41 +16,34 @@ signal quest_completed(qid: String, title: String, motivo: String)
 
 var anim_lock_name: StringName = ""
 var anim_lock_time: float = 0.0
-var _item_segurado: Node3D = null
-var pode_mover: bool = true
+var _held_item: Node3D = null
+var can_move: bool = true
 var last_direction := Vector3.FORWARD
 var velocity_vector := Vector3.ZERO
 var is_sitting: bool = false
-var quests_ativas := {}
-var quests_concluidas := {}
+var finished_quests := {}
+var active_quests := {}
 
 func _enter_tree() -> void:
-	# Lógica de registro: o primeiro a chegar, ganha.
 	if PlayerRegistry.player == null:
 		PlayerRegistry.player = self
 		add_to_group("player")
-		print("✅ PlayerView principal registrado com sucesso:", name)
 	else:
-		print("⚠️ Player duplicado detectado. Removendo nova instância:", name)
 		queue_free()
 		return
 
 func _exit_tree() -> void:
-	# Limpeza: Se a instância principal está saindo da árvore, limpa o registro.
 	if PlayerRegistry.player == self:
 		PlayerRegistry.player = null
-		print("🧹 PlayerView principal desregistrado.")
 
 func _ready():
-	print("🎮 PlayerView inicializado:", name)
-
 	last_direction = _dir_from_idle(String(default_idle))
 	_play_safe(default_idle)
 
-	if not EventBus.dialog_started.is_connected(_on_dialogo_iniciou):
-		EventBus.dialog_started.connect(_on_dialogo_iniciou)
-	if not EventBus.dialog_ended.is_connected(_on_dialogo_terminou):
-		EventBus.dialog_ended.connect(_on_dialogo_terminou)
+	if not EventBus.dialog_started.is_connected(_on_dialog_started):
+		EventBus.dialog_started.connect(_on_dialog_started)
+	if not EventBus.dialog_ended.is_connected(_on_dialog_ended):
+		EventBus.dialog_ended.connect(_on_dialog_ended)
 	if has_node("/root/EventBus"):
 		var eb := get_node("/root/EventBus")
 		if not eb.item_collected.is_connected(_pv_on_item_collected):
@@ -58,22 +51,17 @@ func _ready():
 		if not eb.npc_dialog_triggered.is_connected(_pv_on_npc_dialog_triggered):
 			eb.npc_dialog_triggered.connect(_pv_on_npc_dialog_triggered)
 
-# --- O RESTO DO SEU CÓDIGO DO PLAYERVIEW PERMANECE EXATAMENTE IGUAL ---
-# (funções de movimento, animação, quests, etc.)
-
-# --------------------------- Itens ---------------------------
 func set_held_item(n: Node3D) -> void:
-	_item_segurado = n
+	_held_item = n
 
 func get_held_item_node() -> Node3D:
-	return _item_segurado
+	return _held_item
 
-func destruir_item_segurado() -> void:
-	if is_instance_valid(_item_segurado):
-		_item_segurado.queue_free()
-	_item_segurado = null
+func destroy_held_item() -> void:
+	if is_instance_valid(_held_item):
+		_held_item.queue_free()
+	_held_item = null
 
-# --------------------------- Movimento ---------------------------
 func _physics_process(_delta: float) -> void:
 	if is_sitting:
 		velocity = Vector3.ZERO
@@ -90,7 +78,7 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 		return
 
-	if not pode_mover:
+	if not can_move:
 		velocity = Vector3.ZERO
 		move_and_slide()
 		_update_animation()
@@ -112,17 +100,13 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	_update_animation()
 
-# --------------------------- Dialogo ---------------------------
-func _on_dialogo_iniciou() -> void:
-	pode_mover = false
+func _on_dialog_started() -> void:
+	can_move = false
 	velocity = Vector3.ZERO
-	print("🚫 PlayerView bloqueado via EventBus")
 
-func _on_dialogo_terminou() -> void:
-	pode_mover = not is_sitting
-	print("🏃 PlayerView liberado via EventBus")
+func _on_dialog_ended() -> void:
+	can_move = not is_sitting
 
-# --------------------------- Animações ---------------------------
 func _update_animation() -> void:
 	if not anim_sprite:
 		return
@@ -159,23 +143,17 @@ func lock_animation(name: StringName, duration: float = -1.0) -> void:
 			elif frames.has_animation("idle"):
 				final_name = "idle"
 			else:
-				print("⚠️ lock_animation: animação não encontrada:", name)
-				print("🔒 lock_animation (sem troca visível) por", duration, "s")
 				return
 		anim_sprite.stop()
 		anim_sprite.play(final_name)
-		print("🎞️ PlayerView.anim =", anim_sprite.animation, "(lock por", duration, "s)")
 	else:
-		print("⚠️ lock_animation: anim_sprite está null")
-	print("🔒 lock_animation requisitado =", name, "por", duration, "s")
+		return
 
 func unlock_animation() -> void:
 	anim_lock_name = ""
 	anim_lock_time = 0.0
 	_play_safe(default_idle)
-	print("🔓 unlock_animation →", default_idle)
 
-# --------------------------- Helpers ---------------------------
 func set_default_idle(anim: StringName) -> void:
 	default_idle = anim
 	last_direction = _dir_from_idle(String(default_idle))
@@ -200,7 +178,6 @@ func _play_safe(name: StringName) -> void:
 		elif frames.has_animation("idle"):
 			final_name = "idle"
 		else:
-			print("⚠️ _play_safe: animação não encontrada:", name)
 			return
 	anim_sprite.stop()
 	anim_sprite.play(final_name)
@@ -219,17 +196,15 @@ func _dir_from_idle(idle: String) -> Vector3:
 
 # ========================= QUESTS =========================
 func accept_quest(qid: String, cfg: Dictionary) -> void:
-	if quests_concluidas.has(qid):
-		print("ℹ️ Quest já concluída:", qid)
+	if active_quests.has(qid):
 		return
-	if quests_ativas.has(qid) and String(quests_ativas[qid].get("status","")) == "accepted":
-		print("ℹ️ Quest já aceita:", qid)
+	if finished_quests.has(qid) and String(finished_quests[qid].get("status","")) == "accepted":
 		return
 
 	var q := cfg.duplicate(true)
 	q.status = "accepted"
 
-	if String(q.get("tipo","")) == "collect":
+	if String(q.get("type","")) == "collect":
 		if not q.has("req_items"):
 			q.req_items = {}
 		if not q.has("have"):
@@ -237,9 +212,8 @@ func accept_quest(qid: String, cfg: Dictionary) -> void:
 		for id in q.req_items.keys():
 			q.have[id] = int(q.have.get(id, 0))
 
-	quests_ativas[qid] = q
+	finished_quests[qid] = q
 	var title := String(q.get("title", qid))
-	print("✅ Quest aceita:", title, " (", qid, ")")
 	emit_signal("quest_accepted", qid, title)
 
 	if Engine.has_singleton("Dialogic"):
@@ -249,19 +223,16 @@ func accept_quest(qid: String, cfg: Dictionary) -> void:
 			D.Variables.set_variable("quest/%s/title" % qid, title)
 
 func complete_quest(qid: String, motivo: String="") -> void:
-	if not quests_ativas.has(qid):
-		print("❌ Tentativa de completar quest inexistente/nao aceita:", qid)
+	if not finished_quests.has(qid):
 		return
-	var q = quests_ativas[qid]
+	var q = finished_quests[qid]
 	if String(q.get("status","")) != "accepted":
-		print("⛔ Quest não está aceita:", qid)
 		return
 
 	q.status = "completed"
-	quests_ativas.erase(qid)
-	quests_concluidas[qid] = true
+	finished_quests.erase(qid)
+	active_quests[qid] = true
 	var title := String(q.get("title", qid))
-	print("🏆 Missão concluída:", title, "(id:", qid, ", motivo:", motivo, ")")
 	emit_signal("quest_completed", qid, title, motivo)
 
 	if Engine.has_singleton("Dialogic"):
@@ -271,23 +242,22 @@ func complete_quest(qid: String, motivo: String="") -> void:
 			D.Variables.set_variable("quest/%s/done" % qid, true)
 
 func get_active_quests() -> Dictionary:
-	return quests_ativas
+	return finished_quests
 
 func get_completed_quests() -> Dictionary:
-	return quests_concluidas
+	return active_quests
 
 func _pv_on_item_collected(id_item: String, _item_node: Node3D) -> void:
-	for qid in quests_ativas.keys():
-		var q = quests_ativas[qid]
-		if String(q.get("tipo","")) != "collect" or String(q.get("status","")) != "accepted" or not q.req_items.has(id_item):
+	for qid in finished_quests.keys():
+		var q = finished_quests[qid]
+		if String(q.get("type","")) != "collect" or String(q.get("status","")) != "accepted" or not q.req_items.has(id_item):
 			continue
 		
 		var have := int(q.have.get(id_item, 0)) + 1
 		q.have[id_item] = have
-		quests_ativas[qid] = q
+		finished_quests[qid] = q
 
 		emit_signal("quest_progress", qid, q.have)
-		print("🧭 Quest", qid, "progresso:", q.have, "/", q.req_items)
 		
 		if _pv_is_collect_done(q):
 			complete_quest(qid, "collect")
@@ -301,8 +271,8 @@ func _pv_is_collect_done(q: Dictionary) -> bool:
 	return true
 
 func _pv_on_npc_dialog_triggered(npc_name: String, _timeline: String) -> void:
-	for qid in quests_ativas.keys():
-		var q = quests_ativas[qid]
-		if String(q.get("tipo","")) != "talk" or String(q.get("status","")) != "accepted" or String(q.get("req_talk_to","")) != npc_name:
+	for qid in finished_quests.keys():
+		var q = finished_quests[qid]
+		if String(q.get("type","")) != "talk" or String(q.get("status","")) != "accepted" or String(q.get("req_talk_to","")) != npc_name:
 			continue
 		complete_quest(qid, "talk")

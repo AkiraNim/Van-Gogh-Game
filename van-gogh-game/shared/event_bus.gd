@@ -1,58 +1,42 @@
 extends Node
 
-# ==========================================================
-# 🌐 EVENTBUS — Sistema Global de Eventos do Jogo
-# ==========================================================
-# Padrão: Desacopla comunicação entre controllers e views.
-# Uso: EventBus.sinal.connect(funcao)
-# ==========================================================
+signal dialog_started                     
+signal dialog_ended                      
 
-# --- DIALOGO ---
-signal dialog_started                     # Disparado quando um diálogo começa
-signal dialog_ended                       # Disparado quando um diálogo termina
-
-# --- COLETA ---
-signal item_collected(id_item: String, item_node: Node3D)   # Quando um item é coletado
-signal animation_collect_finished                          # Quando a animação de coleta termina
-signal star_count_changed(count: int)                      # Quando número de estrelas muda
+signal item_collected(id_item: String, item_node: Node3D)   
+signal animation_collect_finished                         
+signal star_count_changed(count: int)                      
 signal important_item_collected(item_name: String)
 
-# --- ZONA / AMBIENTE ---
-# --- ZONA / AMBIENTE ---
 signal player_entered_zone(zone_name: String)
 signal player_exited_zone(zone_name: String)  
 signal zone_changed(zone_name: String)
 signal zone_conquered(zone_name: String)
 
 
-# --- PLAYER / MOVIMENTO ---
-signal player_moved(direction: Vector3)                    # Para broadcast de movimento
-signal player_stopped                                      # Para broadcast de parada
+signal player_moved(direction: Vector3)                    
+signal player_stopped                                     
 signal player_entered_interactable_area(interactable_node: Node3D)
 signal player_exited_interactable_area(interactable_node: Node3D)
 signal interaction_started
 signal interaction_ended
-# --- NPC / INTERAÇÃO ---
+
 signal npc_dropped_item(npc_name: String, id_item: String)
 signal npc_dialog_triggered(npc_name: String, timeline: String)
 signal npc_item_dropped(npc_name: String, item_id: String, item_node) # Node3D
 signal npc_item_given(npc_name: String, item_id: String, player)      # PlayerView
 
-# --- INVENTÁRIO / SISTEMA ---
 signal inventory_item_added(item_id: String)
 signal inventory_item_removed(item_id: String)
 signal inventory_updated
-							 # Dispara quando o inventário é atualizado
 
-# --- SISTEMA / GAME MANAGEMENT ---
-signal game_paused(is_paused: bool)                  # Disparado quando o jogo é pausado/despausado
-signal game_saved                                   # Disparado quando o jogo é salvo com sucesso
-signal game_loaded(scene_path: String)              # Disparado após carregar jogo
-signal game_reset                                   # Disparado ao resetar o jogo
-signal scene_changed(scene_path: String)            # Disparado quando uma nova cena é carregada
-signal save_failed(error_msg: String)               # Caso o salvamento falhe
+signal game_paused(is_paused: bool)                  
+signal game_saved                                   
+signal game_loaded(scene_path: String)             
+signal game_reset                                   
+signal scene_changed(scene_path: String)            
+signal save_failed(error_msg: String)               
 
-# --- EMISSÕES AUXILIARES ---
 func emit_important_item_collected(item_name: String) -> void:
 	important_item_collected.emit(item_name)
 

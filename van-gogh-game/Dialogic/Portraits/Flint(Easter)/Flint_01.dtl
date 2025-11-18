@@ -1,0 +1,30 @@
+[style name="default"]
+join Scot right [animation="Fade In Up"]
+Scot: Onde estou?
+leave Scot
+join Flint right [animation="Fade In Up"]
+Flint: Muito bem vindo ao mundo das telas!
+leave Flint
+join Scot right [animation="Fade In Up"]
+Scot: Ahh... Legal, porque e como eu vim parar aqui?
+leave Scot
+join Flint right [animation="Fade In Up"]
+Flint: Voce foi quem escolhemos para nos ajudar.
+leave Flint
+join Scot right [animation="Fade In Up"]
+Scot: Maravilha...
+Scot: Vou deixar pra dar chilique depois. Agora, como saio daqui?
+leave Scot
+join Flint right [animation="Fade In Up"]
+Flint: Voce foi quem escolhemos para nos ajudar, voce precisa falar com Van Gogh agora.
+leave Flint
+join Scot right [animation="Fade In Up"]
+Scot: Alguém ja te disse que voce parece um personagem de jogo?
+leave Scot
+join Flint right
+Flint: Voce foi quem escolhemos para nos ajudar, voce precisa falar com Van Gogh agora!
+leave Flint
+join Scot right [animation="Fade In Up"]
+Scot: Deixa, eu me viro.
+[signal arg="quest_accept:Falar com Van Gogh:talk"]
+[signal arg="quest_talk_target:Falar com Van Gogh:VanGogh"]

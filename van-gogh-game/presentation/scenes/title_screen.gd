@@ -1,19 +1,12 @@
-# Script anexado ao nó 'TitleScreen'
-
 extends Node
 
-# Referências para os botões do menu.
-# A sintaxe % é uma forma curta e segura de pegar nós,
-# contanto que seus nomes sejam únicos na cena.
 @onready var btn_play = %BtnPlay
 @onready var btn_option = %BtnOption
 @onready var btn_quit = %BtnQuit
 
-# Array para guardar os botões e facilitar a navegação
 @onready var menu_buttons: Array[Button] = [btn_play, btn_option, btn_quit]
 
 @onready var game_manager = get_node("/root/GameManager")
-# Variável para rastrear o botão atualmente selecionado
 var selected_button_index = 0
 
 

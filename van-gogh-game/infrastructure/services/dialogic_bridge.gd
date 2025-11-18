@@ -370,7 +370,6 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 				q["progress"] = prog
 				_q_actives[qid] = q
 				_set_var("q_%s_progress_%s" % [qid, item_id], int(prog[item_id]))
-				print("➕ Progresso:", qid, "→", item_id, "=", int(prog[item_id]), "/", int(q.get("reqs", {}).get(item_id, 0)))
 				_quest_try_autocomplete(qid)
 		return
 
@@ -385,7 +384,6 @@ func _route_dialogic_signal(name_v: Variant, payload: Variant) -> void:
 				var q := _ensure_q(qid)
 				q["talk_target"] = who
 				_q_actives[qid] = q
-				print("🗣️ Target set:", qid, "→", who)
 		return
 
 	if sig.begins_with("quest_talk_hit"):

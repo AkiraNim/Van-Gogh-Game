@@ -22,7 +22,6 @@ func _start_random_wait_timer():
 	
 	timer.wait_time = wait_time
 	timer.start()
-	print("Luz apagada. Esperando ", wait_time, " segundos para piscar novamente.")
 
 func _on_timer_timeout():
 	_play_flicker_animation()

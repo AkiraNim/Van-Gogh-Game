@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
-[ext_resource type="PackedScene" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
+[ext_resource type="PackedScene" uid="uid://c3e6mtvxfv82q" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://b5bf6fgy7mj5q" path="res://Assets/Scenarios/Enviroment/Water.png" id="15_wrx63"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
 [ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="16_ekaqe"]
-[ext_resource type="Texture2D" uid="uid://bhd7spqexayhh" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
+[ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
 [ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
 [ext_resource type="PackedScene" uid="uid://48pqockt0kqd" path="res://presentation/enviroment/grassSnow.tscn" id="18_boirm"]
@@ -31,7 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://ckuxqxnje5o8l" path="res://presentation/enviroment/snow_block.tscn" id="19_7ew7i"]
 [ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
-[ext_resource type="PackedScene" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 [ext_resource type="Texture2D" uid="uid://bwol3optg0fh0" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Shop.png" id="24_swlrs"]
 [ext_resource type="PackedScene" uid="uid://bxiqfk3viag0v" path="res://Assets/Scenarios/Buildings/Simple Biuldings/townHall.tscn" id="25_llqta"]
 [ext_resource type="PackedScene" uid="uid://8h42y2f5waqa" path="res://Assets/Scenarios/Buildings/Simple Biuldings/policeStation.tscn" id="26_qshdt"]
@@ -130,7 +130,7 @@ show_count_badge = true
 [node name="MainController" type="Node" parent="." node_paths=PackedStringArray("dialog_service", "player", "zone_controller")]
 script = ExtResource("2_v2gni")
 dialog_service = NodePath("../DialogNode/DialogController")
-player = NodePath("../Player_3D")
+player = NodePath("../Scot")
 zone_controller = NodePath("../EnviromentNode/ZoneController")
 
 [node name="EnviromentNode" type="Node" parent="."]
@@ -139,7 +139,7 @@ zone_controller = NodePath("../EnviromentNode/ZoneController")
 script = ExtResource("2_0bgj2")
 zones = [NodePath("../../Zones/RedZone"), NodePath("../../Zones/BlueZone"), NodePath("../../Zones/GreenZone"), NodePath("../../Zones/YellowZone"), NodePath("../../Zones/NeutralZone")]
 lighting_service = NodePath("../LightingService")
-player_path = NodePath("../../Player_3D")
+player_path = NodePath("../../Scot")
 
 [node name="LightingService" parent="EnviromentNode" instance=ExtResource("5_l42ic")]
 
@@ -156,20 +156,20 @@ script = ExtResource("6_v2gni")
 [node name="DialogCameraService" type="Node3D" parent="DialogNode" node_paths=PackedStringArray("camera", "gameplay_target")]
 script = ExtResource("9_08630")
 camera = NodePath("../../Camera3D_Principal")
-gameplay_target = NodePath("../../Player_3D")
+gameplay_target = NodePath("../../Scot")
 
 [node name="PlayerNode" type="Node" parent="."]
 
 [node name="PlayerController" type="Node" parent="PlayerNode" node_paths=PackedStringArray("player_view", "light_service")]
 script = ExtResource("6_4djc3")
-player_view = NodePath("../../Player_3D")
+player_view = NodePath("../../Scot")
 light_service = NodePath("PlayerLightService")
 state = SubResource("Resource_udkkk")
 inventory = SubResource("Resource_5bsxs")
 
 [node name="PlayerLightService" type="Node" parent="PlayerNode/PlayerController" node_paths=PackedStringArray("spotlight")]
 script = ExtResource("5_08630")
-spotlight = NodePath("../../../Player_3D/SpotLight")
+spotlight = NodePath("../../../Scot/SpotLight")
 
 [node name="Scenario" type="Node3D" parent="."]
 
@@ -424,16 +424,16 @@ shape = SubResource("BoxShape3D_ekaqe")
 [node name="Chair" parent="." instance=ExtResource("24_l42ic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3868)
 
-[node name="Player_3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
+[node name="Scot" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32486767, 0)
 script = ExtResource("21_mrjo7")
 anim_sprite = NodePath("AnimatedSprite3D")
 ponto_item_acima = NodePath("PontoItemAcima")
 
-[node name="PontoItemAcima" type="Marker3D" parent="Player_3D"]
+[node name="PontoItemAcima" type="Marker3D" parent="Scot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43016624, 0)
 
-[node name="SpotLight" type="SpotLight3D" parent="Player_3D"]
+[node name="SpotLight" type="SpotLight3D" parent="Scot"]
 transform = Transform3D(1, 0, 0, 0, -0.023332926, 0.9997278, 0, -0.9997278, -0.023332926, -8.85725e-05, 0.8540602, 0.053795934)
 visible = false
 light_color = Color(1, 1, 0, 1)
@@ -442,11 +442,11 @@ shadow_enabled = true
 spot_range = 2.1029348
 spot_angle = 39.45476
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03626728, 0)
 shape = SubResource("CapsuleShape3D_uvydw")
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player_3D"]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Scot"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.028386116, 0)
 billboard = 1
 shaded = true

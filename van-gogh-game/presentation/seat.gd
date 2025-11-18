@@ -12,18 +12,14 @@ func _ready() -> void:
 	
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
-	print("🪑 Seat registrado:", name)
-
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = body
-		print("🧍 Player entrou na área de", name)
 		EventBus.player_entered_interactable_area.emit(self)
 
 func _on_body_exited(body: Node3D) -> void:
 	if body == player_in_range:
 		player_in_range = null
-		print("🚶 Player saiu da área de", name)
 		EventBus.player_exited_interactable_area.emit(self)
 
 func get_sit_transform() -> Transform3D:
