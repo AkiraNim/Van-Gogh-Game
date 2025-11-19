@@ -39,15 +39,14 @@ func _get_star_count_from_inventory_or_var() -> int:
 	if inventory:
 		var n := 0
 		for it in inventory.itens:
-			if it and (it.tipo == "star" or it.grants_star):
+			if it and (it.tipo == "estrela" or it.grants_star):
 				n += 1
 		return n
-	
-	#if Engine.has_singleton("Dialogic"):
-		#var D := Engine.get_singleton("Dialogic")
-		#if D and D.has_subsystem("VAR"):
-			#var v = D.VAR.get_variable("count_estrela_vermelha")
-			#return int(v) if v != null else 0
+	if Engine.has_singleton("Dialogic"):
+		var D := Engine.get_singleton("Dialogic")
+		if D and D.has_subsystem("VAR"):
+			var v = D.VAR.get_variable("count_estrela_vermelha")
+			return int(v) if v != null else 0
 	return 0
 
 func _redraw_stars(count: int) -> void:
@@ -90,7 +89,7 @@ func _redraw_important_items() -> void:
 				important_items_box.add_child(tr)
 
 func _is_important_item(it: ItemData) -> bool:
-	if it.tipo == "important":
+	if it.tipo == "importante":
 		return true
 	if _extra_important_ids.has(it.id_item):
 		return true

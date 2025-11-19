@@ -1,4 +1,3 @@
-# application/controllers/dialog_controller.gd
 extends Node
 class_name DialogController
 
@@ -16,14 +15,14 @@ func _ready() -> void:
 	if get_tree().get_nodes_in_group("dialog_controller").size() > 1:
 		queue_free()
 		return
-
+		
 	if dialogic_service != null:
-		if not dialogic_service.dialog_started.is_connected(_on_dialog_started):
-			dialogic_service.dialog_started.connect(_on_dialog_started)
-		if not dialogic_service.dialog_ended.is_connected(_on_dialog_ended):
-			dialogic_service.dialog_ended.connect(_on_dialog_ended)
-		if not dialogic_service.event_received.is_connected(_on_event_dialogic):
-			dialogic_service.event_received.connect(_on_event_dialogic)
+		if not dialogic_service.dialogo_iniciou.is_connected(_on_dialog_started):
+			dialogic_service.dialogo_iniciou.connect(_on_dialog_started)
+		if not dialogic_service.dialogo_terminou.is_connected(_on_dialog_finished):
+			dialogic_service.dialogo_terminou.connect(_on_dialog_finished)
+		if not dialogic_service.evento_recebido.is_connected(_on_dialogic_event):
+			dialogic_service.evento_recebido.connect(_on_dialogic_event)
 		if not EventBus.important_item_collected.is_connected(_on_important_item):
 			EventBus.important_item_collected.connect(_on_important_item)
 
@@ -31,18 +30,16 @@ func _on_dialog_started() -> void:
 	active_mode = ActiveMode.DIALOG
 	_need_open_camera = true
 
-func _on_dialog_ended() -> void:
+func _on_dialog_finished() -> void:
 	if camera_service != null:
-		camera_service.finish_dialog()
+		camera_service.finalizar_dialogo()
 	active_mode = ActiveMode.NONE
 	actual_speaker = null
 	_need_open_camera = false
 
-
-func _on_event_dialogic(event_resource: Object) -> void:
+func _on_dialogic_event(event_resource: Object) -> void:
 	if event_resource == null:
 		return
-
 	var event_name: String = ""
 	if event_resource.has_method("get"):
 		var ev: Variant = event_resource.get("event_name")
@@ -59,13 +56,11 @@ func _on_event_dialogic(event_resource: Object) -> void:
 			arg_line = str(a)
 		_handle_dialogic_signal(arg_line)
 		return
-
 	var char_res: Object = null
 	if event_resource.has_method("get"):
 		var tmp_char: Variant = event_resource.get("character")
 		if tmp_char != null and tmp_char is Object:
 			char_res = tmp_char
-
 	var actor_name: String = ""
 	if char_res != null and char_res.has_method("get"):
 		var dn: Variant = char_res.get("display_name")
@@ -73,28 +68,24 @@ func _on_event_dialogic(event_resource: Object) -> void:
 			actor_name = str(dn)
 	if actor_name == "":
 		return
-
 	var scene: Node = get_tree().get_current_scene()
 	if scene == null:
 		return
-
 	var node_found: Node = scene.get_node_or_null(actor_name)
 	if node_found == null or not (node_found is Node3D):
 		return
 	var node3d := node_found as Node3D
-
 	if _need_open_camera:
 		if camera_service != null:
-			camera_service.start_dialog(node3d)
+			camera_service.iniciar_dialogo(node3d)
 		_need_open_camera = false
 		actual_speaker = node3d
 		return
-
 	if actual_speaker != node3d:
 		actual_speaker = node3d
 		if camera_service != null:
 			camera_service.focar_personagem(node3d)
-
+	
 func _handle_dialogic_signal(line: String) -> void:
 	if line == "":
 		return
@@ -103,7 +94,6 @@ func _handle_dialogic_signal(line: String) -> void:
 		return
 	var cmd := parts[0]
 	var payload := parts[1]
-
 	var ent := _resolve_active_npc_entity()
 	if ent == null:
 		return
@@ -123,7 +113,6 @@ func _resolve_active_npc_entity() -> NpcEntity:
 			return ent as NpcEntity
 	return null
 
-
 func _on_important_item(item_name: String) -> void:
 	var D = Dialogic
 	if Engine.has_singleton("Dialogic"):
@@ -139,7 +128,7 @@ func _on_important_item(item_name: String) -> void:
 			var vars_ss = D.get_subsystem("Variables")
 			if vars_ss and vars_ss.has_method("set_variable"):
 				vars_ss.set_variable("last_item_name", item_name)
-	
 	Dialogic.VAR.set("last_item_name", item_name)
 	if D.has_method("start"):
+		
 		D.start("important_item")

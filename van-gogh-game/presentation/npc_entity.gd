@@ -1,15 +1,14 @@
-# presentation/npc_entity.gd
 extends Node3D
 class_name NpcEntity
 
 @export var inventory: NpcInventory
 @export var drop_point: Marker3D
-@export var npc_name: String
+@export var nome_npc: String
 
 @export var timelines: Array[String] = []
 var _current_timeline_index: int = 0
 
-var _player_on_area := false
+var _player_na_area := false
 
 func _ready() -> void:
 	add_to_group("npcs")
@@ -21,16 +20,16 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		_player_on_area = true
+		_player_na_area = true
 		EventBus.player_entered_interactable_area.emit(self)
 
 func _on_body_exited(body: Node) -> void:
 	if body.is_in_group("player"):
-		_player_on_area = false
+		_player_na_area = false
 		EventBus.player_exited_interactable_area.emit(self)
 
 func _unhandled_input(e: InputEvent) -> void:
-	if _player_on_area and e.is_action_pressed("interact"):
+	if _player_na_area and e.is_action_pressed("interact"):
 		trigger_dialog()
 
 func trigger_dialog() -> void:
@@ -45,7 +44,6 @@ func avancar_timeline() -> void:
 		_current_timeline_index += 1
 	else:
 		return
-
 func drop_item(id_item: String) -> void:
 	if inventory == null:
 		return
@@ -58,9 +56,9 @@ func drop_item(id_item: String) -> void:
 		return
 
 	_config_as_collectable(node, data)
-	_colect_on_scenario(node)
+	_colocar_no_cenario(node)
 	if "npc_dropped_item" in EventBus:
-		EventBus.npc_dropped_item.emit(npc_name, id_item)
+		EventBus.npc_dropped_item.emit(nome_npc, id_item)
 
 func give_item_to_player(id_item: String, _player: PlayerView) -> void:
 	if inventory == null:
@@ -96,7 +94,7 @@ func _config_as_collectable(node: Node3D, data: ItemData) -> void:
 	else:
 		node.set_meta("item_data", data)
 
-func _colect_on_scenario(node: Node3D) -> void:
+func _colocar_no_cenario(node: Node3D) -> void:
 	var root := get_tree().get_current_scene()
 	if root:
 		root.add_child(node)

@@ -2,26 +2,28 @@ extends Node
 
 @export var item_repository: ItemRepository
 
-func drop_item(npc_name: String, item_data: ItemData, drop_point: Marker3D) -> Node3D:
-	if item_data == null or drop_point == null:
+func dropar_item(npc_name: String, item_data: ItemData, ponto_drop: Marker3D) -> Node3D:
+	if item_data == null or ponto_drop == null:
 		return null
 	var item_instance := item_data.cena_do_item.instantiate()
 	
-	var instance: Node3D = null
+	var instancia: Node3D = null
 	if item_repository:
-		instance = item_repository.instantiate_item(item_data.id_item)
+		instancia = item_repository.instantiate_item(item_data.id_item)
 	elif item_data.cena_do_item:
-		instance = item_data.cena_do_item.instantiate()
+		instancia = item_data.cena_do_item.instantiate()
 
-	if instance == null:
+	if instancia == null:
+		push_warning("NpcService: falha ao instanciar item '%s'." % item_data.id_item)
 		return null
 
 	var root := get_tree().current_scene
 	if root:
-		root.add_child(instance)
-		instance.global_position = drop_point.global_position
+		root.add_child(instancia)
+		instancia.global_position = ponto_drop.global_position
 
+	# >>> Correção: o EventBus espera (npc_name, id_item)
 	EventBus.npc_dropped_item.emit(npc_name, item_data.id_item)
-	return instance
+	return instancia
 	
 	

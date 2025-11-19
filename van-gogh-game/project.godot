@@ -38,23 +38,27 @@ PlayerRegistry="*res://presentation/player_registry.gd"
 [dialogic]
 
 directories/dch_directory={
+"Carta": "res://Dialogic/Characters/Carta.dch",
 "Fazendeiro": "res://Dialogic/Characters/Fazendeiro.dch",
 "Ferreiro": "res://Dialogic/Characters/Ferreiro.dch",
-"Flint": "res://Dialogic/Portraits/Flint(Easter)/Flint.dch",
+"Flint": "res://Dialogic/Characters/Flint.dch",
 "Florista": "res://Dialogic/Characters/Florista.dch",
 "NPC_Teste": "res://Dialogic/Characters/NPC_Teste.dch",
 "Player_3D": "res://Dialogic/Characters/Player_3D.dch",
 "Scot": "res://Dialogic/Characters/Scot.dch",
-"VanGogh": "res://Dialogic/Portraits/Van Gogh/VanGogh.dch",
+"VanGogh": "res://Dialogic/Characters/VanGogh.dch",
 "character": "res://Dialogic/Characters/character.dch",
 "test_character": "res://Dialogic/Characters/test_character.dch"
 }
 directories/dtl_directory={
+"Carta_01": "res://Dialogic/Timelines/Utils/Timelines/Carta/Carta_01.dtl",
 "Fazendeiro_01": "res://Dialogic/Timelines/Fazendeiro/Fazendeiro_01.dtl",
+"Fazendeiro_02": "res://Dialogic/Timelines/Fazendeiro/Fazendeiro_02.dtl",
 "Ferreiro_01_primeiro_contato": "res://Dialogic/Timelines/Test/Ferreiro_01_primeiro_contato.dtl",
 "Ferreiro_02": "res://Dialogic/Timelines/Test/Ferreiro_02.dtl",
-"Flint_01": "res://Dialogic/Portraits/Flint(Easter)/Flint_01.dtl",
-"Florista_01": "res://Dialogic/Portraits/Florista/Florista_01.dtl",
+"Flint_01": "res://Dialogic/Timelines/Flint(Easter)/Flint_01.dtl",
+"Florista_01": "res://Dialogic/Timelines/Florista/Florista_01.dtl",
+"Florista_02": "res://Dialogic/Timelines/Florista/Florista_02.dtl",
 "NPC_Teste_01_oferece_quest": "res://Dialogic/Timelines/Test/NPC_Teste_01_oferece_quest.dtl",
 "NPC_Teste_02_lembra_progresso": "res://Dialogic/Timelines/Test/NPC_Teste_02_lembra_progresso.dtl",
 "NPC_Teste_03_completa_e_premia": "res://Dialogic/Timelines/Test/NPC_Teste_03_completa_e_premia.dtl",
@@ -62,6 +66,7 @@ directories/dtl_directory={
 "Player_NPC_item": "res://Dialogic/Timelines/Test/Player_NPC_item.dtl",
 "Player_item": "res://Dialogic/Timelines/Test/Player_item.dtl",
 "Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl",
+"VanGogh_01": "res://Dialogic/Timelines/Van Gogh/VanGogh_01.dtl",
 "important_item": "res://Dialogic/Timelines/important_item.dtl"
 }
 layout/style_list=["res://Dialogic/Themes/narrator.tres", "res://Dialogic/Themes/default.tres"]
@@ -89,13 +94,25 @@ glossary/default_case_sensitive=true
 variables={
 "count_estrela_amarela": "",
 "count_estrela_vermelha": "",
+"count_flores_de_inverno": "",
+"count_legumes": "",
 "has_estrela_amarela": false,
 "has_estrela_vermelha": false,
+"has_flores_de_inverno": false,
+"has_legumes": false,
 "last_item_name": "",
 "q_Coletar estrela vermelha_need_estrela_vermelha": 0,
 "q_Coletar estrela vermelha_progress_estrela_vermelha": 0,
 "q_Coletar estrela vermelha_status": "",
+"q_Coletar flores de inverno_need_flores_de_inverno": "",
+"q_Coletar flores de inverno_progress": "",
+"q_Coletar flores de inverno_status": "",
+"q_Coletar legumes_need_legumes": "",
+"q_Coletar legumes_progress_legumes": "",
+"q_Coletar legumes_status": "",
 "q_Falar com Van Gogh_status": "false",
+"q_Falar com a florista_status": "",
+"q_Ver a carta de Van Gogh_status": "false",
 "q_falar_com_ferreiro_status": "false"
 }
 

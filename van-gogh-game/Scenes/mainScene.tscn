@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=63 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
@@ -21,7 +21,6 @@
 [ext_resource type="Shader" uid="uid://bxsh201bxhly8" path="res://presentation/shaders/water.gdshader" id="15_uh2eo"]
 [ext_resource type="Texture2D" uid="uid://b5bf6fgy7mj5q" path="res://Assets/Scenarios/Enviroment/Water.png" id="15_wrx63"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
-[ext_resource type="Resource" uid="uid://cwh3fycooxk7y" path="res://Resources/Items/estrela_teste.tres" id="16_ekaqe"]
 [ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
 [ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
@@ -37,6 +36,10 @@
 [ext_resource type="PackedScene" uid="uid://8h42y2f5waqa" path="res://Assets/Scenarios/Buildings/Simple Biuldings/policeStation.tscn" id="26_qshdt"]
 [ext_resource type="Texture2D" uid="uid://buvbnweciisdg" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Fire Station.png" id="27_afia4"]
 [ext_resource type="Resource" uid="uid://nj8lhv52hxbi" path="res://Resources/Items/estrela.tres" id="28_7ew7i"]
+[ext_resource type="Resource" uid="uid://ciqqwdialb2lo" path="res://Resources/Items/milho.tres" id="30_qshdt"]
+[ext_resource type="Texture2D" uid="uid://1n42elskku7c" path="res://Assets/Items/Carrot.png" id="38_llqta"]
+[ext_resource type="Resource" uid="uid://btjrmdxvn8vk5" path="res://Resources/Items/cenoura.tres" id="38_qshdt"]
+[ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="39_afia4"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -101,12 +104,23 @@ height = 0.53894997
 [sub_resource type="BoxShape3D" id="BoxShape3D_l42ic"]
 size = Vector3(0.52311707, 0.5489807, 0.60491943)
 
-[sub_resource type="Resource" id="Resource_iypob"]
+[sub_resource type="Resource" id="Resource_afia4"]
 script = ExtResource("11_iypob")
+itens = Array[ExtResource("10_5bsxs")]([ExtResource("39_afia4")])
 metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mrjo7"]
 size = Vector3(0.47192383, 0.5172119, 0.55999756)
+
+[sub_resource type="Resource" id="Resource_iypob"]
+script = ExtResource("11_iypob")
+itens = Array[ExtResource("10_5bsxs")]([ExtResource("28_7ew7i")])
+metadata/_custom_type_script = "uid://nxieygehmgh6"
+
+[sub_resource type="Resource" id="Resource_22sd7"]
+script = ExtResource("11_iypob")
+itens = Array[ExtResource("10_5bsxs")]([ExtResource("28_7ew7i")])
+metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "player_light_service")]
 script = ExtResource("1_m8nr8")
@@ -122,10 +136,6 @@ process_mode = 1
 visible = false
 
 [node name="UIService" parent="." instance=ExtResource("2_l42ic")]
-toggle_action = &"toggle"
-pause_action = &"pause"
-icon_size = Vector2(32, 32)
-show_count_badge = true
 
 [node name="MainController" type="Node" parent="." node_paths=PackedStringArray("dialog_service", "player", "zone_controller")]
 script = ExtResource("2_v2gni")
@@ -135,9 +145,9 @@ zone_controller = NodePath("../EnviromentNode/ZoneController")
 
 [node name="EnviromentNode" type="Node" parent="."]
 
-[node name="ZoneController" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("zones", "lighting_service")]
+[node name="ZoneController" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("zonas", "lighting_service")]
 script = ExtResource("2_0bgj2")
-zones = [NodePath("../../Zones/RedZone"), NodePath("../../Zones/BlueZone"), NodePath("../../Zones/GreenZone"), NodePath("../../Zones/YellowZone"), NodePath("../../Zones/NeutralZone")]
+zonas = [NodePath("../../Zones/ZonaVermelha"), NodePath("../../Zones/ZonaAzul"), NodePath("../../Zones/ZonaVerde"), NodePath("../../Zones/ZonaAmarela"), NodePath("../../Zones/ZonaNeutra")]
 lighting_service = NodePath("../LightingService")
 player_path = NodePath("../../Scot")
 
@@ -308,49 +318,94 @@ texture = ExtResource("27_afia4")
 
 [node name="Zones" type="Node3D" parent="."]
 
-[node name="RedZone" type="Area3D" parent="Zones"]
+[node name="ZonaVermelha" type="Area3D" parent="Zones"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.368351, 0, -8.918707)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/RedZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaVermelha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6097069, 1.7264099, 0.95204353)
 shape = SubResource("BoxShape3D_m8nr8")
 debug_color = Color(1, 0, 0, 0.41960785)
 
-[node name="BlueZone" type="Area3D" parent="Zones"]
+[node name="ZonaAzul" type="Area3D" parent="Zones"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3341866, 0, 5.9039717)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/BlueZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaAzul"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33432007, 1.7264099, -0.06742573)
 shape = SubResource("BoxShape3D_47rga")
 debug_color = Color(0, 0, 1, 0.41960785)
 
-[node name="GreenZone" type="Area3D" parent="Zones"]
+[node name="ZonaVerde" type="Area3D" parent="Zones"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.568363, 0, 5.999136)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/GreenZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaVerde"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.48953247, 1.7264099, -1.261754)
 shape = SubResource("BoxShape3D_yyxd1")
 debug_color = Color(0, 1, 0, 0.41960785)
 
-[node name="YellowZone" type="Area3D" parent="Zones"]
+[node name="ZonaAmarela" type="Area3D" parent="Zones"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.618267, 0, -7.9272738)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/YellowZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaAmarela"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13458824, 1.7264099, 0.41093063)
 shape = SubResource("BoxShape3D_0vbqt")
 debug_color = Color(0.87058824, 1, 0, 0.41960785)
 
-[node name="NeutralZone" type="Area3D" parent="Zones"]
+[node name="ZonaNeutra" type="Area3D" parent="Zones"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/NeutralZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zones/ZonaNeutra"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_w1dup")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
 
 [node name="AreaItem" parent="." instance=ExtResource("17_4djc3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9832748, 0.16228667, 0)
-id_item = "estrela_vermelha"
-item_data = ExtResource("16_ekaqe")
+id_item = "legumes"
+item_data = ExtResource("38_qshdt")
+
+[node name="AreaItem2" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem3" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem4" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem5" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem6" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem7" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem8" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem9" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
+
+[node name="AreaItem10" parent="." instance=ExtResource("17_4djc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
+id_item = "legumes"
+item_data = ExtResource("30_qshdt")
 
 [node name="Camera3D_Principal" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 0, 5.999195, 8.839)
@@ -384,6 +439,7 @@ offset_bottom = 23.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7814376, 0.3252036, 0)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
+nome_npc = "NPC_Teste"
 
 [node name="DropPoint" type="Marker3D" parent="NPC_Teste"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0056233406, 0, 0.4861189)
@@ -413,6 +469,7 @@ npc_entity_path = NodePath("../NpcEntity")
 script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_ekaqe")
 drop_point = NodePath("../DropPoint")
+nome_npc = "NPC_Teste"
 timelines = Array[String](["NPC_Teste_01_oferece_quest", "NPC_Teste_02_lembra_progresso", "NPC_Teste_03_completa_e_premia", "NPC_Teste_04_fim_loop"])
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NPC_Teste"]
@@ -455,14 +512,16 @@ texture_filter = 2
 sprite_frames = ExtResource("2_ly6xb")
 animation = &"idle_down"
 
-[node name="Ferreiro" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8067188, 0.34116307, 0)
+[node name="Fazendeiro" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8067188, 0.34116307, 4.925576)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
+nome_npc = "Fazendeiro"
 
-[node name="Marker3D" type="Marker3D" parent="Ferreiro"]
+[node name="Marker3D" type="Marker3D" parent="Fazendeiro"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0026550293, -0.1384243, 0.39569712)
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Ferreiro"]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Fazendeiro"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 modulate = Color(1, 0, 0, 1)
 billboard = 1
@@ -472,24 +531,148 @@ texture_filter = 2
 sprite_frames = ExtResource("2_ly6xb")
 animation = &"idle_down"
 
-[node name="Interacao" type="Area3D" parent="Ferreiro"]
+[node name="Interacao" type="Area3D" parent="Fazendeiro"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ferreiro/Interacao"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fazendeiro/Interacao"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036079407, -0.052108765, 0.073394775)
 shape = SubResource("BoxShape3D_l42ic")
 
-[node name="NpcController" type="Node3D" parent="Ferreiro"]
+[node name="NpcController" type="Node3D" parent="Fazendeiro"]
 script = ExtResource("14_4djc3")
 npc_entity_path = NodePath("../NpcEntity")
 
-[node name="NpcEntity" type="Node3D" parent="Ferreiro" node_paths=PackedStringArray("drop_point")]
+[node name="NpcEntity" type="Node3D" parent="Fazendeiro" node_paths=PackedStringArray("drop_point")]
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_afia4")
+drop_point = NodePath("../Marker3D")
+nome_npc = "Fazendeiro"
+timelines = Array[String](["Fazendeiro_01", "Fazendeiro_02"])
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Fazendeiro"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fazendeiro/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.07144165)
+shape = SubResource("BoxShape3D_mrjo7")
+
+[node name="Van Gogh" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.209802, 0.34116307, 0)
+script = ExtResource("18_oi7nq")
+anim_sprite = NodePath("AnimatedSprite3D")
+nome_npc = "VanGogh"
+
+[node name="Marker3D" type="Marker3D" parent="Van Gogh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.4014287)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Van Gogh"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+modulate = Color(0.20569697, 0.51106125, 1, 1)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
+
+[node name="Interacao" type="Area3D" parent="Van Gogh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Van Gogh/Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036079407, -0.052108765, 0.073394775)
+shape = SubResource("BoxShape3D_l42ic")
+
+[node name="NpcController" type="Node3D" parent="Van Gogh"]
+script = ExtResource("14_4djc3")
+npc_entity_path = NodePath("../NpcEntity")
+
+[node name="NpcEntity" type="Node3D" parent="Van Gogh" node_paths=PackedStringArray("drop_point")]
 script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_iypob")
 drop_point = NodePath("../Marker3D")
-timelines = Array[String](["Ferreiro_01_primeiro_contato", "Ferreiro_02"])
+nome_npc = "VanGogh"
+timelines = Array[String](["VanGogh_01", ""])
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Ferreiro"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Van Gogh"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ferreiro/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Van Gogh/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.07144165)
+shape = SubResource("BoxShape3D_mrjo7")
+
+[node name="Florista" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2014008, 0.34116307, 0)
+script = ExtResource("18_oi7nq")
+anim_sprite = NodePath("AnimatedSprite3D")
+nome_npc = "Florista"
+
+[node name="Marker3D" type="Marker3D" parent="Florista"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.45214367)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Florista"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+modulate = Color(1, 0.50980395, 1, 1)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+sprite_frames = ExtResource("2_ly6xb")
+animation = &"idle_down"
+
+[node name="Interacao" type="Area3D" parent="Florista"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Florista/Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036079407, -0.052108765, 0.073394775)
+shape = SubResource("BoxShape3D_l42ic")
+
+[node name="NpcController" type="Node3D" parent="Florista"]
+script = ExtResource("14_4djc3")
+npc_entity_path = NodePath("../NpcEntity")
+
+[node name="NpcEntity" type="Node3D" parent="Florista" node_paths=PackedStringArray("drop_point")]
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_22sd7")
+drop_point = NodePath("../Marker3D")
+nome_npc = "Florista"
+timelines = Array[String](["Florista_01", "Florista_02"])
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Florista"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Florista/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.07144165)
+shape = SubResource("BoxShape3D_mrjo7")
+
+[node name="Carta" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.209802, 0.34116307, -7.0208383)
+script = ExtResource("18_oi7nq")
+nome_npc = "Carta"
+
+[node name="Marker3D" type="Marker3D" parent="Carta"]
+
+[node name="AnimatedSprite3D" type="Sprite3D" parent="Carta"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+modulate = Color(0.20569697, 0.51106125, 1, 1)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 2
+texture = ExtResource("38_llqta")
+
+[node name="Interacao" type="Area3D" parent="Carta"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Carta/Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036079407, -0.052108765, 0.073394775)
+shape = SubResource("BoxShape3D_l42ic")
+
+[node name="NpcController" type="Node3D" parent="Carta"]
+script = ExtResource("14_4djc3")
+npc_entity_path = NodePath("../NpcEntity")
+
+[node name="NpcEntity" type="Node3D" parent="Carta" node_paths=PackedStringArray("drop_point")]
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_iypob")
+drop_point = NodePath("../Marker3D")
+nome_npc = "Carta"
+timelines = Array[String](["Carta_01"])
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Carta"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Carta/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.07144165)
 shape = SubResource("BoxShape3D_mrjo7")

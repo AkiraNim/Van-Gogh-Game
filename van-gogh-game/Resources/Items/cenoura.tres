@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_d82yb")
-id_item = "cenoura"
+id_item = "legumes"
 nome = "Cenoura"
 tipo = "importante"
 icone = ExtResource("2_v66u1")

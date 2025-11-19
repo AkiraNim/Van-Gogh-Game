@@ -1,4 +1,4 @@
 extends Resource
 class_name ItemType
 
-enum Type { STAR }
+enum Tipo { ESTRELA, CHAVE, MOEDA, COLETAVEL, OUTRO }

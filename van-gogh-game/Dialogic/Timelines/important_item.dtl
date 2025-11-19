@@ -1,4 +1,5 @@
 [style name="narrator"]
+leave --All--
 Scot: Você recebeu um item importante\: {last_item_name}!
-Scot: Guarde bem este item — ele pode ser útil mais tarde.
+Scot: Guarde bem ele pode ser útil mais tarde.
 [end_timeline]

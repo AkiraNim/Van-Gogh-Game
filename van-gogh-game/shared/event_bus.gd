@@ -1,11 +1,11 @@
 extends Node
 
-signal dialog_started                     
-signal dialog_ended                      
+signal dialog_started                
+signal dialog_ended                   
 
-signal item_collected(id_item: String, item_node: Node3D)   
-signal animation_collect_finished                         
-signal star_count_changed(count: int)                      
+signal item_collected(id_item: String, item_node: Node3D)  
+signal animation_collect_finished                          
+signal star_count_changed(count: int)                     
 signal important_item_collected(item_name: String)
 
 signal player_entered_zone(zone_name: String)
@@ -14,8 +14,8 @@ signal zone_changed(zone_name: String)
 signal zone_conquered(zone_name: String)
 
 
-signal player_moved(direction: Vector3)                    
-signal player_stopped                                     
+signal player_moved(direction: Vector3)                    # Para broadcast de movimento
+signal player_stopped                                      # Para broadcast de parada
 signal player_entered_interactable_area(interactable_node: Node3D)
 signal player_exited_interactable_area(interactable_node: Node3D)
 signal interaction_started
@@ -31,11 +31,11 @@ signal inventory_item_removed(item_id: String)
 signal inventory_updated
 
 signal game_paused(is_paused: bool)                  
-signal game_saved                                   
-signal game_loaded(scene_path: String)             
-signal game_reset                                   
+signal game_saved                                  
+signal game_loaded(scene_path: String)              
+signal game_reset                                  
 signal scene_changed(scene_path: String)            
-signal save_failed(error_msg: String)               
+signal save_failed(error_msg: String)              
 
 func emit_important_item_collected(item_name: String) -> void:
 	important_item_collected.emit(item_name)

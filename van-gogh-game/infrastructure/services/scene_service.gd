@@ -4,7 +4,6 @@ signal scene_loaded(scene_path: String)
 
 var current_scene: Node = null
 
-# --- ADIÇÃO CRÍTICA ---
 func _ready():
 	var root = get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
@@ -17,9 +16,9 @@ func change_scene(scene_path: String):
 	var new_scene_resource: PackedScene = load(scene_path)
 	_instantiate_and_change(new_scene_resource)
 
+# NOVA FUNÇÃO: Muda para uma cena que já foi carregada em memória.
 func change_scene_from_resource(scene_resource: PackedScene):
 	if not scene_resource:
-		push_error("SceneService: Recurso de cena pré-carregado é inválido.")
 		return
 	
 	_instantiate_and_change(scene_resource)

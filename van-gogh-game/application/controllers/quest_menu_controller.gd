@@ -5,12 +5,10 @@ class_name QuestMenuController
 @export var completed_list: VBoxContainer
 @export var toggle_action: StringName = "toggle"
 
-# opcional: fonte única para linhas de título (senão usa Label padrão)
 @export var row_font: Font
 
 func _ready() -> void:
 	visible = false
-
 	var QS := _get_quest_service()
 	if QS:
 		if not QS.quest_accepted.is_connected(_on_q_accepted):

@@ -5,6 +5,7 @@ const SAVE_PATH := "user://savegame.json"
 func save_game(state: GameState) -> void:
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if not file:
+		push_error("SaveService: erro ao salvar jogo.")
 		return
 	file.store_string(JSON.stringify(state.to_dict()))
 	file.close()
@@ -17,6 +18,7 @@ func load_game(state: GameState) -> bool:
 	file.close()
 	var data = JSON.parse_string(text)
 	if typeof(data) != TYPE_DICTIONARY:
+		push_error("SaveService: arquivo de save inválido.")
 		return false
 	state.from_dict(data)
 	return true

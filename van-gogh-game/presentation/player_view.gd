@@ -1,12 +1,11 @@
 extends CharacterBody3D
 class_name PlayerView
 
-signal item_collected(item_node)
-signal stars_count_changed(nova_contagem: int)
+signal item_coletado(item_node)
+signal contagem_estrelas_mudou(nova_contagem: int)
 signal quest_accepted(qid: String, title: String)
 signal quest_progress(qid: String, have: Dictionary)
 signal quest_completed(qid: String, title: String, motivo: String)
-
 
 @export var speed: float = 2.0
 @export var anim_sprite: AnimatedSprite3D
@@ -16,13 +15,13 @@ signal quest_completed(qid: String, title: String, motivo: String)
 
 var anim_lock_name: StringName = ""
 var anim_lock_time: float = 0.0
-var _held_item: Node3D = null
-var can_move: bool = true
+var _item_segurado: Node3D = null
+var pode_mover: bool = true
 var last_direction := Vector3.FORWARD
 var velocity_vector := Vector3.ZERO
 var is_sitting: bool = false
-var finished_quests := {}
-var active_quests := {}
+var quests_ativas := {}
+var quests_concluidas := {}
 
 func _enter_tree() -> void:
 	if PlayerRegistry.player == null:
@@ -40,10 +39,10 @@ func _ready():
 	last_direction = _dir_from_idle(String(default_idle))
 	_play_safe(default_idle)
 
-	if not EventBus.dialog_started.is_connected(_on_dialog_started):
-		EventBus.dialog_started.connect(_on_dialog_started)
-	if not EventBus.dialog_ended.is_connected(_on_dialog_ended):
-		EventBus.dialog_ended.connect(_on_dialog_ended)
+	if not EventBus.dialog_started.is_connected(_on_dialogo_iniciou):
+		EventBus.dialog_started.connect(_on_dialogo_iniciou)
+	if not EventBus.dialog_ended.is_connected(_on_dialogo_terminou):
+		EventBus.dialog_ended.connect(_on_dialogo_terminou)
 	if has_node("/root/EventBus"):
 		var eb := get_node("/root/EventBus")
 		if not eb.item_collected.is_connected(_pv_on_item_collected):
@@ -52,16 +51,17 @@ func _ready():
 			eb.npc_dialog_triggered.connect(_pv_on_npc_dialog_triggered)
 
 func set_held_item(n: Node3D) -> void:
-	_held_item = n
+	_item_segurado = n
 
 func get_held_item_node() -> Node3D:
-	return _held_item
+	return _item_segurado
 
-func destroy_held_item() -> void:
-	if is_instance_valid(_held_item):
-		_held_item.queue_free()
-	_held_item = null
+func destruir_item_segurado() -> void:
+	if is_instance_valid(_item_segurado):
+		_item_segurado.queue_free()
+	_item_segurado = null
 
+# --------------------------- Movimento ---------------------------
 func _physics_process(_delta: float) -> void:
 	if is_sitting:
 		velocity = Vector3.ZERO
@@ -78,7 +78,7 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 		return
 
-	if not can_move:
+	if not pode_mover:
 		velocity = Vector3.ZERO
 		move_and_slide()
 		_update_animation()
@@ -100,12 +100,13 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	_update_animation()
 
-func _on_dialog_started() -> void:
-	can_move = false
+# --------------------------- Dialogo ---------------------------
+func _on_dialogo_iniciou() -> void:
+	pode_mover = false
 	velocity = Vector3.ZERO
 
-func _on_dialog_ended() -> void:
-	can_move = not is_sitting
+func _on_dialogo_terminou() -> void:
+	pode_mover = not is_sitting
 
 func _update_animation() -> void:
 	if not anim_sprite:
@@ -194,17 +195,16 @@ func _dir_from_idle(idle: String) -> Vector3:
 		"idle_down_right": return (Vector3.BACK + Vector3.RIGHT).normalized()
 		_: return Vector3.BACK
 
-# ========================= QUESTS =========================
 func accept_quest(qid: String, cfg: Dictionary) -> void:
-	if active_quests.has(qid):
+	if quests_concluidas.has(qid):
 		return
-	if finished_quests.has(qid) and String(finished_quests[qid].get("status","")) == "accepted":
+	if quests_ativas.has(qid) and String(quests_ativas[qid].get("status","")) == "accepted":
 		return
 
 	var q := cfg.duplicate(true)
 	q.status = "accepted"
 
-	if String(q.get("type","")) == "collect":
+	if String(q.get("tipo","")) == "collect":
 		if not q.has("req_items"):
 			q.req_items = {}
 		if not q.has("have"):
@@ -212,7 +212,7 @@ func accept_quest(qid: String, cfg: Dictionary) -> void:
 		for id in q.req_items.keys():
 			q.have[id] = int(q.have.get(id, 0))
 
-	finished_quests[qid] = q
+	quests_ativas[qid] = q
 	var title := String(q.get("title", qid))
 	emit_signal("quest_accepted", qid, title)
 
@@ -223,15 +223,15 @@ func accept_quest(qid: String, cfg: Dictionary) -> void:
 			D.Variables.set_variable("quest/%s/title" % qid, title)
 
 func complete_quest(qid: String, motivo: String="") -> void:
-	if not finished_quests.has(qid):
+	if not quests_ativas.has(qid):
 		return
-	var q = finished_quests[qid]
+	var q = quests_ativas[qid]
 	if String(q.get("status","")) != "accepted":
 		return
 
 	q.status = "completed"
-	finished_quests.erase(qid)
-	active_quests[qid] = true
+	quests_ativas.erase(qid)
+	quests_concluidas[qid] = true
 	var title := String(q.get("title", qid))
 	emit_signal("quest_completed", qid, title, motivo)
 
@@ -242,20 +242,20 @@ func complete_quest(qid: String, motivo: String="") -> void:
 			D.Variables.set_variable("quest/%s/done" % qid, true)
 
 func get_active_quests() -> Dictionary:
-	return finished_quests
+	return quests_ativas
 
 func get_completed_quests() -> Dictionary:
-	return active_quests
+	return quests_concluidas
 
 func _pv_on_item_collected(id_item: String, _item_node: Node3D) -> void:
-	for qid in finished_quests.keys():
-		var q = finished_quests[qid]
-		if String(q.get("type","")) != "collect" or String(q.get("status","")) != "accepted" or not q.req_items.has(id_item):
+	for qid in quests_ativas.keys():
+		var q = quests_ativas[qid]
+		if String(q.get("tipo","")) != "collect" or String(q.get("status","")) != "accepted" or not q.req_items.has(id_item):
 			continue
 		
 		var have := int(q.have.get(id_item, 0)) + 1
 		q.have[id_item] = have
-		finished_quests[qid] = q
+		quests_ativas[qid] = q
 
 		emit_signal("quest_progress", qid, q.have)
 		
@@ -271,8 +271,8 @@ func _pv_is_collect_done(q: Dictionary) -> bool:
 	return true
 
 func _pv_on_npc_dialog_triggered(npc_name: String, _timeline: String) -> void:
-	for qid in finished_quests.keys():
-		var q = finished_quests[qid]
-		if String(q.get("type","")) != "talk" or String(q.get("status","")) != "accepted" or String(q.get("req_talk_to","")) != npc_name:
+	for qid in quests_ativas.keys():
+		var q = quests_ativas[qid]
+		if String(q.get("tipo","")) != "talk" or String(q.get("status","")) != "accepted" or String(q.get("req_talk_to","")) != npc_name:
 			continue
 		complete_quest(qid, "talk")

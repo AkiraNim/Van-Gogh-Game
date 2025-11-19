@@ -27,6 +27,7 @@ func _ready() -> void:
 
 	target_scene_path = game_manager.state.current_scene
 	
+	# 4. Inicia o carregamento da cena alvo em segundo plano
 	ResourceLoader.load_threaded_request(target_scene_path)
 
 
@@ -41,12 +42,12 @@ func _process(delta: float) -> void:
 			_try_to_change_scene()
 
 
+# Chamado quando o timer de 3 segundos termina
 func _on_minimum_wait_timer_timeout():
 	_is_minimum_time_finished = true
 	_try_to_change_scene()
 
 
-# A função central que decide se a transição pode ocorrer
 func _try_to_change_scene():
 	if _is_scene_loaded and _is_minimum_time_finished:
 		var scene_resource = ResourceLoader.load_threaded_get(target_scene_path)

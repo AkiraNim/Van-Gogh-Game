@@ -1,7 +1,6 @@
 extends Node
 class_name UIService
 
-
 @export var hud_root: Control
 @export var stars_container: Container
 @export var important_container: Container
@@ -14,20 +13,18 @@ class_name UIService
 @export var active_quests_container: ItemList
 @export var completed_quests_container: ItemList
 
-
 @export var item_repository: ItemRepository
 @export var player_inventory: PlayerInventory
 @export var player_state: PlayerState
-@export var quest_service: Node
-
+@export var quest_service: Node   
 
 @export var toggle_action: StringName = "toggle"
 @export var pause_action: StringName = "pause"
 
-
 @export var icon_size: Vector2 = Vector2(32, 32)
 @export var show_count_badge: bool = true
 @export var interaction_prompt_scene: PackedScene
+
 @onready var game_manager = get_node("/root/GameManager")
 
 var _interaction_prompt_instance: Control
@@ -234,12 +231,13 @@ func _refresh_quest_menu() -> void:
 	for qid in done.keys():
 		var title := _get_dialogic_title(String(qid), String(qid))
 		_add_quest_line(completed_quests_container, title, true)
-		
+
 	if active_quests_container and active_quests_container is ItemList:
 		var al := active_quests_container as ItemList
 		if al.item_count > 0:
 			al.select(0)
 			al.grab_focus()
+
 
 func _get_dialogic_title(qid: String, fallback: String) -> String:
 	var key := "quest/%s/title" % qid
@@ -292,7 +290,7 @@ func _add_quest_line(parent: Node, title: String, is_done: bool) -> void:
 	var list := parent as ItemList
 	var idx := list.add_item(title)
 	list.set_item_metadata(idx, {"title": title, "done": is_done})
-
+	
 func _inventory_counts() -> Dictionary:
 	var dict: Dictionary = {}
 	var inv: PlayerInventory = _get_inventory()
@@ -395,6 +393,7 @@ func _autowire_quest_menu() -> void:
 
 	_ensure_menu_layout()
 
+
 func _find_control_by_names(candidates: Array[String]) -> Control:
 	var root: Node = get_tree().get_root()
 	if root == null:
@@ -461,8 +460,8 @@ func _collect_quests() -> Dictionary:
 			return out
 
 	var candidates: Array = [
-		["active_quests", "finished_quests"],
-		["_q_active", "_q_finished"],
+		["quests_ativas", "quests_concluidas"],
+		["_q_ativas", "_q_concluidas"],
 		["active_quests", "completed_quests"],
 		["active", "completed"]
 	]
@@ -482,8 +481,8 @@ func _collect_quests() -> Dictionary:
 
 	var bridge: Node = _find_first_in_group("dialog_bridge")
 	if bridge:
-		var ba = bridge.get("_q_active")
-		var bd = bridge.get("_q_finished")
+		var ba = bridge.get("_q_ativas")
+		var bd = bridge.get("_q_concluidas")
 		var ba_norm: Dictionary = _normalize_variant_to_dict(ba)
 		var bd_norm: Dictionary = _normalize_variant_to_dict(bd)
 		if ba_norm.size() > 0 or bd_norm.size() > 0:
@@ -577,11 +576,13 @@ func _find_child_by_names_ci(parent: Node, candidates: Array[String]) -> Node:
 			if ch is Node:
 				stack.append(ch)
 	return null
-	
+
+# Garante que vamos adicionar em um ItemList válido dentro do ScrollContainer.
 func _ensure_list_container(node: Node) -> ItemList:
 	if node == null:
 		return null
 
+	# Se já for ItemList, só ajusta flags
 	if node is ItemList:
 		var il := node as ItemList
 		il.select_mode = ItemList.SELECT_SINGLE
@@ -591,6 +592,7 @@ func _ensure_list_container(node: Node) -> ItemList:
 		il.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		return il
 
+	# Se for ScrollContainer: procura/instala um ItemList
 	if node is ScrollContainer:
 		var sc := node as ScrollContainer
 		for ch in sc.get_children():
@@ -606,6 +608,7 @@ func _ensure_list_container(node: Node) -> ItemList:
 		sc.add_child(il2)
 		return il2
 
+	# Qualquer Control -> cria um ItemList dentro
 	if node is Control:
 		var host := node as Control
 		for ch in host.get_children():
@@ -624,6 +627,7 @@ func _ensure_list_container(node: Node) -> ItemList:
 	return null
 
 func _ensure_menu_layout() -> void:
+	# raiz do menu
 	if quest_menu_root and quest_menu_root is Control:
 		var c := quest_menu_root as Control
 		c.set_anchors_preset(Control.PRESET_FULL_RECT, true)
@@ -632,6 +636,7 @@ func _ensure_menu_layout() -> void:
 		if c.custom_minimum_size == Vector2.ZERO:
 			c.custom_minimum_size = Vector2(480, 320)
 
+	# Centraliza e ROTACIONA 90° o TextureRect do QuestMenu
 	var tex_node: Node = quest_menu_root.find_child("TextureRect", true, false)
 	if tex_node and tex_node is Control:
 		var t := tex_node as Control
@@ -641,6 +646,7 @@ func _ensure_menu_layout() -> void:
 		t.anchor_top = 0.5
 		t.anchor_bottom = 0.5
 
+		# tamanho de referência
 		var sz := t.size
 		if sz == Vector2.ZERO:
 			sz = t.custom_minimum_size
@@ -686,7 +692,6 @@ func _on_list_item_activated(index: int, list: ItemList) -> void:
 	var meta = list.get_item_metadata(index)
 	var title: String = str(meta.get("title", list.get_item_text(index)))
 	var done: bool = bool(meta.get("done", false))
-
 
 
 func _focus_other_list(current: ItemList, to_right: bool) -> void:
@@ -782,11 +787,13 @@ func _on_pause_resume_pressed() -> void:
 
 
 func _on_pause_quit_pressed() -> void:
+
 	if pause_btn_quit:
 		pause_btn_quit.disabled = true
 		pause_btn_quit.text = "Salvando..."
 	
 	EventBus.game_saved.connect(get_tree().quit, CONNECT_ONE_SHOT)
+
 	game_manager.save_game()
 
 func _on_pause_gui_input(event: InputEvent) -> void:
@@ -800,6 +807,7 @@ func _is_paused() -> bool:
 	return get_tree().paused
 
 func _pause_game() -> void:
+	# Esconde o QuestMenu quando pausar (não reabre ao despausar)
 	if quest_menu_root:
 		quest_menu_root.visible = false
 
@@ -815,6 +823,7 @@ func _show_pause_menu() -> void:
 		_autowire_pause_menu()
 	if pause_menu_root:
 		pause_menu_root.visible = true
+		# foca o primeiro botão pra teclado funcionar na hora
 		if pause_btn_resume:
 			pause_btn_resume.grab_focus()
 

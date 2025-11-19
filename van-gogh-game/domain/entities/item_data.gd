@@ -4,12 +4,12 @@ class_name ItemData
 @export var id_item: String = ""
 @export var nome: String = ""
 @export var descricao: String = ""
-@export var tipo: String = "common" 
+@export var tipo: String = "comum" 
 @export var icone: Texture2D
 @export var cena_do_item: PackedScene
 @export var empilhavel: bool = false
 @export var max_stack: int = 1
-@export var grants_star: bool = false
+@export var grants_star: bool = false 
 
 func instantiate_node() -> Node3D:
 	if cena_do_item:

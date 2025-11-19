@@ -1,10 +1,10 @@
 extends Node
 class_name ItemRepository
 
-@export var items: Array[ItemData] = []
+@export var itens: Array[ItemData] = []
 
 func get_item_data(id_item: String) -> ItemData:
-	for it in items:
+	for it in itens:
 		if it.id_item == id_item:
 			return it
 	return null

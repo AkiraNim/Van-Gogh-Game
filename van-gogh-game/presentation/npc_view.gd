@@ -2,17 +2,17 @@ extends Node3D
 class_name NpcView
 
 @export var anim_sprite: AnimatedSprite3D
-@export var default_idle: StringName = "idle_down"   # animação idle padrão do NPC
-@export var npc_name: String = "NPC"
+@export var default_idle: StringName = "idle_down"  
+@export var nome_npc: String = "NPC"
 @export var auto_listen_dialogic: bool = true
-@export var dialogic_key: String = ""                # chave p/ "npc_lock:<key>:anim:dur"
+@export var dialogic_key: String = ""              
 
 var anim_lock_name: StringName = ""
 var anim_lock_time: float = 0.0
 var is_sitting: bool = false
-var can_move: bool = true
+var pode_mover: bool = true
 
-var last_direction := Vector3.FORWARD   # será corrigido no _ready de acordo com o default_idle
+var last_direction := Vector3.FORWARD   
 var _prev_pos := Vector3.ZERO
 var _vel_estimate := Vector3.ZERO
 const _MOVE_EPS := 0.01
@@ -39,10 +39,9 @@ func _physics_process(delta: float) -> void:
 				_play_safe(default_idle)
 		return
 
-	if not can_move:
+	if not pode_mover:
 		_update_animation(false)
 		return
-
 
 	var cur := global_position
 	var disp := cur - _prev_pos
@@ -55,12 +54,13 @@ func _physics_process(delta: float) -> void:
 
 	_update_animation(is_moving)
 
+
 func lock_animation(name: StringName, duration: float = -1.0) -> void:
 	anim_lock_name = name
 	anim_lock_time = duration
 	_freeze()
 	_play_safe(name)
-
+	
 func unlock_animation() -> void:
 	anim_lock_name = ""
 	anim_lock_time = 0.0
@@ -70,7 +70,7 @@ func unlock_animation() -> void:
 func set_default_idle(anim: StringName) -> void:
 	default_idle = anim
 	last_direction = _dir_from_idle(String(default_idle))
-	if anim_lock_name == "" and can_move and not is_sitting:
+	if anim_lock_name == "" and pode_mover and not is_sitting:
 		_play_safe(default_idle)
 
 func freeze() -> void: _freeze()
@@ -83,20 +83,19 @@ func face_direction(dir: Vector3) -> void:
 		last_direction = dir.normalized()
 		_update_animation(false)
 
-
 func _freeze() -> void:
 	if has_method("set_physics_process"):
 		set_physics_process(false)
 	if has_method("set_process"):
 		set_process(false)
-	can_move = false
+	pode_mover = false
 
 func _unfreeze() -> void:
 	if has_method("set_physics_process"):
 		set_physics_process(true)
 	if has_method("set_process"):
 		set_process(true)
-	can_move = true
+	pode_mover = true
 	_prev_pos = global_position
 
 func _play_safe(name: StringName) -> void:

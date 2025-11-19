@@ -5,7 +5,6 @@ class_name NpcController
 var _npc_entity: NpcEntity
 
 func _ready() -> void:
-	# A guarda singleton permanece para garantir a robustez
 	var group_name = "npc_controller_" + get_parent().name
 	add_to_group(group_name)
 	if get_tree().get_nodes_in_group(group_name).size() > 1:
@@ -15,7 +14,6 @@ func _ready() -> void:
 	
 	_npc_entity = get_node_or_null(npc_entity_path)
 	if not _npc_entity:
-		push_warning("NpcController: entidade não encontrada para ", get_parent().name)
 		return
 
 func drop_item(item_id: String) -> void:

@@ -6,9 +6,8 @@
 
 [resource]
 script = ExtResource("3_0c13s")
-id_item = "milho"
+id_item = "legumes"
 nome = "Milho"
-tipo = "importante"
 icone = ExtResource("2_621o2")
 cena_do_item = ExtResource("1_svosy")
 empilhavel = true

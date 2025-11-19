@@ -16,10 +16,6 @@ pause_btn_quit = NodePath("Control/CenterContainer/VBoxContainer/Button2")
 quest_menu_root = NodePath("QuestMenu")
 active_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer/ActiveQuestContainer")
 completed_quests_container = NodePath("QuestMenu/MarginContainer/VBoxContainer/ScrollContainer2/CompletedQuestContainer")
-toggle_action = null
-pause_action = null
-icon_size = null
-show_count_badge = null
 interaction_prompt_scene = ExtResource("2_hxomw")
 metadata/_custom_type_script = "uid://bi7wgafvj6gd0"
 

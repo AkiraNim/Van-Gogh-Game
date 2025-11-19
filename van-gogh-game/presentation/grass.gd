@@ -57,7 +57,6 @@ func _process(delta: float) -> void:
 		_boost_level *= exp(-delta / boost_decay_duration)
 	else:
 		_boost_level = 0.0
-
 	var boosted_target = lerp(_base_speed, boost_speed, clamp(_boost_level, 0.0, 1.0))
 	_target_speed = boosted_target
 

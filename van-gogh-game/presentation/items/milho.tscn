@@ -23,7 +23,7 @@ animations = [{
 
 [node name="Milho" type="Area3D"]
 script = ExtResource("1_88tcu")
-id_item = "milho"
+id_item = "legumes"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.013549805)

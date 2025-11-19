@@ -6,7 +6,6 @@ class_name PlayerController
 @export var state: PlayerState
 @export var inventory: PlayerInventory
 
-# --- controle de item especial "segurado" ---
 var _held_node: Node3D = null
 var _awaiting_important_start: bool = false
 var _important_active: bool = false
@@ -34,6 +33,7 @@ func _ready() -> void:
 
 func _initial_setup() -> void:
 	_sync_dialogic_all_items()
+	#_print_inventory_grouped("início do jogo")
 
 func _resolve_player_view() -> bool:
 	if is_instance_valid(player_view):
@@ -78,8 +78,8 @@ func _on_dialogic_lock_animation(name: String, duration: float) -> void:
 			var before := player_view.anim_sprite.animation
 			player_view.anim_sprite.stop()
 			player_view.anim_sprite.play(final_name)
-	if "can_move" in player_view:
-		player_view.can_move = false
+	if "pode_mover" in player_view:
+		player_view.pode_mover = false
 
 func _on_dialogic_unlock_animation() -> void:
 	if not _resolve_player_view():
@@ -89,9 +89,9 @@ func _on_dialogic_unlock_animation() -> void:
 	if not _is_sitting:
 		await get_tree().process_frame
 		_unfreeze_player_view()
-		if "can_move" in player_view:
-			player_view.can_move = true
-	
+		if "pode_mover" in player_view:
+			player_view.pode_mover = true
+
 func _on_dialog_started() -> void:
 	if _awaiting_important_start:
 		_important_active = true
@@ -102,10 +102,9 @@ func _on_dialog_ended() -> void:
 		_held_node.call_deferred("queue_free")
 	_held_node = null
 	if light_service:
-		light_service.light_off()
+		light_service.desligar()
 
 func _on_item_collected(_id_item: String, item_node: Node3D) -> void:
-	# Cláusula de guarda: Garante que temos um player antes de prosseguir.
 	if not _resolve_player_view():
 		return
 
@@ -121,25 +120,25 @@ func _on_item_collected(_id_item: String, item_node: Node3D) -> void:
 	var data: ItemData = _extract_item_data(item_node)
 	if data != null and inventory != null:
 		inventory.add_item(data)
+		#_print_inventory_grouped("após coleta")
 
 	if Engine.has_singleton("Dialogic"):
 		_sync_dialogic_all_items()
 
-	# --- LINHA CORRIGIDA PARA ACESSAR UMA PROPRIEDADE DE RESOURCE ---
-	var is_special: bool = data and (data.tipo == "important" or data.tipo == "star" or data.grants_star)
+	var is_special: bool = data and (data.tipo == "importante" or data.tipo == "estrela" or data.grants_star)
 
 	if is_special:
 		_attach_to_player_deferred(item_node)
 		if light_service:
-			light_service.light_on()
+			light_service.ligar()
 	else:
 		_held_node = null
 
 	await get_tree().create_timer(0.25 if is_special else 0.1).timeout
 
-	if data and (data.grants_star or data.tipo == "star"):
+	if data and (data.grants_star or data.tipo == "estrela"):
 		if state:
-			state.add_stars()
+			state.adicionar_estrela()
 		_check_and_trigger_zone_conquest(data)
 
 	if is_special and data:
@@ -149,18 +148,18 @@ func _on_item_collected(_id_item: String, item_node: Node3D) -> void:
 		if is_instance_valid(item_node):
 			item_node.call_deferred("queue_free")
 		if light_service:
-			light_service.light_off()
+			light_service.desligar()
 			
 
 func _check_and_trigger_zone_conquest(item_data: ItemData) -> void:
-	if item_data == null or item_data.tipo != "star":
+	if item_data == null or item_data.tipo != "estrela":
 		return
 
 	var star_to_zone_map := {
-		"red_star": "RedZone",
-		"blue_star": "BlueZone",
-		"green_star": "GreenZone",
-		"yellow_star": "YellowZone"
+		"estrela_vermelha": "ZonaVermelha",
+		"estrela_azul": "ZonaAzul",
+		"estrela_verde": "ZonaVerde",
+		"estrela_amarela": "ZonaAmarela"
 	}
 
 	if star_to_zone_map.has(item_data.id_item):
@@ -202,30 +201,26 @@ func _extract_item_data(node: Node) -> ItemData:
 			return sub
 	return null
 
-#func _print_inventory_grouped(label: String) -> void:
-	#if inventory == null:
-		#print("Inventário do Player (", label, "): <resource não ligado>")
-		#return
-	#var counts := {}
-	#for it in inventory.items:
-		#if it == null: continue
-		#var id := it.id_item
-		#if not counts.has(id):
-			#counts[id] = {"data": it, "qtd": 0}
-		#counts[id].qtd += 1
-	#print("Inventário do Player (", label, "): ", counts.size(), " tipo(s)")
-	#for id in counts.keys():
-		#var rec = counts[id]
-		#var nome = (rec.data.nome if rec.data else id)
-		#print("- ", nome, " x", rec.qtd, " (", id, ")")
+func _print_inventory_grouped(label: String) -> void:
+	if inventory == null:
+		return
+	var counts := {}
+	for it in inventory.itens:
+		if it == null: continue
+		var id := it.id_item
+		if not counts.has(id):
+			counts[id] = {"data": it, "qtd": 0}
+		counts[id].qtd += 1
+	for id in counts.keys():
+		var rec = counts[id]
+		var nome = (rec.data.nome if rec.data else id)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		if _is_sitting or _is_initiating_sit:
-			if _is_sitting:
+			if _is_sitting: # Permite levantar se já estiver sentado
 				_stand_up()
 			return
-
 		var seat := _find_nearby_seat()
 		if seat:
 			EventBus.interaction_started.emit()
@@ -236,14 +231,11 @@ func _sit_on(seat: Seat) -> void:
 	if not _resolve_player_view():
 		_is_initiating_sit = false
 		return
-		
 	if not seat.try_reserve(player_view):
 		_is_initiating_sit = false
 		return
-		
 	_freeze_player_view()
 	await get_tree().process_frame
-	
 	var xf := seat.get_sit_transform()
 	var target := xf.origin
 	var start := player_view.global_position
@@ -264,7 +256,6 @@ func _sit_on(seat: Seat) -> void:
 	if "look_at" in player_view:
 		player_view.look_at(xf.origin + xf.basis.z)
 
-	# 5. Executa o movimento suave (tween) até o assento.
 	var tween := get_tree().create_tween()
 	tween.tween_property(player_view, "global_position", target, travel_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	await tween.finished
@@ -279,6 +270,7 @@ func _stand_up() -> void:
 	if _current_seat:
 		_current_seat.release(player_view)
 		_current_seat = null
+	
 	
 	if "velocity" in player_view:
 		player_view.velocity = Vector3.ZERO
@@ -301,7 +293,6 @@ func _stand_up() -> void:
 	_unfreeze_player_view()
 	_is_sitting = false
 	_unfreeze_player_view()
-	# Libera a trava ao final da ação
 	_is_initiating_sit = false
 	EventBus.interaction_ended.emit()
 
@@ -319,8 +310,8 @@ func _freeze_player_view() -> void:
 		player_view.set_process(false)
 	if "velocity" in player_view:
 		player_view.velocity = Vector3.ZERO
-	if "can_move" in player_view:
-		player_view.can_move = false
+	if "pode_mover" in player_view:
+		player_view.pode_mover = false
 
 func _unfreeze_player_view() -> void:
 	if player_view == null: return
@@ -328,15 +319,15 @@ func _unfreeze_player_view() -> void:
 		player_view.set_physics_process(true)
 	if player_view.has_method("set_process"):
 		player_view.set_process(true)
-	if "can_move" in player_view:
-		player_view.can_move = true
+	if "pode_mover" in player_view:
+		player_view.pode_mover = true
 
 func _sync_dialogic_all_items() -> void:
 	if inventory == null: return
 	var counts := {}
-	for it in inventory.items:
+	for it in inventory.itens:
 		if it == null: continue
-		var id = it.id_item
+		var id := it.id_item
 		counts[id] = (counts.get(id, 0) as int) + 1
 	for id in counts.keys():
 		_set_dialogic_item_vars(id, counts[id])
@@ -351,7 +342,7 @@ func _set_dialogic_item_vars(id_item: String, qtd: int) -> void:
 func _count_in_inventory(id_item: String) -> int:
 	if inventory == null: return 0
 	var n := 0
-	for it in inventory.items:
+	for it in inventory.itens:
 		if it and it.id_item == id_item:
 			n += 1
 	return n
@@ -359,7 +350,7 @@ func _count_in_inventory(id_item: String) -> int:
 func _inventory_count(id_item: String) -> int:
 	var n := 0
 	if inventory:
-		for it in inventory.items:
+		for it in inventory.itens:
 			if it and String(it.id_item) == id_item:
 				n += 1
 	return n

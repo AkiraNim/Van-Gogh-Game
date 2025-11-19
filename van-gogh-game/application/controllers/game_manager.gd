@@ -12,9 +12,9 @@ var _paused := false
 func _ready():
 	if not state:
 		state = GameState.new()
+
 	if not is_instance_valid(scene_service):
 		return
-
 	EventBus.star_count_changed.connect(_on_star_count_changed)
 	EventBus.zone_changed.connect(_on_zone_changed)
 	EventBus.dialog_started.connect(_on_dialog_started)
@@ -29,11 +29,11 @@ func _ready():
 
 func _find_zone_controller():
 	zone_controller = get_tree().root.find_child("ZoneController", true, false)
+	# Dispara a lógica de música para a zona inicial
 	if zone_controller:
-		_on_player_entered_zone(zone_controller.active_zone.name if zone_controller.active_zone else zone_controller.neutral_zone_name)
+		_on_player_entered_zone(zone_controller.zona_ativa.name if zone_controller.zona_ativa else zone_controller.zona_neutra_nome)
 
 
-# NOVO HANDLER: Chamado quando o jogador entra em uma nova zona
 func _on_player_entered_zone(zone_name: String):
 	if not audio_service or not zone_controller: return
 
@@ -47,13 +47,16 @@ func _on_player_entered_zone(zone_name: String):
 func _on_zone_conquered(zone_name: String):
 	if not state or not audio_service or not zone_controller: return
 	state.conquered_zones[zone_name] = true
+	
 	_try_save_game()
+	
 	var conquest_music = zone_controller.get_music_for_zone(zone_name)
 	if conquest_music:
 		audio_service.play_music(conquest_music)
 
 func _get_active_conquest_music() -> AudioStream:
 	if not state or not zone_controller: return null
+	
 	for zone_name in state.conquered_zones:
 		if state.conquered_zones[zone_name] == true:
 			return zone_controller.get_music_for_zone(zone_name)
@@ -61,6 +64,7 @@ func _get_active_conquest_music() -> AudioStream:
 
 func goto_title_screen():
 	goto_scene("res://presentation/scenes/title_screen.tscn")
+
 func request_start_game():
 	if save_service and save_service.load_game(state):
 		EventBus.emit_game_loaded(state.current_scene)
@@ -74,6 +78,7 @@ func _start_new_game():
 	if save_service:
 		save_service.delete_save()
 	EventBus.emit_game_reset()
+
 
 func _on_star_count_changed(count: int) -> void:
 	state.player_stars = count
@@ -121,7 +126,7 @@ func load_game():
 		EventBus.emit_game_loaded(state.current_scene)
 	else:
 		EventBus.emit_save_failed("")
-		
+	
 func goto_scene(path: String):
 	if not is_instance_valid(scene_service):
 		return

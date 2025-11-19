@@ -14,8 +14,9 @@ func _ready() -> void:
 	
 	player_a = get_child(0); player_a.name = "PlayerA"
 	player_b = get_child(1); player_b.name = "PlayerB"
-
+	
 	_player_ativo = player_b
+
 
 func play_music(nova_musica: AudioStream):
 	if nova_musica == _musica_atual:

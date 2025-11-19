@@ -4,25 +4,25 @@ class_name LightingService
 @export var world_environment: WorldEnvironment
 @export var directional_light: DirectionalLight3D
 
-var _color_tween: Tween
+var _cor_tween: Tween
 var _rot_tween: Tween
 
-func transition(target_color: Color, target_rotation: Vector3, duration: float = 1.5):
-	_color_transition(target_color, duration)
-	_rotation_transition(target_rotation, duration)
+func transicionar(cor_alvo: Color, rotacao_alvo: Vector3, duracao: float = 1.5):
+	_transicionar_cor(cor_alvo, duracao)
+	_transicionar_rotacao(rotacao_alvo, duracao)
 
-func _color_transition(target_color: Color, duration: float):
-	if _color_tween and _color_tween.is_running():
-		_color_tween.kill()
-	_color_tween = create_tween()
+func _transicionar_cor(cor_alvo: Color, duracao: float):
+	if _cor_tween and _cor_tween.is_running():
+		_cor_tween.kill()
+	_cor_tween = create_tween()
 	if world_environment:
-		_color_tween.tween_property(
+		_cor_tween.tween_property(
 			world_environment.environment, 
 			"ambient_light_color", 
-			target_color, duration
+			cor_alvo, duracao
 		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
-func _rotation_transition(target_rotation: Vector3, duration: float):
+func _transicionar_rotacao(rotacao_alvo: Vector3, duracao: float):
 	if not directional_light:
 		return
 	if _rot_tween and _rot_tween.is_running():
@@ -31,5 +31,5 @@ func _rotation_transition(target_rotation: Vector3, duration: float):
 	_rot_tween.tween_property(
 		directional_light, 
 		"rotation_degrees", 
-		target_rotation, duration
+		rotacao_alvo, duracao
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
