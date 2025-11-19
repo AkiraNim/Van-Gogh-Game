@@ -2,10 +2,12 @@ join Scot right [animation="Fade In"]
 Scot: Vejamos o que tem nessa carta.
 leave --All--
 [style name="narrator"]
-Carta: "Não tenho certeza de nada, mas a visão das estrelas me fazem sonhar" - Van Gogh
-[style]
+Carta: "Não tenho certeza de nada, mas a visão das estrelas me fazem sonhar e sem elas começo a alucinar" - Van Gogh
+[style name="default"]
 join Scot right [animation="Fade In"]
 Scot: Bem poético, com certeza é algo que o Van Gogh escreveria.
 Scot: Tem desenhos de flores aqui, pensando bem eu vi uma floricultura a caminho daqui, lá deve ter algo que me ajude.
-[signal arg="quest_complete:Ver a carta de Van Gogh:Carta"]
-[signal arg="quest_talk_target:Falar com a florista:Florista"]
+if {q_Falar com a florista_status} != "accepted" and {q_Falar com a florista_status} != "completed":
+	[signal arg="quest_complete:Ver a carta de Van Gogh:Carta"]
+	[signal arg="quest_accept:Falar com a florista:talk"]
+	[signal arg="quest_talk_target:Falar com a florista:Ferreiro"]

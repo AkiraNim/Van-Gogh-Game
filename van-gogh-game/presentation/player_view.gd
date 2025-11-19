@@ -100,7 +100,6 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	_update_animation()
 
-# --------------------------- Dialogo ---------------------------
 func _on_dialogo_iniciou() -> void:
 	pode_mover = false
 	velocity = Vector3.ZERO

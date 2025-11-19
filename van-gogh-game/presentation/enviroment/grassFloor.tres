@@ -1,9 +1,9 @@
 [gd_resource type="MeshLibrary" load_steps=13 format=3 uid="uid://b1o2dbkvdahbp"]
 
-[ext_resource type="Texture2D" uid="uid://m6cndcruj23h" path="res://Assets/Scenarios/Enviroment/grassFloor1.png" id="1_vt76r"]
-[ext_resource type="Texture2D" uid="uid://5eo5d5u54buk" path="res://Assets/Scenarios/Enviroment/grassFloor2.png" id="2_trtvb"]
-[ext_resource type="Texture2D" uid="uid://cbkyl3jkxgyl1" path="res://Assets/Scenarios/Enviroment/grassFloor1-Snow.png" id="3_mec78"]
-[ext_resource type="Texture2D" uid="uid://c2ywfholh4mdd" path="res://Assets/Scenarios/Enviroment/grassFloor2-snow.png" id="4_dd6dg"]
+[ext_resource type="Texture2D" uid="uid://crcgtyctkbiwv" path="res://Assets/Scenarios/Enviroment/grassFloor1.png" id="1_vt76r"]
+[ext_resource type="Texture2D" uid="uid://bjklkg7c1ktyr" path="res://Assets/Scenarios/Enviroment/grassFloor2.png" id="2_trtvb"]
+[ext_resource type="Texture2D" uid="uid://87i4vukj3kso" path="res://Assets/Scenarios/Enviroment/grassFloor1-Snow.png" id="3_mec78"]
+[ext_resource type="Texture2D" uid="uid://de3s5bytxr4yf" path="res://Assets/Scenarios/Enviroment/grassFloor2-snow.png" id="4_dd6dg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mec78"]
 albedo_texture = ExtResource("1_vt76r")

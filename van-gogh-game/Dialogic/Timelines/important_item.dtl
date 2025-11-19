@@ -2,4 +2,5 @@
 leave --All--
 Scot: Você recebeu um item importante\: {last_item_name}!
 Scot: Guarde bem ele pode ser útil mais tarde.
+leave --All--
 [end_timeline]

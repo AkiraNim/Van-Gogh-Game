@@ -1,4 +1,3 @@
-[signal arg="npc_drop:estrela_amarela"]
 if {q_Coletar flores de inverno_status} == "accepted":
 	join Scot right [animation="Fade In Up"]
 	Scot: Bom dia fazendeiro, tudo bem?
@@ -7,13 +6,14 @@ if {q_Coletar flores de inverno_status} == "accepted":
 	Fazendeiro: O que voce quer!?
 	leave --All--
 	join Scot right [animation="Fade In Up"]
-	Scot: (Sussurra) grosso...
+	Scot: (Que grosso!)
 	leave --All--
 	join Fazendeiro right [animation="Fade In Up"]
 	Fazendeiro: O que voce disse?
 	leave --All--
 	join Scot right [animation="Fade In Up"]
 	Scot: Nada não.
+	Scot: (ELE LÊ PENSAMENTOS?)
 	Scot: A florista me mandou aqui para conseguir umas flores de inverno com voce.
 	leave --All--
 	join Fazendeiro right [animation="Fade In Up"]
@@ -32,8 +32,15 @@ if {q_Coletar flores de inverno_status} == "accepted":
 	[signal arg="quest_set_req:Coletar legumes:legumes:10"]
 	[signal arg="quest_add:Coletar legumes:legumes:{count_legumes}"]
 	[signal arg="npc_next:Fazendeiro"]
-	
+	leave --All--
+	join Fazendeiro right [animation="Fade In Up"]
+	Fazendeiro: (Vamos ver se esse garoto é bom)
+	Fazendeiro: Comece com um, pelo menos você vai saber o que procurar.
+	leave --All--
+	[signal arg="npc_drop:legumes"]
+	[end_timeline]
 else:
+	leave --All--
 	join Scot right [animation="Fade In Up"]
 	Scot: Bom dia senhor, sabe como saio desse lugar e volto pra casa?
 	leave --All--
@@ -42,3 +49,6 @@ else:
 	leave --All--
 	join Scot right [animation="Fade In Up"]
 	Scot: (Será que todo mundo aqui é mal educado?)
+	[end_timeline]
+leave --All--
+[end_timeline]

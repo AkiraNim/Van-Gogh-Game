@@ -1,36 +1,50 @@
-join Scot right [animation="Fade In"]
-Scot: Oi, bom dia moça, tudo bem?
-Scot: (Ela é bem bonita, parece um girassol)
-leave --All--
-join Florista right [animation="Fade In"]
-Florista: Bom dia rapazinho, estou um pouco corrida mas tudo certo, e com voce? Como posso te ajudar?
-leave --All--
-join Scot right [animation="Fade In"]
-Scot: Ufa...
-leave --All--
-join Florista right [animation="Fade In"]
-Florista: O que houve?
-leave --All--
-join Scot right [animation="Fade In"]
-Scot: Achei que todo mundo aqui ou era estranho ou mal humorado, é um alívio encontrar alguém normal.
-Scot: Eu estava querendo saber como posso voltar para casa, para meu mundo. Acredito que tenho que solucionar algo relacionado ao Van Gogh, mas não sei o que.
-leave --All--
-join Florista right [animation="Fade In"]
-Florista: Acredito que ele está a procura das estrelas perdidas, tente devolver elas a ele.
-Florista: Eu tenho uma, porém não posso te entregar pois vou vender ela, se voce me conseguir flores de inverno eu posso te entregar a estrela.
-leave --All--
-join Scot right [animation="Fade In"]
-Scot: É uma troca justa, afinal o que é uma florista sem flores.
-Scot: Onde posso conseguir flores de inverno?
-leave --All--
-join Florista right [animation="Fade In"]
-Florista: Só o fazendeiro consegue plantar na neve, fale com ele.
-leave --All--
-[style name="narrator"]
-Fazendeiro: (A fazenda fica na parte de baixo, mais ao sul, lá neva bastante)
-[signal arg="quest_complete:Falar com a florista"]
-[signal arg="quest_accept:Coletar flores de inverno:collect"]
-[signal arg="quest_set_req:Coletar flores de inverno:flores_de_inverno:1"]
-[signal arg="inv_sync"]
-
-[signal arg="npc_next:Florista"]
+[signal arg="quest_talk_hit:Florista"]
+if {q_Falar com a florista_status} == "accepted":
+	join Scot right [animation="Fade In"]
+	Scot: Oi, bom dia moça, tudo bem?
+	Scot: (Ela é bem bonita, parece um girassol)
+	leave --All--
+	join Florista right [animation="Fade In"]
+	Florista: Bom dia rapazinho, estou um pouco corrida mas tudo certo, e com voce? Como posso te ajudar?
+	leave --All--
+	join Scot right [animation="Fade In"]
+	Scot: Ufa...
+	leave --All--
+	join Florista right [animation="Fade In"]
+	Florista: O que houve?
+	leave --All--
+	join Scot right [animation="Fade In"]
+	Scot: Achei que todo mundo aqui ou era estranho ou mal humorado, é um alívio encontrar alguém normal.
+	Scot: Eu estava querendo saber como posso voltar para casa, para meu mundo. Acredito que tenho que solucionar algo relacionado ao Van Gogh, mas não sei o que.
+	leave --All--
+	join Florista right [animation="Fade In"]
+	Florista: Acredito que ele está a procura das estrelas perdidas, tente devolver elas a ele.
+	Florista: Eu tenho uma, porém não posso te entregar pois vou vender ela, se voce me conseguir flores de inverno eu posso te entregar a estrela.
+	leave --All--
+	join Scot right [animation="Fade In"]
+	Scot: É uma troca justa, afinal o que é uma florista sem flores.
+	Scot: Onde posso conseguir flores de inverno?
+	leave --All--
+	join Florista right [animation="Fade In"]
+	Florista: Só o fazendeiro consegue plantar na neve, fale com ele.
+	leave --All--
+	[style name="narrator"]
+	Fazendeiro: (A fazenda fica na parte de baixo, mais ao sul, lá neva bastante)
+	[signal arg="quest_complete:Falar com a florista"]
+	[signal arg="quest_accept:Coletar flores de inverno:collect"]
+	[signal arg="quest_set_req:Coletar flores de inverno:flores_de_inverno:1"]
+	[signal arg="inv_sync"]
+	[signal arg="npc_next:Florista"]
+else:
+	join Scot right [animation="Fade In"]
+	Scot: Oi, bom dia moça, tudo bem?
+	Scot: (Ela é bem bonita, parece um girassol)
+	leave --All--
+	join Florista right [animation="Fade In"]
+	Florista: Bom dia rapazinho, estou um pouco corrida mas tudo certo, e com voce? Como posso te ajudar?
+	leave --All--
+	join Scot right [animation="Fade In"]
+	Scot: Estou perdido e não sei como voltar para casa.
+	leave --All--
+	join Florista right [animation="Fade In"]
+	Florista: Nossa... Tente falar com Van Gogh, ele com certeza vai te ajudar!

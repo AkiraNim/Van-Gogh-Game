@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
-[ext_resource type="PackedScene" uid="uid://c3e6mtvxfv82q" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
+[ext_resource type="PackedScene" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
@@ -21,7 +21,7 @@
 [ext_resource type="Shader" uid="uid://bxsh201bxhly8" path="res://presentation/shaders/water.gdshader" id="15_uh2eo"]
 [ext_resource type="Texture2D" uid="uid://b5bf6fgy7mj5q" path="res://Assets/Scenarios/Enviroment/Water.png" id="15_wrx63"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
-[ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
+[ext_resource type="Texture2D" uid="uid://bhd7spqexayhh" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
 [ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://clblf6cdxt1r2" path="res://presentation/items/star_item.tscn" id="17_4djc3"]
 [ext_resource type="PackedScene" uid="uid://48pqockt0kqd" path="res://presentation/enviroment/grassSnow.tscn" id="18_boirm"]
@@ -30,7 +30,7 @@
 [ext_resource type="PackedScene" uid="uid://ckuxqxnje5o8l" path="res://presentation/enviroment/snow_block.tscn" id="19_7ew7i"]
 [ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
-[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="PackedScene" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 [ext_resource type="Texture2D" uid="uid://bwol3optg0fh0" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Shop.png" id="24_swlrs"]
 [ext_resource type="PackedScene" uid="uid://bxiqfk3viag0v" path="res://Assets/Scenarios/Buildings/Simple Biuldings/townHall.tscn" id="25_llqta"]
 [ext_resource type="PackedScene" uid="uid://8h42y2f5waqa" path="res://Assets/Scenarios/Buildings/Simple Biuldings/policeStation.tscn" id="26_qshdt"]
@@ -39,7 +39,7 @@
 [ext_resource type="Resource" uid="uid://ciqqwdialb2lo" path="res://Resources/Items/milho.tres" id="30_qshdt"]
 [ext_resource type="Texture2D" uid="uid://1n42elskku7c" path="res://Assets/Items/Carrot.png" id="38_llqta"]
 [ext_resource type="Resource" uid="uid://btjrmdxvn8vk5" path="res://Resources/Items/cenoura.tres" id="38_qshdt"]
-[ext_resource type="Resource" uid="uid://d1t8gj2fiveqm" path="res://Resources/Items/estrela_vermelha.tres" id="39_afia4"]
+[ext_resource type="Resource" uid="uid://bwq77v36h2cfx" path="res://Resources/Items/flores_de_inverno.tres" id="39_afia4"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -87,7 +87,7 @@ size = Vector3(11.650513, 3.7212524, 12.58201)
 size = Vector3(4.0394287, 3.7212524, 4.039345)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4djc3"]
-size = Vector3(0.4892273, 0.54956055, 0.5412445)
+size = Vector3(0.13036346, 0.54956055, 0.3936119)
 
 [sub_resource type="Resource" id="Resource_ekaqe"]
 script = ExtResource("11_iypob")
@@ -102,11 +102,11 @@ radius = 0.21191406
 height = 0.53894997
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l42ic"]
-size = Vector3(0.52311707, 0.5489807, 0.60491943)
+size = Vector3(0.08239627, 0.45613098, 0.64637566)
 
 [sub_resource type="Resource" id="Resource_afia4"]
 script = ExtResource("11_iypob")
-itens = Array[ExtResource("10_5bsxs")]([ExtResource("39_afia4")])
+itens = Array[ExtResource("10_5bsxs")]([ExtResource("39_afia4"), ExtResource("38_qshdt")])
 metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mrjo7"]
@@ -271,7 +271,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.7008476, 0, 3.2533598)
 mesh_library = ExtResource("18_daoup")
 cell_size = Vector3(1, 0.001, 1)
 data = {
-"cells": PackedInt32Array(0, 65535, 655361, 1, 65535, 655361, 1, 65534, 655361, 0, 65534, 655361, 65535, 65534, 655361, 65535, 65535, 655361, 65534, 65535, 655360, 65534, 65534, 655360, 2, 3, 655361, 2, 2, 655361, 2, 1, 655361, 4, 1, 655361, 3, 1, 655361, 3, 2, 655361, 3, 3, 655361, 4, 3, 655361, 5, 3, 655361, 6, 3, 655361, 7, 3, 655361, 8, 3, 655361, 8, 2, 655361, 9, 2, 655361, 7, 2, 655360, 6, 2, 655361, 5, 2, 655361, 4, 2, 655361, 3, 4, 655361, 3, 5, 655361, 2, 5, 655361, 2, 4, 655361, 4, 4, 655361, 5, 4, 655360, 6, 4, 655361, 7, 4, 655361, 8, 4, 0, 9, 4, 655361, 9, 3, 655361, 4, 5, 655361, 4, 6, 655361, 5, 6, 655361, 6, 5, 655361, 7, 5, 655361, 8, 5, 655361, 9, 5, 655361, 9, 6, 655361, 8, 6, 655361, 5, 5, 655361, 3, 6, 0, 3, 7, 655361, 2, 7, 655361, 2, 6, 655361, 6, 6, 655361, 7, 6, 655361, 4, 7, 655361, 3, 8, 655361, 2, 8, 655361, 2, 9, 655360, 3, 9, 655361, 4, 9, 655361, 5, 9, 1, 6, 9, 1, 7, 9, 1, 7, 8, 655361, 7, 7, 655361, 6, 7, 655361, 5, 7, 655361, 4, 8, 655361, 5, 8, 655361, 6, 8, 0, 8, 8, 655361, 8, 7, 655361, 9, 7, 655361, 9, 8, 655361, 8, 9, 655361, 9, 9, 655361, 65534, 65533, 655361, 65535, 65533, 655361, 0, 65533, 655361, 1, 65533, 655361, 9, 1, 655361, 8, 1, 655361, 7, 1, 655361, 6, 1, 655361, 5, 1, 655361, 0, 1, 3, 0, 2, 1441795, 0, 3, 3, 0, 4, 1441795, 0, 5, 3, 0, 6, 1441795, 0, 7, 3, 0, 8, 1441795, 0, 9, 3, 0, 10, 1441795, 1, 10, 1, 1, 1, 1, 1, 2, 1, 1, 3, 1, 1, 4, 1, 1, 5, 1, 1, 6, 1, 1, 7, 1, 1, 8, 1, 1, 9, 1, 2, 10, 1, 3, 10, 1, 4, 10, 1, 5, 10, 1, 6, 10, 1, 7, 10, 1, 8, 10, 1, 9, 10, 1, 10, 10, 1, 10, 9, 1, 10, 8, 1, 11, 10, 1, 11, 9, 0, 11, 8, 1, 10, 7, 1, 10, 6, 1, 10, 5, 1, 10, 4, 1, 11, 5, 1, 11, 6, 1, 11, 7, 1, 11, 4, 1, 11, 3, 1, 11, 2, 1, 11, 1, 1, 10, 1, 1, 10, 2, 1, 10, 3, 1)
+"cells": PackedInt32Array(0, 65535, 655361, 1, 65535, 655361, 1, 65534, 655361, 0, 65534, 655361, 65535, 65534, 655361, 65535, 65535, 655361, 65534, 65535, 655360, 65534, 65534, 655360, 2, 3, 655361, 2, 2, 655361, 2, 1, 655361, 4, 1, 655361, 3, 1, 655361, 3, 2, 655361, 3, 3, 655361, 4, 3, 655361, 5, 3, 655361, 6, 3, 655361, 7, 3, 655361, 8, 3, 655361, 8, 2, 655361, 9, 2, 655361, 7, 2, 655360, 6, 2, 655361, 5, 2, 655361, 4, 2, 655361, 3, 4, 655361, 3, 5, 655361, 2, 5, 655361, 2, 4, 655361, 4, 4, 655361, 5, 4, 655360, 6, 4, 655361, 7, 4, 655361, 8, 4, 0, 9, 4, 655361, 9, 3, 655361, 4, 5, 655361, 4, 6, 655361, 5, 6, 655361, 6, 5, 655361, 7, 5, 655361, 8, 5, 655361, 9, 5, 655361, 9, 6, 655361, 8, 6, 655361, 5, 5, 655361, 3, 6, 0, 3, 7, 655361, 2, 7, 655361, 2, 6, 655361, 6, 6, 655361, 7, 6, 655361, 4, 7, 655361, 3, 8, 655361, 2, 8, 655361, 2, 9, 655360, 3, 9, 655361, 4, 9, 655361, 5, 9, 1, 6, 9, 1, 7, 9, 1, 7, 8, 655361, 7, 7, 655361, 6, 7, 655361, 5, 7, 655361, 4, 8, 655361, 5, 8, 655361, 6, 8, 0, 8, 8, 655361, 8, 7, 655361, 9, 7, 655361, 9, 8, 655361, 8, 9, 655361, 9, 9, 655361, 65534, 65533, 655361, 65535, 65533, 655361, 0, 65533, 655361, 1, 65533, 655361, 9, 1, 655361, 8, 1, 655361, 7, 1, 655361, 6, 1, 655361, 5, 1, 655361, 0, 1, 3, 0, 2, 1441795, 0, 3, 3, 0, 4, 1441795, 0, 5, 2, 0, 6, 1441795, 0, 7, 3, 0, 8, 1441794, 0, 9, 3, 0, 10, 1441795, 1, 10, 1, 1, 1, 1, 1, 2, 1, 1, 3, 1, 1, 4, 1, 1, 5, 1, 1, 6, 1, 1, 7, 1, 1, 8, 1, 1, 9, 1, 2, 10, 1, 3, 10, 1, 4, 10, 1, 5, 10, 1, 6, 10, 1, 7, 10, 1, 8, 10, 1, 9, 10, 1, 10, 10, 1, 10, 9, 1, 10, 8, 1, 11, 10, 1, 11, 9, 0, 11, 8, 1, 10, 7, 1, 10, 6, 1, 10, 5, 1, 10, 4, 1, 11, 5, 1, 11, 6, 1, 11, 7, 1, 11, 4, 1, 11, 3, 1, 11, 2, 1, 11, 1, 1, 10, 1, 1, 10, 2, 1, 10, 3, 1)
 }
 
 [node name="SnowFloor" type="Node3D" parent="Scenario"]
@@ -356,11 +356,6 @@ debug_color = Color(0.87058824, 1, 0, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03729248, 0, -0.019390106)
 shape = SubResource("BoxShape3D_w1dup")
 debug_color = Color(0.6666667, 0, 1, 0.41960785)
-
-[node name="AreaItem" parent="." instance=ExtResource("17_4djc3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9832748, 0.16228667, 0)
-id_item = "legumes"
-item_data = ExtResource("38_qshdt")
 
 [node name="AreaItem2" parent="." instance=ExtResource("17_4djc3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.60566795, 0.16228667, 0)
@@ -458,7 +453,7 @@ autoplay = "idle_down"
 [node name="Interacao" type="Area3D" parent="NPC_Teste"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NPC_Teste/Interacao"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010421753, -0.05303955, 0.052330017)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.010864e-05, -0.05303955, 0.14269066)
 shape = SubResource("BoxShape3D_4djc3")
 
 [node name="NpcController" type="Node3D" parent="NPC_Teste"]
@@ -519,7 +514,7 @@ anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "Fazendeiro"
 
 [node name="Marker3D" type="Marker3D" parent="Fazendeiro"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0026550293, -0.1384243, 0.39569712)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0026550293, -0.1384243, 0.41329956)
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Fazendeiro"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -534,7 +529,7 @@ animation = &"idle_down"
 [node name="Interacao" type="Area3D" parent="Fazendeiro"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Fazendeiro/Interacao"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036079407, -0.052108765, 0.073394775)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0057811737, -0.09853363, 0.1889801)
 shape = SubResource("BoxShape3D_l42ic")
 
 [node name="NpcController" type="Node3D" parent="Fazendeiro"]
@@ -555,7 +550,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.0
 shape = SubResource("BoxShape3D_mrjo7")
 
 [node name="Van Gogh" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.209802, 0.34116307, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.209802, 0.34116307, 1.25302)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "VanGogh"
@@ -576,7 +571,7 @@ animation = &"idle_down"
 [node name="Interacao" type="Area3D" parent="Van Gogh"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Van Gogh/Interacao"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036079407, -0.052108765, 0.073394775)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009389877, -0.052108765, 0.13566494)
 shape = SubResource("BoxShape3D_l42ic")
 
 [node name="NpcController" type="Node3D" parent="Van Gogh"]
@@ -597,13 +592,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.0
 shape = SubResource("BoxShape3D_mrjo7")
 
 [node name="Florista" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2014008, 0.34116307, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2014008, 0.34116307, 1.2628348)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "Florista"
 
 [node name="Marker3D" type="Marker3D" parent="Florista"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.45214367)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.39111066)
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Florista"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -618,7 +613,7 @@ animation = &"idle_down"
 [node name="Interacao" type="Area3D" parent="Florista"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Florista/Interacao"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036079407, -0.052108765, 0.073394775)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0012764931, -0.052108765, 0.14743805)
 shape = SubResource("BoxShape3D_l42ic")
 
 [node name="NpcController" type="Node3D" parent="Florista"]
