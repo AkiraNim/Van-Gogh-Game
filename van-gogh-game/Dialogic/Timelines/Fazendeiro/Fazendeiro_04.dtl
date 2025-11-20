@@ -1,0 +1,51 @@
+if {q_Acordos gelados_status}_status} == "accepted" and {q_Acordos gelados_status}_status} != "completed":
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi de novo fazendeiro, venho com boas notícias.
+	leave --All--
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Desembucha logo pivete.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Eu consegui achar quem está destruindo e plantando por cima das suas terras, o nome dele é Bordeaux.
+	leave --All--
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Bordeaux né... Aquele magrelo metido a besta que só vive tomando vinho e sentado na frente da lareira...
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: É ele mesmo e eu conversei com o Bordeaux e ele fez a seguinte proposta, comprar parte das suas terras para que ele consiga plantar as videiras dele, pense bem é um ótimo acordo, eu faria esse acordo.
+	leave --All--
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Hmm... Comprar parte das terras não é? Tá bom, eu aceito esse acordo, eu estava precisando mesmo do dinheiro.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: (Nossa que fácil)
+	Scot: Certo, vou informar a ele sobre sua decisão.
+	leave --All--
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Ótimo, como prometido tome aqui sua preciosa estrela, não sei pra que voce precisa tanto delas.
+	Fazendeiro: (Finalmente vou ter com quem conversar nessa terra fria)
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Muito obrigado! Vou lá avisar o Bordeaux também.
+	Scot: (Dessa vez foi bem fácil)
+	leave --All--
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Certo, já pode sumir da minha frente.
+	Fazendeiro: (Que garoto excelente)
+	leave --All--
+	[signal arg="npc_drop:estrela"]
+	[signal arg="quest_complete:Acordos gelados"]
+	[signal arg="npc_next:Fazendeiro"]
+	[end_timeline]
+else:
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: E aí pivete, já achou o culpado?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Não, ainda não, mas estou procurando.
+	leave --All--
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Para de fazer corpo mole!
+	leave --All--
+	[end_timeline]
+[end_timeline]

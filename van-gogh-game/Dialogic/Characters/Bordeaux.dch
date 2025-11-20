@@ -8,20 +8,20 @@
 "sound_moods": {},
 "style": ""
 },
-&"default_portrait": "Flint",
+&"default_portrait": "Bordeaux",
 &"description": "",
-&"display_name": "Flint",
+&"display_name": "Bordeaux",
 &"mirror": false,
-&"nicknames": [""],
+&"nicknames": ["Vinhas encarnadas"],
 &"offset": Vector2(0, 0),
 &"portraits": {
-"Flint": {
+"Bordeaux": {
 "export_overrides": {
-"image": "\"res://Dialogic/Portraits/Flint/Flint.png\""
+"image": "\"res://Dialogic/Portraits/Bordeaux/Bordeaux.png\""
 },
 "mirror": true,
 "offset": Vector2(0, 200),
-"scale": 1.0,
+"scale": 1,
 "scene": ""
 }
 },

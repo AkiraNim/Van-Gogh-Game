@@ -8,20 +8,20 @@
 "sound_moods": {},
 "style": ""
 },
-&"default_portrait": "AnimatedSprite3D-removebg-preview",
+&"default_portrait": "VanGogh",
 &"description": "",
 &"display_name": "Van Gogh",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
 &"portraits": {
-"AnimatedSprite3D-removebg-preview": {
+"VanGogh": {
 "export_overrides": {
-"image": "\"res://Dialogic/Portraits/Test/AnimatedSprite3D-removebg-preview.png\""
+"image": "\"res://Dialogic/Portraits/VanGogh/VanGogh.png\""
 },
-"mirror": false,
-"offset": Vector2(0, 0),
-"scale": 1,
+"mirror": true,
+"offset": Vector2(0, 200),
+"scale": 1.0,
 "scene": ""
 }
 },

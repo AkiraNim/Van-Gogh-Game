@@ -5,14 +5,14 @@ if {q_Coletar legumes_status} == "completed":
 	Scot: Aqui estão os legumes, missão cumprida.
 	[signal arg="remove_item:legumes:10"]
 	leave --All--
-	join Fazendeiro right [animation="Fade In Up"]
+	join Fazendeiro left [animation="Fade In Up"]
 	Fazendeiro: Hm... Ótimo, bom trabalho voce fez por merecer.
 	Fazendeiro: (Esse garoto é bom)
 	leave --All--
 	join Scot right [animation="Fade In Up"]
 	Scot: Muito obrigado!
 	leave --All--
-	join Fazendeiro right [animation="Fade In Up"]
+	join Fazendeiro left [animation="Fade In Up"]
 	Fazendeiro: Enfim, tome aqui suas preciosas flores.
 	leave --All--
 	[signal arg="npc_drop:flores_de_inverno"]
@@ -20,8 +20,8 @@ if {q_Coletar legumes_status} == "completed":
 	[end_timeline]
 else:
 	leave --All--
-	join Fazendeiro right [animation="Fade In Up"]
-	Fazendeiro: Ta fazendo corpo mole garoto, trabalha!
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Ta fazendo corpo mole pivete, trabalha!
 	leave --All--
 	join Scot right [animation="Fade In Up"]
 	Scot: To dando o meu melhor...

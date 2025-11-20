@@ -11,3 +11,5 @@ if {q_Falar com a florista_status} != "accepted" and {q_Falar com a florista_sta
 	[signal arg="quest_complete:Ver a carta de Van Gogh:Carta"]
 	[signal arg="quest_accept:Falar com a florista:talk"]
 	[signal arg="quest_talk_target:Falar com a florista:Ferreiro"]
+	[end_timeline]
+[end_timeline]

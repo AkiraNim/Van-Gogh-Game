@@ -1,0 +1,36 @@
+if {q_Acordos gelados_status}_status} == "completed":
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: E aí jovem, como foi lá?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Foi ótimo, ele aceitou o acordo e vai te vender parte das terras para voce poder plantar suas videiras.
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Que ótima notícia meu rapaz, fico muito empolgado com a ideia de que não vou precisar ser um fora da lei por plantar minhas videiras.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: (Invasor de propriedade...)
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Como prometido, tenho um presente para voce, é uma das estrelas de Van Gogh, é o objeto com maior valor que tenho aqui.
+	Bordeaux: Voce merece isso.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Muito obrigado Sr! Digo, Bordeaux.
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Por nada jovem!
+	Bordeaux: (Nada como a juventude.)
+	leave --All--
+	[signal arg="npc_drop:estrela"]
+	[signal arg="npc_next:Bordeaux"]
+	[end_timeline]
+else:
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: E aí jovem, como foi lá?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Sendo sincero eu ainda não consegui falar com o fazendeiro, mas vou o quanto antes.
+	leave --All--
+	[end_timeline]
+[end_timeline]

@@ -1,0 +1,35 @@
+if {q_Entregar estrelas para o dono_status} == "accepted" and {q_Entregar estrelas para o dono_status} != "completed":
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi novamente Van Gogh.
+	leave --All--
+	join VanGogh left [animation="Fade In Up"]
+	VanGogh: O que é isso que voce tem brilhando nos bolsos? São minhas estrelas que há muito tempo foram perdidas?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Perdidas não, acolhidas, o Bordeaux me explicou o que aconteceu nesse mundo e fiquei comovido.
+	Scot: Mesmo separados eles mantiveram o espirito de guardar uma das obras de seu criador, seu pai, isso é muito lindo.
+	leave --All--
+	join VanGogh left [animation="Fade In Up"]
+	VanGogh: Se o que voce me diz é realmente a verdade, talvez esse mundo esteja pronto para se curar, assim como eu.
+	VanGogh: Não preciso mais me isolar, o que foi feito está feito, mas não posso deixar a distancia das ilhas nos afastar.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: (Poético, como algo que Van Gogh diria)
+	leave --All--
+	join VanGogh left [animation="Fade In Up"]
+	VanGogh: Garoto, sei que voce deseja voltar para sua casa mais do que tudo, me entregue as estrelas e com ela eu farei a passagem de volta, este céu precisa delas.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Tudo bem, são todas suas.
+	[signal arg="remove_item:estrela:3"]
+	leave --All--
+	join VanGogh left [animation="Fade In Up"]
+	VanGogh: Pronto garoto, agora voce so precisa se sentar no banco que sua passagem de volta estará garantida.
+	leave --All--
+	[end_timeline]
+else:
+	join VanGogh left [animation="Fade In Up"]
+	VanGogh: Vá embora rapaz, me deixe em paz.
+	leave --All--
+	[end_timeline]
+[end_timeline]

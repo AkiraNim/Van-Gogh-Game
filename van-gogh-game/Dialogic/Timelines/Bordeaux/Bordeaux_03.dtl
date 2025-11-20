@@ -1,0 +1,40 @@
+if {q_Entregar estrelas para o dono_status} != "accepted" and {q_Entregar estrelas para o dono_status} != "completed":
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi Bordeaux, tudo bem?
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Oi jovem, tudo bem sim, ainda mais comigo conseguindo plantar minhas amadas videiras e produzir excelentes vinhos.
+	Bordeaux: Conseguiu entregar as estrelas para Van Gogh?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Como assim entregar as estrelas para Van Gogh?
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Niguém te contou?
+	Bordeaux: Há muito tempo atrás, esse mundo vivia em harmonia, todas as terras eram juntas não eram separadas como está agora.
+	Bordeaux: Van Gogh, nosso criador cuidava de cada tela com um carinho especial, porém a rotina fez ele se perder pois para ele nada mais estava fazendo sentido, e então veio a loucura.
+	Bordeaux: A harmonia acabou e fomos nos afastando mais e mais, até que as estrelas caíram do céu, não entendo direito o que elas fazem, mas acredito que Van Gogh saberá responder essa questão.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Entendi! Muito obrigado por me explicar, parece que todos aqui pensavam que eu já sabia dessa história toda.
+	leave --All--
+	if {q_Entregar estrelas para o dono_status} != "accepted" and {q_Entregar estrelas para o dono_status} != "completed":
+		[signal arg="quest_accept:Entregar estrelas para o dono:talk"]
+		[signal arg="quest_talk_target:Entregar estrelas para o dono:VanGogh"]
+	[end_timeline]
+else:
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi de Bordeaux, tudo bem?
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Oi jovem, tudo bem sim, ainda mais comigo conseguindo plantar minhas amadas videiras e produzir excelentes vinhos.
+	Bordeaux: Conseguiu entregar as estrelas para Van Gogh?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Ainda não, mas estou fazendo o meu melhor.
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Excelente!
+	Bordeaux: (A, a juventude...)
+	[end_timeline]
+[end_timeline]

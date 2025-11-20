@@ -1,0 +1,18 @@
+join Scot right [animation="Fade In Up"]
+Scot: Oi de novo fazendeiro, como anda a vida?
+leave --All--
+join Fazendeiro left [animation="Fade In Up"]
+Fazendeiro: Hmm... Boa.
+Fazendeiro: (Garoto bom...)
+leave --All--
+join Scot right [animation="Fade In Up"]
+Scot: (Mesmo depois de ajudar ele, ele continua grosso)
+leave --All--
+join Fazendeiro left [animation="Fade In Up"]
+Fazendeiro: Como é?
+leave --All--
+join Scot right [animation="Fade In Up"]
+Scot: Nada não!
+Scot: (É oficial, ele le pensamentos...)
+leave --All--
+[end_timeline]

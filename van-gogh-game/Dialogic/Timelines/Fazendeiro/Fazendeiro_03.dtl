@@ -1,0 +1,31 @@
+if {q_Falar com o Fazendeiro_status} == "accepted" and {q_Falar com o Fazendeiro_status} != "completed":
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Oi pivete, o que voce quer?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi a Florista me falou que voce pediu mais uma ajuda?
+	Scot: (Continua grosso...)
+	leave --All--
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Pivete, é melhor voce parar de falar mal de mim pelas costas.
+	Fazendeiro: Mas sim eu quero uma ajuda sua, tem um engraçadinho destruindo minhas plantações e plantando por cima irregularmente, quero que descubra quem é em troca eu lhe dou uma estrela, ouvi falar que voce está a procura delas.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Entendi a situação, vou te ajudar com isso.
+	Scot: (Será que ele le pensamentos mesmo?)
+	leave --All--
+	[signal arg="quest_accept:Encontrar o suspeito:talk"]
+	[signal arg="quest_talk_target:Encontrar o suspeito:Bordeaux"]
+	[signal arg="quest_complete:Falar com o Fazendeiro"]
+	[signal arg="npc_next:Fazendeiro"]
+	[end_timeline]
+else:
+	join Fazendeiro left [animation="Fade In Up"]
+	Fazendeiro: Oi pivete, o que voce quer?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: (Nossa ele falou oi...)
+	Scot: Nada não, so passando ao redor para ver se acho uma saída daqui.
+	leave --All--
+	[end_timeline]
+[end_timeline]

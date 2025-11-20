@@ -2,16 +2,21 @@ join Scot right [animation="Fade In Up"]
 Scot: Hmm... Van Gogh?
 Scot: (Caraca é o Van Gogh mesmo)
 leave --All--
-join VanGogh right [animation="Fade In Up"]
+join VanGogh left [animation="Fade In Up"]
 VanGogh: ...
 leave --All--
 join Scot right [animation="Fade In Up"]
 Scot: Tá, tá bom, vi que voce não é de muitas palavras mas pode pelo menos me dizer como volto pra casa?
 leave --All--
-join VanGogh right [animation="Fade In Up"]
+join VanGogh left [animation="Fade In Up"]
 VanGogh: (Aponta pra cima)
 leave --All--
 [style name="narrator"]
 Carta: (Parece que é algo escrito pelo Van Gogh)
-[signal arg="quest_complete:Falar com Van Gogh"]
-[signal arg="quest_talk_target:Ver a carta de Van Gogh:Carta"]
+[signal arg="npc_next:VanGogh"]
+if {q_Ver a carta de Van Gogh_status} != "accepted" and {q_Ver a carta de Van Gogh_status} != "completed":
+	[signal arg="quest_complete:Falar com Van Gogh"]
+	[signal arg="quest_talk_target:Ver a carta de Van Gogh:Carta"]
+	[signal arg="npc_next:VanGogh"]
+	[end_timeline]
+[end_timeline]

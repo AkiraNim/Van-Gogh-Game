@@ -4,20 +4,22 @@ if {q_Coletar flores de inverno_status} == "completed":
 	join Scot right [animation="Fade In Up"]
 	Scot: Consegui as flores de inverno!
 	leave --All--
-	join Florista right [animation="Fade In Up"]
+	join Florista left [animation="Fade In Up"]
 	Florista: Que notícia ótima, voce parece cansado deve ter se esforçado bastante.
 	Florista: Como prometido, aqui está sua estrela.
 	leave --All--
 	join Scot right [animation="Fade In Up"]
 	Scot: Muito obrigado!
 	leave --All--
-	join Florista right [animation="Fade In Up"]
+	join Florista left [animation="Fade In Up"]
 	Florista: Faça bom proveito.
 	leave --All--
 	[signal arg="npc_drop:estrela"]
+	[signal arg="remove_item:flores_de_inverno:1"]
+	[signal arg="npc_next:Florista"]
 	[end_timeline]
 else:
-	join Florista right [animation="Fade In Up"]
+	join Florista left [animation="Fade In Up"]
 	Florista: Ainda não conseguiu as flores? Quer uma agua? Voce parece cansado
 	leave --All--
 	join Scot right [animation="Fade In Up"]

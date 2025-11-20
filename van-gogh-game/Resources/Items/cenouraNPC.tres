@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://btjrmdxvn8vk5"]
+
+[ext_resource type="PackedScene" uid="uid://p5f6p83kao76" path="res://presentation/items/cenoura.tscn" id="1_ru00n"]
+[ext_resource type="Texture2D" uid="uid://1n42elskku7c" path="res://Assets/Items/Carrot.png" id="2_v66u1"]
+[ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="3_d82yb"]
+
+[resource]
+script = ExtResource("3_d82yb")
+id_item = "legumes"
+nome = "Cenoura"
+tipo = "importante"
+icone = ExtResource("2_v66u1")
+cena_do_item = ExtResource("1_ru00n")
+empilhavel = true
+metadata/_custom_type_script = "uid://c0dp7ns08lwmk"

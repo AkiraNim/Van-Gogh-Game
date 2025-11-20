@@ -1,0 +1,55 @@
+if {q_Encontrar o suspeito_status} == "accepted" and {q_Encontrar o suspeito_status} != "completed":
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Olá jovem, como posso ajudar?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi, tudo bem, Sr...?
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Bordeaux, pode me chamar assim.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Certo Bordeaux, eu estava procurando pistas de um suspeito quqe está destruindo as plantções do fazendeiro e vim parar aqui.
+	Scot: (Aposto que é ele, as aparencias enganam mesmo.)
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Sim, fui eu mesmo jovem mas pelo visto voce não é aquele fazendeiro, por que eu lhe devo satisfação?
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: (Sabia!)
+	Scot: É que tem um Fazendeiro mal humorado que não está feliz com isso, voce poderia parar ou seria pedir demais?
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Seria pedir demais. Estou apenas garantindo minha safra. Afinal meu hobby é colecionar vinhos caseiros, um homem não pode viver só dinheiro certo?
+	Bordeaux: Teria alguma forma de chegar a um acordo entre eu e o Fazendeiro? Eu poderia facilmente comprar aquela parte das terras que ele não for usar.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Perfeito, vou conversar com ele sobre, talvez voces dois cheguem nesse acordo
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Agradeço rapazinho, se voce conseguir mesmo resolver meu problema lhe darei o que voce quiser daqui.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Ótimo!
+	Scot: (Tomara que ele tenha uma estrela...)
+	leave --All--
+	[signal arg="quest_accept:Acordos gelados:talk"]
+	[signal arg="quest_talk_target:Acordos gelados:Fazendeiro"]
+	[signal arg="quest_complete:Encontrar o suspeito"]
+	[signal arg="npc_next:Bordeaux"]
+	[end_timeline]
+else:
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi, tudo bem, Sr...?
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Bordeaux, pode me chamar assim.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Certo Bordeaux, estou procurando um jeito de voltar para casa, mas não encontro.
+	leave --All--
+	join Bordeaux left [animation="Fade In Up"]
+	Bordeaux: Infelizmente não tenho essa resposta rapazinho.
+	leave --All--
+	[end_timeline]
+[end_timeline]

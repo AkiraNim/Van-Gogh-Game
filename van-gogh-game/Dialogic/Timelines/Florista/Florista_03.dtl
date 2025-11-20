@@ -1,0 +1,25 @@
+if {q_Falar com o Fazendeiro_status} != "accepted" and {q_Falar com o Fazendeiro_status} != "completed":
+	join Florista left [animation="Fade In Up"]
+	Florista: Oi garoto, tudo bem? Novamente obrigado por ajudar com as flores!
+	Florista: Parece que voce ta ficando famoso ein haha, o Fazendeiro ligou e pediu para voce dar uma ajudar para ele novamente. Nem parecia o Fazendeiro rabujento que conheço, ele até te elogiou.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi Florista, sério que ele pediu minha ajuda?
+	Scot: (Será que eu fui tão bem assim? Ele até me elogiou hehe)
+	Scot: Vou a caminho dele para ver do que ele precisa.
+	leave --All--
+	[signal arg="quest_accept:Falar com o Fazendeiro:talk"]
+	[signal arg="quest_talk_target:Falar com o Fazendeiro:Fazendeiro"]
+	[end_timeline]
+else:
+	join Florista left [animation="Fade In Up"]
+	Florista: Oi garoto, tudo bem? Novamente obrigado por ajudar com as flores!
+	Florista: Voce ja foi falar com o Fazendeiro? Ele parecia irritado com a situação e ao mesmo tempo empolgado em ter sua ajudar, tire um tempinho para ele.
+	leave --All--
+	join Scot right [animation="Fade In Up"]
+	Scot: Oi Florista, certo vou falar com ele.
+	Scot: (Será que eu fui tão bem assim?)
+	Scot: Vou a caminho dele para ver do que ele precisa.
+	leave --All--
+	[end_timeline]
+[end_timeline]
