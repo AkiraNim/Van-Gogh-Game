@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0s5laggjgqfo"]
+
+[ext_resource type="PackedScene" uid="uid://cu3hvjtweyldv" path="res://Assets/Scenarios/Props/caixote de lixo.fbx" id="1_up0im"]
+
+[node name="CaixoteDeLixo" type="Node3D"]
+
+[node name="caixote de lixo" parent="." instance=ExtResource("1_up0im")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.8960367, -0.090643086, -0.43462887, 0.37189332, 0.6879583, 0.62322456, 0.24251556, -0.7200675, 0.6501454, 0.2592901, 1.1852766, 1.9655762)
+light_color = Color(0.7764706, 1, 0, 1)
+light_energy = 1.979
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.6899922, 0.085849494, -0.7187077, 0.6731632, -0.44102886, 0.5935865, -0.26601174, -0.89337754, -0.36209717, -1.998488, 1.1899351, 0.2345978)
+light_color = Color(1, 1, 0, 1)
+light_energy = 3.858

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://b01w0ka3x1ea3"]
+
+[ext_resource type="PackedScene" uid="uid://2n6juac0oupv" path="res://Assets/Scenarios/Props/cerca normal.fbx" id="1_wewky"]
+
+[node name="CercaNormal" type="Node3D"]
+
+[node name="cerca normal" parent="." instance=ExtResource("1_wewky")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.92606354, 1.6424255, 1.9356067)
+light_color = Color(0, 1, 1, 1)
+light_energy = 12.711

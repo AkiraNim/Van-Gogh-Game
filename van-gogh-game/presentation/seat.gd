@@ -24,8 +24,13 @@ func _physics_process(delta: float) -> void:
 		#await get_tree().create_timer(2.0).timeout
 		#bus.hide()
 	if str(Dialogic.VAR.get_variable("bus_status")).strip_edges() == "can_pass":
+		npc_entity_path.trigger_dialog()
 		bus.show()
 		bus.can_move = true
+		await get_tree().create_timer(0.2).timeout
+		$"../EnviromentNode/LightingService/Sky".hide()
+		#await get_tree().create_timer(0.2).timeout
+		#$"../EnviromentNode/LightingService/Sky".show()
 		return
 		
 	if occupied_by != null and str(Dialogic.VAR.get_variable("final_status")).strip_edges() != "completed":

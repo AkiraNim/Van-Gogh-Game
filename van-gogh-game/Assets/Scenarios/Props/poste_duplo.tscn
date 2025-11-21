@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs544ec6sawrk"]
+
+[ext_resource type="PackedScene" uid="uid://dxu28jfmok3um" path="res://Assets/Scenarios/Props/poste de luz duplo.fbx" id="1_7eguq"]
+
+[node name="PosteDuplo" type="Node3D"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.92606354, 1.6589713, 0.47306848)
+light_color = Color(0, 0.29263812, 0.292638, 1)
+light_energy = 12.711
+
+[node name="poste de luz duplo" parent="." instance=ExtResource("1_7eguq")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://kms34lom65h7"]
+
+[ext_resource type="PackedScene" uid="uid://bf7fh60plxu7f" path="res://Assets/Scenarios/Props/PONTE_1.fbx" id="1_khqgl"]
+
+[node name="Ponte3" type="Node3D"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.92606354, 1.6589713, 0.47306848)
+light_color = Color(0, 0.29263812, 0.292638, 1)
+light_energy = 12.711
+
+[node name="PONTE_1" parent="." instance=ExtResource("1_khqgl")]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)

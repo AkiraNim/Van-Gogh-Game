@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=78 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
-[ext_resource type="PackedScene" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
+[ext_resource type="Script" uid="uid://dgku8rqggmyuw" path="res://infrastructure/services/lighting_service.gd" id="6_2de5a"]
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
@@ -21,14 +21,14 @@
 [ext_resource type="Shader" uid="uid://bxsh201bxhly8" path="res://presentation/shaders/water.gdshader" id="15_uh2eo"]
 [ext_resource type="Texture2D" uid="uid://b5bf6fgy7mj5q" path="res://Assets/Scenarios/Enviroment/Water.png" id="15_wrx63"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
-[ext_resource type="Texture2D" uid="uid://bhd7spqexayhh" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
+[ext_resource type="Texture2D" uid="uid://dv7mtijdlcfe6" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
 [ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://48pqockt0kqd" path="res://presentation/enviroment/grassSnow.tscn" id="18_boirm"]
 [ext_resource type="MeshLibrary" uid="uid://b1o2dbkvdahbp" path="res://presentation/enviroment/grassFloor.tres" id="18_daoup"]
 [ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
 [ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
-[ext_resource type="PackedScene" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 [ext_resource type="Texture2D" uid="uid://bwol3optg0fh0" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Shop.png" id="24_swlrs"]
 [ext_resource type="PackedScene" uid="uid://bxiqfk3viag0v" path="res://Assets/Scenarios/Buildings/Simple Biuldings/townHall.tscn" id="25_llqta"]
 [ext_resource type="PackedScene" uid="uid://8h42y2f5waqa" path="res://Assets/Scenarios/Buildings/Simple Biuldings/policeStation.tscn" id="26_qshdt"]
@@ -36,6 +36,8 @@
 [ext_resource type="Texture2D" uid="uid://buvbnweciisdg" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Fire Station.png" id="27_afia4"]
 [ext_resource type="Resource" uid="uid://nj8lhv52hxbi" path="res://Resources/Items/estrela.tres" id="28_7ew7i"]
 [ext_resource type="PackedScene" uid="uid://d3oe06ae2bq01" path="res://presentation/items/milho.tscn" id="28_22sd7"]
+[ext_resource type="PackedScene" uid="uid://b53tbee2fq3bt" path="res://Assets/Scenarios/Props/balde_de_lixo.tscn" id="28_dxshx"]
+[ext_resource type="PackedScene" uid="uid://c0s5laggjgqfo" path="res://Assets/Scenarios/Props/caixote_de_lixo.tscn" id="29_k16gn"]
 [ext_resource type="PackedScene" uid="uid://p5f6p83kao76" path="res://presentation/items/cenoura.tscn" id="30_22sd7"]
 [ext_resource type="Resource" uid="uid://ciqqwdialb2lo" path="res://Resources/Items/milho.tres" id="30_qshdt"]
 [ext_resource type="Resource" uid="uid://btjrmdxvn8vk5" path="res://Resources/Items/cenouraNPC.tres" id="32_a32h5"]
@@ -50,6 +52,9 @@
 [ext_resource type="Script" uid="uid://b6mjtvlu2pp1c" path="res://presentation/bus.gd" id="48_5amkk"]
 [ext_resource type="Texture2D" uid="uid://c3eprotstwx7n" path="res://Assets/Scenarios/Buildings/Simple Town/PoliceCar_1.png" id="49_2de5a"]
 [ext_resource type="Script" uid="uid://b2efccecgx2ll" path="res://presentation/collision_shape_3d.gd" id="50_2de5a"]
+
+[sub_resource type="Environment" id="Environment_xhr7v"]
+ambient_light_source = 2
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -140,7 +145,7 @@ point_count = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_dxshx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j5cla"]
-size = Vector3(0.54003906, 2.0860596, 2.1307373)
+size = Vector3(0.31896973, 2.0860596, 2.1307373)
 
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "player_light_service")]
 script = ExtResource("1_m8nr8")
@@ -171,7 +176,22 @@ zonas = [NodePath("../../Zones/ZonaAmarela"), NodePath("../../Zones/ZonaAzul"), 
 lighting_service = NodePath("../LightingService")
 player_path = NodePath("../../Scot")
 
-[node name="LightingService" parent="EnviromentNode" instance=ExtResource("5_l42ic")]
+[node name="LightingService" type="Node" parent="EnviromentNode" node_paths=PackedStringArray("world_environment", "directional_light")]
+script = ExtResource("6_2de5a")
+world_environment = NodePath("Sky/WorldEnvironment")
+directional_light = NodePath("Sky/DirectionalLight3D")
+
+[node name="Sky" type="Node3D" parent="EnviromentNode/LightingService"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="EnviromentNode/LightingService/Sky"]
+environment = SubResource("Environment_xhr7v")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="EnviromentNode/LightingService/Sky"]
+transform = Transform3D(0.6293204, -0.3636498, 0.6868149, 0, 0.88376564, 0.4679298, -0.777146, -0.29447776, 0.5561717, 0, 3.600955, 0)
+layers = 2
+light_energy = 0.835
+shadow_enabled = true
+shadow_opacity = 0.85
 
 [node name="DialogNode" type="Node" parent="."]
 
@@ -1526,6 +1546,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.636053, 0, 5.793137)
 [node name="GrassSnow30" parent="Scenario/SquareFloor" instance=ExtResource("18_boirm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.636053, 0, 5.793137)
 
+[node name="Props" type="Node3D" parent="Scenario"]
+
+[node name="BaldeDeLixo" parent="Scenario/Props" instance=ExtResource("28_dxshx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4791824, 0.12489712, -2.4916043)
+
+[node name="CaixoteDeLixo" parent="Scenario/Props" instance=ExtResource("29_k16gn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1018753, 0, -6.3405404)
+
 [node name="Zones" type="Node3D" parent="."]
 
 [node name="ZonaAmarela" type="Area3D" parent="Zones"]
@@ -1680,10 +1708,11 @@ shaded = true
 alpha_cut = 2
 texture_filter = 2
 sprite_frames = ExtResource("2_ly6xb")
-animation = &"walking_up"
+animation = &"idle_down"
+autoplay = "idle_down"
 
 [node name="Flint" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.703246, 0.3252036, 3.5563183)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1482759, 0.3252036, 1.0716848)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "Flint"
@@ -1725,7 +1754,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00015258789, -0.052963257,
 shape = SubResource("BoxShape3D_ekaqe")
 
 [node name="Fazendeiro" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8067188, 0.34116307, 15.243698)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02982241, 0.34116307, 0.42030334)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "Fazendeiro"
@@ -1767,7 +1796,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.0
 shape = SubResource("BoxShape3D_mrjo7")
 
 [node name="Bordeaux" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1525326, 0.34116307, 15.243698)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6348667, 0.34116307, 0.739831)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "Bordeaux"
@@ -1808,7 +1837,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.0
 shape = SubResource("BoxShape3D_mrjo7")
 
 [node name="Van Gogh" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0200233, 0.34116307, 1.8486683)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9974945, 0.34116307, 0.8846853)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "VanGogh"
@@ -1818,6 +1847,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.4014287)
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Van Gogh"]
 transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, -0.07191253, 0)
+flip_h = true
 billboard = 1
 shaded = true
 alpha_cut = 2
@@ -1849,7 +1879,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.0
 shape = SubResource("BoxShape3D_mrjo7")
 
 [node name="Florista" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.011969, 0.34116307, -8.636905)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6736014, 0.34116307, 0.5395746)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "Florista"
@@ -1938,6 +1968,8 @@ transform = Transform3D(-0.0010966498, 0, 0.9999994, 0, 1, 0, -0.9999994, 0, -0.
 [node name="Bus" type="CharacterBody3D" parent="BusPath/PathFollow3D"]
 transform = Transform3D(-0.18624969, 0, -0.98250246, 0, 1, 0, 0.98250246, 0, -0.18624969, 0, 0, 0)
 visible = false
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("48_5amkk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BusPath/PathFollow3D/Bus"]
@@ -1945,12 +1977,14 @@ shape = SubResource("BoxShape3D_dxshx")
 
 [node name="Sprite3D" type="Sprite3D" parent="BusPath/PathFollow3D/Bus"]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+shaded = true
 texture = ExtResource("49_2de5a")
 
 [node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.82063437, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05029297, 0.5430298, 3.3075857)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0602417, 0.5430298, 3.3075857)
 shape = SubResource("BoxShape3D_j5cla")
 script = ExtResource("50_2de5a")
 
