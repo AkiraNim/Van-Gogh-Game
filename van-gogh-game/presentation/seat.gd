@@ -7,6 +7,10 @@ class_name Seat
 @export var npc_entity_path: NpcEntity
 @export var player: PlayerView
 @export var bus: CharacterBody3D
+@export var fazendeiro: Node3D
+@export var vanGogh: Node3D
+@export var florista: Node3D
+@export var bordeaux: Node3D
 
 @onready var area: Area3D = $Area3D
 var occupied_by: Node3D = null
@@ -26,11 +30,13 @@ func _physics_process(delta: float) -> void:
 	if str(Dialogic.VAR.get_variable("bus_status")).strip_edges() == "can_pass":
 		npc_entity_path.trigger_dialog()
 		bus.show()
+		await get_tree().create_timer(1).timeout
 		bus.can_move = true
 		await get_tree().create_timer(0.2).timeout
 		$"../EnviromentNode/LightingService/Sky".hide()
-		#await get_tree().create_timer(0.2).timeout
-		#$"../EnviromentNode/LightingService/Sky".show()
+		vanGogh.global_position = Vector3(-0.997, 0.341, 0.885)
+		await get_tree().create_timer(0.2).timeout
+		$"../EnviromentNode/LightingService/Sky".show()
 		return
 		
 	if occupied_by != null and str(Dialogic.VAR.get_variable("final_status")).strip_edges() != "completed":

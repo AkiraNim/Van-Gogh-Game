@@ -1654,13 +1654,17 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="Chair" parent="." node_paths=PackedStringArray("dialogCameraService", "dialogService", "npc_entity_path", "player", "bus") instance=ExtResource("24_l42ic")]
+[node name="Chair" parent="." node_paths=PackedStringArray("dialogCameraService", "dialogService", "npc_entity_path", "player", "bus", "fazendeiro", "vanGogh", "florista", "bordeaux") instance=ExtResource("24_l42ic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.8687551)
 dialogCameraService = NodePath("../DialogNode/DialogCameraService")
 dialogService = NodePath("../DialogNode/DialogService")
 npc_entity_path = NodePath("NpcEntity")
 player = NodePath("../Scot")
 bus = NodePath("../BusPath/PathFollow3D/Bus")
+fazendeiro = NodePath("../Fazendeiro")
+vanGogh = NodePath("../Van Gogh")
+florista = NodePath("../Florista")
+bordeaux = NodePath("../Bordeaux")
 
 [node name="NpcController" type="Node3D" parent="Chair"]
 script = ExtResource("14_4djc3")
@@ -1837,7 +1841,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.0
 shape = SubResource("BoxShape3D_mrjo7")
 
 [node name="Van Gogh" type="Node3D" parent="." node_paths=PackedStringArray("anim_sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9974945, 0.34116307, 0.8846853)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1729517, 0.34116307, 0.8846853)
 script = ExtResource("18_oi7nq")
 anim_sprite = NodePath("AnimatedSprite3D")
 nome_npc = "VanGogh"
@@ -1854,6 +1858,7 @@ alpha_cut = 2
 texture_filter = 2
 sprite_frames = ExtResource("45_78jh6")
 animation = &"idle_down"
+autoplay = "idle_down"
 
 [node name="Interacao" type="Area3D" parent="Van Gogh"]
 
