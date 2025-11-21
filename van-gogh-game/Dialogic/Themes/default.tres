@@ -27,7 +27,7 @@ scene = ExtResource("4_ge0i5")
 script = ExtResource("1_555k3")
 scene = ExtResource("5_ngwi5")
 overrides = {
-"box_color_custom": "Color(0.007843138, 0.42352942, 0.16862746, 0.88235295)",
+"box_color_custom": "Color(0.08203125, 0.03845215, 0, 0.88235295)",
 "box_color_use_global": "false",
 "name_label_box_modulate": "Color(0.64705884, 0.6509804, 0.29803923, 0.7294118)",
 "name_label_box_use_global_color": "false",

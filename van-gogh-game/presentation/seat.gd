@@ -9,9 +9,14 @@ var player_in_range: Node3D = null
 func _ready() -> void:
 	add_to_group("seats")
 	add_to_group("interactables")
-	
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
+	
+func _physics_process(delta: float) -> void:
+	#var valor = Dialogic.VAR.get("q_Ver a carta de Van Gogh_status")
+	#if occupied_by != null and valor == "completed":
+		#print(valor)
+	return
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):

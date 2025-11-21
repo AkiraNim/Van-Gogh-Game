@@ -1,0 +1,36 @@
+[gd_resource type="MeshLibrary" load_steps=7 format=3 uid="uid://dl2rh1em6la4l"]
+
+[ext_resource type="Texture2D" uid="uid://cghbhq4fnrpux" path="res://Assets/Scenarios/Enviroment/CityFloor1.png" id="1_wgoyy"]
+[ext_resource type="Texture2D" uid="uid://dv1edasp3rjkp" path="res://Assets/Scenarios/Enviroment/CityFloor2.png" id="2_o3vis"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0hwp6"]
+albedo_color = Color(0.8352941, 0.83137256, 1, 1)
+albedo_texture = ExtResource("1_wgoyy")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r3aqr"]
+material = SubResource("StandardMaterial3D_0hwp6")
+size = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dddll"]
+albedo_color = Color(0.8352941, 0.83137256, 1, 1)
+albedo_texture = ExtResource("2_o3vis")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ru3ar"]
+material = SubResource("StandardMaterial3D_dddll")
+size = Vector2(1, 1)
+
+[resource]
+item/0/name = "CityFloor1"
+item/0/mesh = SubResource("PlaneMesh_r3aqr")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/mesh_cast_shadow = 1
+item/0/shapes = []
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
+item/1/name = "CityFloor2"
+item/1/mesh = SubResource("PlaneMesh_ru3ar")
+item/1/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/mesh_cast_shadow = 1
+item/1/shapes = []
+item/1/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/navigation_layers = 1

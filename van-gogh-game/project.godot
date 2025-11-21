@@ -121,11 +121,11 @@ variables={
 "q_Coletar legumes_status": "",
 "q_Encontrar o suspeito_status": "",
 "q_Entregar estrelas para o dono_status": "",
-"q_Falar com Van Gogh_status": "false",
+"q_Falar com Van Gogh_status": "",
 "q_Falar com a florista_status": "",
 "q_Falar com o Fazendeiro_status": "",
-"q_Ver a carta de Van Gogh_status": "false",
-"q_falar_com_ferreiro_status": "false"
+"q_Ver a carta de Van Gogh_status": "",
+"q_falar_com_ferreiro_status": ""
 }
 
 [display]
