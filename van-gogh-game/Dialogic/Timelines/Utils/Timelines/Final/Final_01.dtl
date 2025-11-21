@@ -1,0 +1,6 @@
+if {final_status} != "completed":
+	Scot: Ufa, isso foi uma viajem daquelas...
+	Scot: Acho que vou sentir falta disso.
+	set {bus_status} = "can_pass"
+	set {final_status} = "completed"
+	[signal arg="npc_next:Chair"]

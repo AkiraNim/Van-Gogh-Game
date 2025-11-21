@@ -63,6 +63,8 @@ directories/dtl_directory={
 "Fazendeiro_05": "res://Dialogic/Timelines/Fazendeiro/Fazendeiro_05.dtl",
 "Ferreiro_01_primeiro_contato": "res://Dialogic/Timelines/Test/Ferreiro_01_primeiro_contato.dtl",
 "Ferreiro_02": "res://Dialogic/Timelines/Test/Ferreiro_02.dtl",
+"Final_01": "res://Dialogic/Timelines/Utils/Timelines/Final/Final_01.dtl",
+"Final_02": "res://Dialogic/Timelines/Utils/Timelines/Final/Final_02.dtl",
 "Flint_01": "res://Dialogic/Timelines/Flint(Easter)/Flint_01.dtl",
 "Florista_01": "res://Dialogic/Timelines/Florista/Florista_01.dtl",
 "Florista_02": "res://Dialogic/Timelines/Florista/Florista_02.dtl",
@@ -101,9 +103,12 @@ save/encryption_on_exports_only=true
 text/autopauses={}
 glossary/default_case_sensitive=true
 variables={
+"bus_passed": "",
+"bus_status": "",
 "count_estrela": "",
 "count_flores_de_inverno": "",
 "count_legumes": "",
+"final_status": "",
 "has_estrela": false,
 "has_flores_de_inverno": false,
 "has_legumes": false,
@@ -130,7 +135,6 @@ variables={
 
 [display]
 
-window/size/mode=3
 window/size/initial_screen=2
 window/size/resizable=false
 

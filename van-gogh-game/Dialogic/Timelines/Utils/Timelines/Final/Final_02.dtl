@@ -1,0 +1,3 @@
+AU
+set {bus_status} = "passed"
+set {bus_passed} = "can_pass"

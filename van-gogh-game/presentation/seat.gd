@@ -2,6 +2,12 @@ extends Node3D
 class_name Seat
 
 @export var marker3D: Marker3D
+@export var dialogCameraService: DialogCameraService
+@export var dialogService: DialogicService
+@export var npc_entity_path: NpcEntity
+@export var player: PlayerView
+@export var bus: CharacterBody3D
+
 @onready var area: Area3D = $Area3D
 var occupied_by: Node3D = null
 var player_in_range: Node3D = null
@@ -11,11 +17,19 @@ func _ready() -> void:
 	add_to_group("interactables")
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
-	
+
 func _physics_process(delta: float) -> void:
-	#var valor = Dialogic.VAR.get("q_Ver a carta de Van Gogh_status")
-	#if occupied_by != null and valor == "completed":
-		#print(valor)
+	#if str(Dialogic.VAR.get_variable("bus_status")).strip_edges() == "passed" and bus.can_move == false:
+		#bus.can_move = true
+		#await get_tree().create_timer(2.0).timeout
+		#bus.hide()
+	if str(Dialogic.VAR.get_variable("bus_status")).strip_edges() == "can_pass":
+		bus.show()
+		bus.can_move = true
+		return
+		
+	if occupied_by != null and str(Dialogic.VAR.get_variable("final_status")).strip_edges() != "completed":
+		npc_entity_path.trigger_dialog()
 	return
 
 func _on_body_entered(body: Node3D) -> void:

@@ -27,7 +27,6 @@ func _ready() -> void:
 	else:
 		set_physics_process(false)
 
-
 func _physics_process(delta: float) -> void:
 	if is_in_dialogue or not is_instance_valid(gameplay_target):
 		return

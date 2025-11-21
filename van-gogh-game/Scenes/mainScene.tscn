@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=75 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
-[ext_resource type="PackedScene" uid="uid://c3e6mtvxfv82q" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
+[ext_resource type="PackedScene" path="res://presentation/scenes/lighting_service.tscn" id="5_l42ic"]
 [ext_resource type="Script" uid="uid://yb1wut1vlyf1" path="res://application/controllers/player_controller.gd" id="6_4djc3"]
 [ext_resource type="Script" uid="uid://chf7vrtmk5e4y" path="res://infrastructure/services/dialogic_service.gd" id="6_v2gni"]
 [ext_resource type="Script" uid="uid://cluovfa2tocua" path="res://domain/entities/player_state.gd" id="7_v2gni"]
@@ -21,14 +21,14 @@
 [ext_resource type="Shader" uid="uid://bxsh201bxhly8" path="res://presentation/shaders/water.gdshader" id="15_uh2eo"]
 [ext_resource type="Texture2D" uid="uid://b5bf6fgy7mj5q" path="res://Assets/Scenarios/Enviroment/Water.png" id="15_wrx63"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
-[ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
+[ext_resource type="Texture2D" uid="uid://bhd7spqexayhh" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
 [ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://48pqockt0kqd" path="res://presentation/enviroment/grassSnow.tscn" id="18_boirm"]
 [ext_resource type="MeshLibrary" uid="uid://b1o2dbkvdahbp" path="res://presentation/enviroment/grassFloor.tres" id="18_daoup"]
 [ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
 [ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
-[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="PackedScene" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 [ext_resource type="Texture2D" uid="uid://bwol3optg0fh0" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Shop.png" id="24_swlrs"]
 [ext_resource type="PackedScene" uid="uid://bxiqfk3viag0v" path="res://Assets/Scenarios/Buildings/Simple Biuldings/townHall.tscn" id="25_llqta"]
 [ext_resource type="PackedScene" uid="uid://8h42y2f5waqa" path="res://Assets/Scenarios/Buildings/Simple Biuldings/policeStation.tscn" id="26_qshdt"]
@@ -47,6 +47,9 @@
 [ext_resource type="SpriteFrames" uid="uid://drbapw3q4c0lh" path="res://SpriteFrames/VanGogh.tres" id="45_78jh6"]
 [ext_resource type="SpriteFrames" uid="uid://jnuaciavfm0u" path="res://SpriteFrames/Florista.tres" id="45_ifsvn"]
 [ext_resource type="Texture2D" uid="uid://rmh0v34enjgv" path="res://Assets/Items/letter.png" id="47_78jh6"]
+[ext_resource type="Script" uid="uid://b6mjtvlu2pp1c" path="res://presentation/bus.gd" id="48_5amkk"]
+[ext_resource type="Texture2D" uid="uid://c3eprotstwx7n" path="res://Assets/Scenarios/Buildings/Simple Town/PoliceCar_1.png" id="49_2de5a"]
+[ext_resource type="Script" uid="uid://b2efccecgx2ll" path="res://presentation/collision_shape_3d.gd" id="50_2de5a"]
 
 [sub_resource type="Resource" id="Resource_udkkk"]
 script = ExtResource("7_v2gni")
@@ -87,16 +90,16 @@ size = Vector3(11.730316, 3.7212524, 15.429067)
 [sub_resource type="BoxShape3D" id="BoxShape3D_w1dup"]
 size = Vector3(18.10141, 3.7212524, 9.257639)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
-radius = 0.21191406
-height = 0.53894997
+[sub_resource type="Resource" id="Resource_ekaqe"]
+script = ExtResource("11_iypob")
+metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4djc3"]
 size = Vector3(0.13036346, 0.54956055, 0.47633266)
 
-[sub_resource type="Resource" id="Resource_ekaqe"]
-script = ExtResource("11_iypob")
-metadata/_custom_type_script = "uid://nxieygehmgh6"
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
+radius = 0.21191406
+height = 0.53894997
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
 size = Vector3(0.42242432, 0.54086304, 0.5488281)
@@ -126,6 +129,18 @@ metadata/_custom_type_script = "uid://nxieygehmgh6"
 script = ExtResource("11_iypob")
 itens = Array[ExtResource("10_5bsxs")]([ExtResource("28_7ew7i")])
 metadata/_custom_type_script = "uid://nxieygehmgh6"
+
+[sub_resource type="Curve3D" id="Curve3D_j5cla"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 7.3573484, -4.9948692e-05, 0.058935285, 0, 0, 0, 0, 0, 0, -6.0702286, -4.9948692e-05, 0.073658586),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dxshx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j5cla"]
+size = Vector3(0.54003906, 2.0860596, 2.1307373)
 
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "player_light_service")]
 script = ExtResource("1_m8nr8")
@@ -1611,11 +1626,33 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="Chair" parent="." instance=ExtResource("24_l42ic")]
+[node name="Chair" parent="." node_paths=PackedStringArray("dialogCameraService", "dialogService", "npc_entity_path", "player", "bus") instance=ExtResource("24_l42ic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.8687551)
+dialogCameraService = NodePath("../DialogNode/DialogCameraService")
+dialogService = NodePath("../DialogNode/DialogService")
+npc_entity_path = NodePath("NpcEntity")
+player = NodePath("../Scot")
+bus = NodePath("../BusPath/PathFollow3D/Bus")
+
+[node name="NpcController" type="Node3D" parent="Chair"]
+script = ExtResource("14_4djc3")
+npc_entity_path = NodePath("../NpcEntity")
+
+[node name="NpcEntity" type="Node3D" parent="Chair" node_paths=PackedStringArray("drop_point")]
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_ekaqe")
+drop_point = NodePath("../../Flint/DropPoint")
+nome_npc = "Chair"
+timelines = Array[String](["Final_01", "Final_02"])
+
+[node name="Interacao" type="Area3D" parent="Chair"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chair/Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.010864e-05, -0.05303955, 0.18577433)
+shape = SubResource("BoxShape3D_4djc3")
 
 [node name="Scot" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.960546, 0.32486767, -6.3422585)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1337976, 0.32486767, 1.8396273)
 script = ExtResource("21_mrjo7")
 anim_sprite = NodePath("AnimatedSprite3D")
 ponto_item_acima = NodePath("PontoItemAcima")
@@ -1678,7 +1715,7 @@ npc_entity_path = NodePath("../NpcEntity")
 script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_ekaqe")
 drop_point = NodePath("../DropPoint")
-nome_npc = "NPC_Teste"
+nome_npc = "Flint"
 timelines = Array[String](["Flint_01"])
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Flint"]
@@ -1890,3 +1927,31 @@ timelines = Array[String](["Carta_01"])
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Carta/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026245117, -0.05731201, 0.07144165)
 shape = SubResource("BoxShape3D_mrjo7")
+
+[node name="BusPath" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5273937, 3.5001945)
+curve = SubResource("Curve3D_j5cla")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="BusPath"]
+transform = Transform3D(-0.0010966498, 0, 0.9999994, 0, 1, 0, -0.9999994, 0, -0.0010966498, 7.3573484, -4.9948692e-05, 0.058935285)
+
+[node name="Bus" type="CharacterBody3D" parent="BusPath/PathFollow3D"]
+transform = Transform3D(-0.18624969, 0, -0.98250246, 0, 1, 0, 0.98250246, 0, -0.18624969, 0, 0, 0)
+visible = false
+script = ExtResource("48_5amkk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BusPath/PathFollow3D/Bus"]
+shape = SubResource("BoxShape3D_dxshx")
+
+[node name="Sprite3D" type="Sprite3D" parent="BusPath/PathFollow3D/Bus"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+texture = ExtResource("49_2de5a")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05029297, 0.5430298, 3.3075857)
+shape = SubResource("BoxShape3D_j5cla")
+script = ExtResource("50_2de5a")
+
+[connection signal="body_entered" from="Area3D" to="Area3D/CollisionShape3D" method="_on_area_3d_body_entered"]
