@@ -6,15 +6,3 @@
 
 [node name="ponte" parent="." instance=ExtResource("1_uoicf")]
 transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)
-
-[node name="SpotLight3D" type="SpotLight3D" parent="ponte"]
-transform = Transform3D(1, 0, 0, 0, -0.03737632, 0.99930125, 0, -0.99930125, -0.03737632, -0.0013721273, 0.0077199135, 0.00068919716)
-light_color = Color(0.43529412, 0.18039216, 0, 1)
-light_energy = 16.0
-spot_range = 1.8231512
-spot_angle = 40.495617
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.92606354, 1.6589713, 1.364566)
-light_color = Color(0, 1, 1, 1)
-light_energy = 12.711

@@ -5,6 +5,8 @@
 [node name="Shop" type="MeshInstance3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4730597, -0.12327576, -1.0822935)
+flip_h = true
 billboard = 1
 shaded = true
 alpha_cut = 2

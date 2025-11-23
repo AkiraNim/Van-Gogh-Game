@@ -1,12 +1,12 @@
 [gd_scene load_steps=25 format=3 uid="uid://bqpxlrb0bmweg"]
 
 [ext_resource type="Texture2D" uid="uid://cge3tladpec5o" path="res://Assets/Scenarios/Sky/Test/Gemini_Generated_Image_glydl6glydl6glyd.png" id="1_3xnic"]
-[ext_resource type="Texture2D" uid="uid://d3nnvb8ratflu" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_ccvm2"]
+[ext_resource type="Texture2D" path="res://Assets/Scenarios/Buildings/Test/Design sem nome (2).png" id="1_ccvm2"]
 [ext_resource type="Texture2D" uid="uid://bb3dj3pwf2my8" path="res://Assets/Scenarios/Sky/Test/ChatGPT Image 30 de set. de 2025, 17_21_33.png" id="2_pjiqm"]
 [ext_resource type="PackedScene" uid="uid://dpul6ki1565qd" path="res://Scenes/Test_Scenes/camera_3d.tscn" id="3_p0t22"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="4_3xnic"]
-[ext_resource type="Texture2D" uid="uid://b2dn3s0cec523" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_pjiqm"]
-[ext_resource type="Script" uid="uid://bt2vxq72duyxb" path="res://Deprecated/Scripts/Test_Scripts/camera_3d_2.gd" id="5_ssfkb"]
+[ext_resource type="Texture2D" path="res://Assets/Scenarios/Buildings/Design sem nome.png" id="5_pjiqm"]
+[ext_resource type="Script" uid="uid://bt2vxq72duyxb" path="res://presentation/camera3D_final_game.gd" id="5_ssfkb"]
 [ext_resource type="Script" uid="uid://dr35a0p42an5" path="res://Deprecated/Scripts/Test_Scripts/main.gd" id="6_ssfkb"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hf300"]

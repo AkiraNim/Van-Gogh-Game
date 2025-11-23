@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=44 format=3 uid="uid://c34islyd00pxg"]
+[gd_resource type="SpriteFrames" load_steps=45 format=3 uid="uid://c34islyd00pxg"]
 
 [ext_resource type="Texture2D" uid="uid://7xvpugmihi3i" path="res://Assets/Characters/Player/Sprite-0001.png" id="1_exig0"]
 [ext_resource type="Texture2D" uid="uid://b47y04776ujx8" path="res://Assets/Characters/Player/Scot-04.png" id="2_exig0"]
@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://bxrshmsnguqyn" path="res://Assets/Characters/Player/Scot-01.png" id="4_qv2c3"]
 [ext_resource type="Texture2D" uid="uid://3l12tys77xdw" path="res://Assets/Characters/Player/Scot-05.png" id="5_fpcqd"]
 [ext_resource type="Texture2D" uid="uid://clbdq6hy1uay0" path="res://Assets/Characters/Player/Scot-03.png" id="7_m1g45"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6yd6i"]
+atlas = ExtResource("5_fpcqd")
+region = Rect2(357, 0, 357, 376)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0t3w1"]
 atlas = ExtResource("1_exig0")
@@ -154,6 +158,14 @@ region = Rect2(1428, 0, 357, 376)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6yd6i")
+}],
+"loop": true,
+"name": &"helding_item",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0t3w1")

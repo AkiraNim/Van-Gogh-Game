@@ -1,4 +1,4 @@
-if {final_status} != "completed":
+if {final_status} == true:
 	Scot: Ufa, isso foi uma viajem daquelas...
 	Scot: Acho que vou sentir falta disso.
 	set {bus_status} = "can_pass"

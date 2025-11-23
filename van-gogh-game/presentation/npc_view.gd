@@ -99,51 +99,52 @@ func _unfreeze() -> void:
 	_prev_pos = global_position
 
 func _play_safe(name: StringName) -> void:
-	if anim_sprite == null: return
-	var frames := anim_sprite.sprite_frames
-	var final_name := String(name)
-	if frames and not frames.has_animation(final_name):
-		if frames.has_animation(default_idle):
-			final_name = default_idle
-		elif frames.has_animation("idle_down"):
-			final_name = "idle_down"
-		elif frames.has_animation("idle"):
-			final_name = "idle"
-		else:
-			return
-	anim_sprite.stop()
-	anim_sprite.play(final_name)
+	#if anim_sprite == null: return
+	#var frames := anim_sprite.sprite_frames
+	#var final_name := String(name)
+	#if frames and not frames.has_animation(final_name):
+		#if frames.has_animation(default_idle):
+			#final_name = default_idle
+		#elif frames.has_animation("idle_down"):
+			#final_name = "idle_down"
+		#elif frames.has_animation("idle"):
+			#final_name = "idle"
+		#else:
+			#return
+	#anim_sprite.stop()
+	#anim_sprite.play(final_name)
+	return
 
 func _update_animation(is_moving: bool) -> void:
 	if anim_sprite == null: return
 	if is_sitting or anim_lock_name != "": return
 
-	var prefix := "walking" if is_moving else "idle"
-	var dir := last_direction
-	var suffix := ""
-	if dir.z < -0.5 and dir.x > 0.5: suffix = "_up_right"
-	elif dir.z < -0.5 and dir.x < -0.5: suffix = "_up_left"
-	elif dir.z > 0.5 and dir.x > 0.5: suffix = "_down_right"
-	elif dir.z > 0.5 and dir.x < -0.5: suffix = "_down_left"
-	elif dir.x > 0.5: suffix = "_right"
-	elif dir.x < -0.5: suffix = "_left"
-	elif dir.z < -0.5: suffix = "_up"
-	elif dir.z > 0.5: suffix = "_down"
+	#var prefix := "walking" if is_moving else "idle"
+	#var dir := last_direction
+	#var suffix := ""
+	#if dir.z < -0.5 and dir.x > 0.5: suffix = "_up_right"
+	#elif dir.z < -0.5 and dir.x < -0.5: suffix = "_up_left"
+	#elif dir.z > 0.5 and dir.x > 0.5: suffix = "_down_right"
+	#elif dir.z > 0.5 and dir.x < -0.5: suffix = "_down_left"
+	#elif dir.x > 0.5: suffix = "_right"
+	#elif dir.x < -0.5: suffix = "_left"
+	#elif dir.z < -0.5: suffix = "_up"
+	#elif dir.z > 0.5: suffix = "_down"
 
-	var anim := prefix + suffix
-	if anim_sprite.animation != anim:
-		anim_sprite.play(anim)
+	#var anim := prefix + suffix
+	#if anim_sprite.animation != anim:
+		#anim_sprite.play(anim)
 
 func _dir_from_idle(idle: String) -> Vector3:
 	match idle:
 		"idle_down":       return Vector3.BACK      # (0,0, 1)
-		"idle_up":         return Vector3.FORWARD   # (0,0,-1)
-		"idle_left":       return Vector3.LEFT      # (-1,0,0)
-		"idle_right":      return Vector3.RIGHT     # ( 1,0,0)
-		"idle_up_left":    return (Vector3.FORWARD + Vector3.LEFT).normalized()
-		"idle_up_right":   return (Vector3.FORWARD + Vector3.RIGHT).normalized()
-		"idle_down_left":  return (Vector3.BACK + Vector3.LEFT).normalized()
-		"idle_down_right": return (Vector3.BACK + Vector3.RIGHT).normalized()
+		#"idle_up":         return Vector3.FORWARD   # (0,0,-1)
+		#"idle_left":       return Vector3.LEFT      # (-1,0,0)
+		#"idle_right":      return Vector3.RIGHT     # ( 1,0,0)
+		#"idle_up_left":    return (Vector3.FORWARD + Vector3.LEFT).normalized()
+		#"idle_up_right":   return (Vector3.FORWARD + Vector3.RIGHT).normalized()
+		#"idle_down_left":  return (Vector3.BACK + Vector3.LEFT).normalized()
+		#"idle_down_right": return (Vector3.BACK + Vector3.RIGHT).normalized()
 		_:                 return Vector3.BACK      # fallback: down
 
 

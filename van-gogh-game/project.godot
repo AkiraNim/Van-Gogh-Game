@@ -13,7 +13,7 @@ recent_projects=["res://QuestManager/NPC_Teste.quest"]
 [application]
 
 config/name="Van Gogh Game"
-run/main_scene="uid://83hgnpcbrin3"
+run/main_scene="uid://ctpo7yejgohfx"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -105,14 +105,17 @@ glossary/default_case_sensitive=true
 variables={
 "bus_passed": "",
 "bus_status": "",
+"bus_visible": false,
 "count_estrela": "",
 "count_flores_de_inverno": "",
 "count_legumes": "",
-"final_status": "",
+"final_dialog": false,
+"final_status": false,
 "has_estrela": false,
 "has_flores_de_inverno": false,
 "has_legumes": false,
 "last_item_name": "",
+"move_characters": false,
 "q_Acordos gelados_status": "",
 "q_Coletar estrela vermelha_need_estrela_vermelha": 0,
 "q_Coletar estrela vermelha_progress_estrela_vermelha": 0,
@@ -135,6 +138,7 @@ variables={
 
 [display]
 
+window/size/mode=3
 window/size/initial_screen=2
 window/size/resizable=false
 

@@ -26,6 +26,7 @@ if {q_Entregar estrelas para o dono_status} == "accepted" and {q_Entregar estrel
 	join VanGogh left [animation="Fade In Up"]
 	VanGogh: Pronto garoto, agora voce so precisa se sentar no banco que sua passagem de volta estará garantida.
 	leave --All--
+	set {final_status} = true
 	[end_timeline]
 else:
 	join VanGogh left [animation="Fade In Up"]

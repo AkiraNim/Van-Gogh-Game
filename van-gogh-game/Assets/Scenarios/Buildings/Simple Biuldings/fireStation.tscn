@@ -3,8 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://buvbnweciisdg" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Fire Station.png" id="1_nqn10"]
 
 [node name="FireStation" type="MeshInstance3D"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.661058, 1.6575332, -11.069843)
+flip_h = true
 billboard = 1
 shaded = true
 alpha_cut = 2

@@ -1,6 +1,8 @@
 [style name="narrator"]
 leave --All--
+[signal arg="lock_anim:helding_item:600"]
 Scot: Você recebeu um item importante\: {last_item_name}!
 Scot: Guarde bem ele pode ser útil mais tarde.
+[signal arg="unlock_anim"]
 leave --All--
 [end_timeline]

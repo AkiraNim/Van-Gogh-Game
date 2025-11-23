@@ -1,13 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvqg1dducimoi"]
+[gd_scene load_steps=4 format=3 uid="uid://dvqg1dducimoi"]
 
 [ext_resource type="PackedScene" uid="uid://b3mfb85t7owc7" path="res://Assets/Scenarios/Props/poste de luz.fbx" id="1_lll2q"]
 
-[node name="PosteMono" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3sst4"]
+transparency = 1
+albedo_color = Color(2.9083786, 2.9083786, 1.1128923, 0.17254902)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.92606354, 1.6589713, 0.47306848)
-light_color = Color(0, 0.29263812, 0.292638, 1)
-light_energy = 12.711
+[sub_resource type="CylinderMesh" id="CylinderMesh_maukm"]
+material = SubResource("StandardMaterial3D_3sst4")
+top_radius = 0.04
+height = 1.1
+
+[node name="PosteMono" type="Node3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="poste de luz" parent="." instance=ExtResource("1_lll2q")]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.16469812, 0.60640275, 0)
+light_color = Color(1, 1, 0.36078432, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 0.9732508
+spot_angle = 32.281803
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16696358, 0.2736538, 0)
+mesh = SubResource("CylinderMesh_maukm")

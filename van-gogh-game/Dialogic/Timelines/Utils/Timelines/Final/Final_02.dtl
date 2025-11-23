@@ -1,3 +1,30 @@
 set {bus_status} = "passed"
-Scot: É, parece que o ônibus vai passar igual o Van Gogh falou.
-set {bus_passed} = "can_pass"
+set {bus_passed} = "can_go"
+set {bus_visible} = true
+Scot: É, parece que o táxi vai passar igual o Van Gogh falou.
+Scot: Melhor eu embarcar nele logo.
+[signal arg="lock_anim:idle_down:600"]
+[wait time="2.0"]
+set {bus_passed} = "await"
+set {move_characters} = true
+[style name="narrator"]
+Scot: Scot embarca no táxi, até que ouve uma voz familiar e acolhedora
+[style name="default"]
+Florista: Ei rapazinho, achou que ia embora sem se despedir?
+Scot: Florista?! Voce tá aqui? Quer dizer... Todos voces estão aqui?
+Bordeaux: Que surpresa toda é essa jovem? Viemos aqui para agradecer sua ajuda, até o fazendeiro veio agradecer não é?
+Fazendeiro: Hmm... Sim, obrigado pivete.
+Scot: Pessoal, voces são demais, eu gostei bastante da minha curta estadia aqui e de ajudar todos voces.
+Scot: Eu cresci muito em tão pouco tempo, e redescobri como é importante notar as pessoas ao meu redor e tentar ajudar elas com o que está ao meu alcance.
+Scot: Obrigado a todos voces.
+Florista: A proposito rapazinho, voce nao disse seu nome até agora.
+Scot: A é... Desculpa minha falta de modos pessoal, meu nome é Scot.
+Fazendeiro: Obrigado Scot, voce me... Nos ajudou bastante.
+set {bus_passed} = "can_go"
+[wait time="2.0"]
+set {bus_visible} = false
+Tchau Scot, uma boa ida para seu mundo!
+set {final_dialog} = true
+[wait time="3.0"]
+[style name="narrator"]
+E no fim, acredito que nosso protagonista nunca se esquecerá dessa aventura.

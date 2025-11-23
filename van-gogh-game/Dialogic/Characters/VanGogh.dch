@@ -20,7 +20,7 @@
 "image": "\"res://Dialogic/Portraits/VanGogh/VanGogh.png\""
 },
 "mirror": true,
-"offset": Vector2(0, 200),
+"offset": Vector2(0, 100),
 "scale": 1.0,
 "scene": ""
 }

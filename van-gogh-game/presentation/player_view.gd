@@ -7,7 +7,7 @@ signal quest_accepted(qid: String, title: String)
 signal quest_progress(qid: String, have: Dictionary)
 signal quest_completed(qid: String, title: String, motivo: String)
 
-@export var speed: float = 2.0
+@export var speed: float = 3.0
 @export var anim_sprite: AnimatedSprite3D
 @export var ponto_item_acima: Marker3D
 @export var nome_personagem: String = "Player"

@@ -8,20 +8,20 @@
 "sound_moods": {},
 "style": ""
 },
-&"default_portrait": "scot t1",
+&"default_portrait": "Scot",
 &"description": "",
 &"display_name": "Scot",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
 &"portraits": {
-"scot t1": {
+"Scot": {
 "export_overrides": {
-"image": "\"res://Dialogic/Portraits/Main_character/scot t1.png\""
+"image": "\"res://Dialogic/Portraits/Main_character/Scot.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),
-"scale": 1.0,
+"scale": 1,
 "scene": ""
 }
 },

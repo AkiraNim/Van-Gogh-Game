@@ -6,8 +6,3 @@
 
 [node name="cerca aberta" parent="." instance=ExtResource("1_owx1w")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2637969, -0.0037300587, 2.2248416)
-light_color = Color(3.2247603e-06, 0.57679147, 0.43551618, 1)
-light_energy = 7.093

@@ -28,7 +28,7 @@ class_name ZoneController
 	},
 	"ZonaNeutra": { 
 		"cor": Color(0.004, 0.008, 0.004), 
-		"rotacao": Vector3(-29.3, 45.7, 0),
+		"rotacao": Vector3(-3.3, 43.8, 22.5),
 		"musica": null
 	}
 }
