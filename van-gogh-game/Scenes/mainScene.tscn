@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=113 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
@@ -68,6 +68,14 @@
 [ext_resource type="Script" uid="uid://b6mjtvlu2pp1c" path="res://presentation/bus.gd" id="48_5amkk"]
 [ext_resource type="Texture2D" uid="uid://c3eprotstwx7n" path="res://Assets/Scenarios/Buildings/Simple Town/PoliceCar_1.png" id="49_2de5a"]
 [ext_resource type="Script" uid="uid://b2efccecgx2ll" path="res://presentation/collision_shape_3d.gd" id="50_2de5a"]
+[ext_resource type="Texture2D" uid="uid://chdqvr20vpbaa" path="res://Assets/Scenarios/Props/Bus.png" id="68_7qotr"]
+
+[sub_resource type="Resource" id="Resource_7qotr"]
+script = ExtResource("11_iypob")
+metadata/_custom_type_script = "uid://nxieygehmgh6"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l42ic"]
+size = Vector3(0.08239627, 0.45613098, 0.64637566)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ekww4"]
 panorama = ExtResource("9_kjuub")
@@ -137,6 +145,9 @@ size = Vector3(2.6683526, 1.9976196, 24.863869)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7qotr"]
 size = Vector3(2.0259142, 1.9976196, 21.928371)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_aos1t"]
+size = Vector3(2.0259142, 1.9976196, 9.5700445)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_wrw60"]
 size = Vector3(2.0259142, 1.9976196, 27.003029)
 
@@ -175,9 +186,6 @@ height = 0.53894997
 [sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
 size = Vector3(0.42242432, 0.54086304, 0.5488281)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_l42ic"]
-size = Vector3(0.08239627, 0.45613098, 0.64637566)
-
 [sub_resource type="Resource" id="Resource_afia4"]
 script = ExtResource("11_iypob")
 itens = Array[ExtResource("10_5bsxs")]([ExtResource("28_7ew7i"), ExtResource("32_a32h5"), ExtResource("39_afia4")])
@@ -213,13 +221,33 @@ point_count = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_j5cla"]
 size = Vector3(0.31896973, 2.0860596, 1.5345297)
 
-[node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "player_light_service")]
+[node name="MainScene" type="Node3D" node_paths=PackedStringArray("main_controller", "player_controller", "dialog_controller", "zone_controller", "player_light_service", "npc_entity_path")]
 script = ExtResource("1_m8nr8")
 main_controller = NodePath("MainController")
 player_controller = NodePath("PlayerNode/PlayerController")
 dialog_controller = NodePath("DialogNode/DialogController")
 zone_controller = NodePath("EnviromentNode/ZoneController")
 player_light_service = NodePath("PlayerNode/PlayerController/PlayerLightService")
+npc_entity_path = NodePath("MainDialog/MainNpcEntity")
+
+[node name="MainDialog" type="Node3D" parent="."]
+
+[node name="MainNpcController" type="Node3D" parent="MainDialog"]
+script = ExtResource("14_4djc3")
+npc_entity_path = NodePath("../MainNpcEntity")
+
+[node name="MainNpcEntity" type="Node3D" parent="MainDialog" node_paths=PackedStringArray("drop_point")]
+script = ExtResource("9_ekaqe")
+inventory = SubResource("Resource_7qotr")
+drop_point = NodePath("../../Fazendeiro/Marker3D")
+nome_npc = "Main"
+timelines = Array[String](["Start_01"])
+
+[node name="Interacao" type="Area3D" parent="MainDialog"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainDialog/Interacao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0057811737, -0.09853363, 0.1889801)
+shape = SubResource("BoxShape3D_l42ic")
 
 [node name="SnowView2D" parent="." instance=ExtResource("2_eol8w")]
 unique_name_in_owner = true
@@ -892,6 +920,10 @@ shape = SubResource("BoxShape3D_v4umi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.138884, 0.21491665, -13.514645)
 shape = SubResource("BoxShape3D_7qotr")
 
+[node name="CollisionShape3D13" type="CollisionShape3D" parent="Scenario/Buildings/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.1796393, 0.21491665, 2.3466372)
+shape = SubResource("BoxShape3D_aos1t")
+
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="Scenario/Buildings/StaticBody3D2"]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.12840843, 0.21491665, -16.190636)
 shape = SubResource("BoxShape3D_wrw60")
@@ -1119,15 +1151,10 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 3.117938, 0, 1.0518785)
 transform = Transform3D(-2, 0, 1.7484555e-07, 0, 2, 0, -1.7484555e-07, 0, -2, -4.614461, 0, 0.8583425)
 
 [node name="PosteDuplo" parent="Scenario/Props" instance=ExtResource("32_kjuub")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.08635235, 0, 1.5543417)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 1.2704723, 0, 0.64032185)
 
-[node name="GardenScrhub" type="Sprite3D" parent="Scenario/Props"]
-transform = Transform3D(0.49874398, 0.035417955, 0, -0.035417955, 0.49874398, 0, 0, 0, 0.5, 0.9804368, 0.36243582, 1.9787159)
-flip_h = true
-shaded = true
-alpha_cut = 2
-texture = ExtResource("38_wffdc")
-region_rect = Rect2(505, 202, 261, 294)
+[node name="PosteDuplo2" parent="Scenario/Props" instance=ExtResource("32_kjuub")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -1.6720719, 0, 0.64032185)
 
 [node name="GardenScrhub2" type="Sprite3D" parent="Scenario/Props"]
 transform = Transform3D(0.49874398, 0.035417955, 0, -0.035417955, 0.49874398, 0, 0, 0, 0.5, 4.024115, 0.36243582, 1.9787159)
@@ -1236,7 +1263,7 @@ transform = Transform3D(1, 0, 0, 0, 0.8905465, 0.45489222, 0, -0.45489222, 0.890
 item_data = ExtResource("30_qshdt")
 
 [node name="Milho3" parent="Items" instance=ExtResource("28_22sd7")]
-transform = Transform3D(1, 0, 0, 0, 0.8905465, 0.45489222, 0, -0.45489222, 0.8905465, -0.43310022, 0.15829444, 16.57402)
+transform = Transform3D(1, 0, 0, 0, 0.8905465, 0.45489222, 0, -0.45489222, 0.8905465, -1.0165586, 0.15829444, 16.57402)
 item_data = ExtResource("30_qshdt")
 
 [node name="Milho4" parent="Items" instance=ExtResource("28_22sd7")]
@@ -1260,7 +1287,7 @@ transform = Transform3D(1, 0, 0, 0, 0.8905465, 0.45489222, 0, -0.45489222, 0.890
 item_data = ExtResource("38_qshdt")
 
 [node name="Cenoura3" parent="Items" instance=ExtResource("30_22sd7")]
-transform = Transform3D(1, 0, 0, 0, 0.8905465, 0.45489222, 0, -0.45489222, 0.8905465, -0.3551756, 0.15829444, 11.275444)
+transform = Transform3D(1, 0, 0, 0, 0.8905465, 0.45489222, 0, -0.45489222, 0.8905465, -0.77655303, 0.15829444, 11.275444)
 item_data = ExtResource("38_qshdt")
 
 [node name="Camera3D_Principal" type="Camera3D" parent="."]
@@ -1271,7 +1298,7 @@ size = 4.563
 far = 611.26
 
 [node name="CameraTest" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 4.8792973, 5.999195, 23.223791)
+transform = Transform3D(1, 0, 0, 0, 0.85985225, 0.5105429, 0, -0.5105429, 0.85985225, 4.8792973, 5.999195, 10.820616)
 projection = 1
 size = 7.9020424
 far = 611.26
@@ -1337,13 +1364,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.010864e-05, -0.05303955, 0.
 shape = SubResource("BoxShape3D_4djc3")
 
 [node name="Scot" type="CharacterBody3D" parent="." node_paths=PackedStringArray("anim_sprite", "ponto_item_acima") groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5810404, 0.32486767, 3.4933648)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4826858, 0.32486767, 2.4407866)
 script = ExtResource("21_mrjo7")
 anim_sprite = NodePath("AnimatedSprite3D")
 ponto_item_acima = NodePath("PontoItemAcima")
 
 [node name="PontoItemAcima" type="Marker3D" parent="Scot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43016624, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.096037626, 0.48085475, -0.12928438)
 
 [node name="SpotLight" type="SpotLight3D" parent="Scot"]
 transform = Transform3D(1, 0, 0, 0, -0.023332926, 0.9997278, 0, -0.9997278, -0.023332926, -8.85725e-05, 0.8540602, 0.053795934)
@@ -1637,9 +1664,10 @@ script = ExtResource("48_5amkk")
 shape = SubResource("BoxShape3D_dxshx")
 
 [node name="Sprite3D" type="Sprite3D" parent="BusPath/PathFollow3D/Bus"]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+transform = Transform3D(0.1999999, 0, 2.6077032e-08, 0, 0.2, 0, -2.6077032e-08, 0, 0.1999999, 0.67290354, 0.20696604, -0.24326277)
+billboard = 1
 shaded = true
-texture = ExtResource("49_2de5a")
+texture = ExtResource("68_7qotr")
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5615791, 0, 0)
@@ -1650,8 +1678,5 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0602417, 0.5430298, 2.6869938)
 shape = SubResource("BoxShape3D_j5cla")
 script = ExtResource("50_2de5a")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_xhr7v")
 
 [connection signal="body_entered" from="Area3D" to="Area3D/CollisionShape3D" method="_on_area_3d_body_entered"]

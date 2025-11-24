@@ -75,6 +75,7 @@ directories/dtl_directory={
 "NPC_Teste_04_fim_loop": "res://Dialogic/Timelines/Test/NPC_Teste_04_fim_loop.dtl",
 "Player_NPC_item": "res://Dialogic/Timelines/Test/Player_NPC_item.dtl",
 "Player_item": "res://Dialogic/Timelines/Test/Player_item.dtl",
+"Start_01": "res://Dialogic/Timelines/Utils/Timelines/Start/Start_01.dtl",
 "Timeline_teste": "res://Dialogic/Timelines/Test/Timeline_teste.dtl",
 "VanGogh_01": "res://Dialogic/Timelines/Van Gogh/VanGogh_01.dtl",
 "VanGogh_02": "res://Dialogic/Timelines/Van Gogh/VanGogh_02.dtl",

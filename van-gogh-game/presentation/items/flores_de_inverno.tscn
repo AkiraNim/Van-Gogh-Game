@@ -1,20 +1,20 @@
 [gd_scene load_steps=6 format=3 uid="uid://dfdldbstenii2"]
 
 [ext_resource type="Script" uid="uid://b4ko84yfejxhd" path="res://presentation/collectable_area.gd" id="1_gg7vs"]
-[ext_resource type="Texture2D" uid="uid://1n42elskku7c" path="res://Assets/Items/Carrot.png" id="2_7xluw"]
+[ext_resource type="Texture2D" uid="uid://0i2alx0b4odn" path="res://Assets/Items/snowFlowers.png" id="2_gg7vs"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n0v4f"]
 size = Vector3(0.25073242, 0.26586914, 0.32104492)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_12460"]
-atlas = ExtResource("2_7xluw")
-region = Rect2(0, 0, 60, 60)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xluw"]
+atlas = ExtResource("2_gg7vs")
+region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dmkpb"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_12460")
+"texture": SubResource("AtlasTexture_7xluw")
 }],
 "loop": true,
 "name": &"default",

@@ -20,6 +20,7 @@ Scot: Obrigado a todos voces.
 Florista: A proposito rapazinho, voce nao disse seu nome até agora.
 Scot: A é... Desculpa minha falta de modos pessoal, meu nome é Scot.
 Fazendeiro: Obrigado Scot, voce me... Nos ajudou bastante.
+VanGogh: Garoto, voce conseguiu fazer nós percebermos que nosso mundo não é apenas um quadro, há muito mais do que isso, e por isso vou continuar pintando mais e mais obras.
 set {bus_passed} = "can_go"
 [wait time="2.0"]
 set {bus_visible} = false

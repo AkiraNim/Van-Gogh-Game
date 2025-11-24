@@ -16,6 +16,7 @@ class_name Seat
 var occupied_by: Node3D = null
 var player_in_range: Node3D = null
 
+
 func _ready() -> void:
 	add_to_group("seats")
 	add_to_group("interactables")
@@ -63,7 +64,7 @@ func _physics_process(delta: float) -> void:
 		npc_entity_path.trigger_dialog()
 		occupied_by = null
 	return
-
+	
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = body

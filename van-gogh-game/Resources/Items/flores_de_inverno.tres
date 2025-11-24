@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://bwq77v36h2cfx"]
 
 [ext_resource type="PackedScene" uid="uid://dfdldbstenii2" path="res://presentation/items/flores_de_inverno.tscn" id="1_5cbya"]
-[ext_resource type="Texture2D" uid="uid://1n42elskku7c" path="res://Assets/Items/Carrot.png" id="2_gx6uj"]
+[ext_resource type="Texture2D" uid="uid://0i2alx0b4odn" path="res://Assets/Items/snowFlowers.png" id="2_5cbya"]
 [ext_resource type="Script" uid="uid://c0dp7ns08lwmk" path="res://domain/entities/item_data.gd" id="3_p0noy"]
 
 [resource]
@@ -9,6 +9,6 @@ script = ExtResource("3_p0noy")
 id_item = "flores_de_inverno"
 nome = "Flores de Inverno"
 tipo = "importante"
-icone = ExtResource("2_gx6uj")
+icone = ExtResource("2_5cbya")
 cena_do_item = ExtResource("1_5cbya")
 metadata/_custom_type_script = "uid://c0dp7ns08lwmk"
