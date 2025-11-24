@@ -15,7 +15,7 @@ recent_projects=["res://QuestManager/NPC_Teste.quest"]
 config/name="Van Gogh Game"
 run/main_scene="uid://ctpo7yejgohfx"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://dwgdtqhq68tvc"
 
 [aseprite_importers]
 
@@ -111,7 +111,7 @@ variables={
 "count_flores_de_inverno": "",
 "count_legumes": "",
 "final_dialog": false,
-"final_status": true,
+"final_status": false,
 "has_estrela": false,
 "has_flores_de_inverno": false,
 "has_legumes": false,
@@ -139,7 +139,7 @@ variables={
 
 [display]
 
-window/size/initial_screen=2
+window/size/mode=3
 window/size/resizable=false
 
 [editor_plugins]
