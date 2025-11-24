@@ -1,14 +1,14 @@
 set {bus_status} = "passed"
 set {bus_passed} = "can_go"
 set {bus_visible} = true
-Scot: É, parece que o táxi vai passar igual o Van Gogh falou.
+Scot: É, parece que o onibus vai passar igual o Van Gogh falou.
 Scot: Melhor eu embarcar nele logo.
 [signal arg="lock_anim:idle_down:600"]
 [wait time="2.0"]
 set {bus_passed} = "await"
 set {move_characters} = true
 [style name="narrator"]
-Scot: Scot embarca no táxi, até que ouve uma voz familiar e acolhedora
+Scot: Scot embarca no onibus, até que ouve uma voz familiar e acolhedora
 [style name="default"]
 Florista: Ei rapazinho, achou que ia embora sem se despedir?
 Scot: Florista?! Voce tá aqui? Quer dizer... Todos voces estão aqui?
@@ -24,7 +24,7 @@ VanGogh: Garoto, voce conseguiu fazer nós percebermos que nosso mundo não é a
 set {bus_passed} = "can_go"
 [wait time="2.0"]
 set {bus_visible} = false
-Tchau Scot, uma boa ida para seu mundo!
+Todos: Tchau Scot, uma boa ida para seu mundo!
 set {final_dialog} = true
 [wait time="3.0"]
 [style name="narrator"]

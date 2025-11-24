@@ -5,6 +5,7 @@ class_name NpcEntity
 @export var drop_point: Marker3D
 @export var nome_npc: String
 
+
 @export var timelines: Array[String] = []
 var _current_timeline_index: int = 0
 
@@ -17,6 +18,7 @@ func _ready() -> void:
 		area.body_entered.connect(_on_body_entered)
 	if area and not area.body_exited.is_connected(_on_body_exited):
 		area.body_exited.connect(_on_body_exited)
+
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):

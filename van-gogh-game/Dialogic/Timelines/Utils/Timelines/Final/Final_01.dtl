@@ -3,4 +3,4 @@ if {final_status} == true:
 	Scot: Acho que vou sentir falta disso.
 	set {bus_status} = "can_pass"
 	set {final_status} = "completed"
-	[signal arg="npc_next:Chair"]
+	[signal arg="npc_next:Main"]

@@ -1,3 +1,4 @@
 [style name="narrator"]
 Em meio a uma exposição o jovem Scot é puxado pra dentro do mundo das telas onde habitam o icônico van Gogh e junto dele as personificações de algumas de suas obras.
 Agora é hora de pedir ajuda à elas para sair desse mundo estranho.
+[signal arg="npc_next:Main"]

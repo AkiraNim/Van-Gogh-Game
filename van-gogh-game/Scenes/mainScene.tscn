@@ -1,10 +1,11 @@
-[gd_scene load_steps=113 format=3 uid="uid://83hgnpcbrin3"]
+[gd_scene load_steps=114 format=3 uid="uid://83hgnpcbrin3"]
 
 [ext_resource type="Script" uid="uid://c16e6wrq4kyoa" path="res://presentation/scenes/main_scene.gd" id="1_m8nr8"]
 [ext_resource type="Script" uid="uid://bil7s63blblej" path="res://application/controllers/zone_controller.gd" id="2_0bgj2"]
 [ext_resource type="PackedScene" uid="uid://d4mfobsf0cw0e" path="res://presentation/enviroment/snow_view_2d.tscn" id="2_eol8w"]
 [ext_resource type="SpriteFrames" uid="uid://c34islyd00pxg" path="res://SpriteFrames/player_sprite_frame 16x32.tres" id="2_ly6xb"]
 [ext_resource type="Script" uid="uid://bcfmbokoqn6f5" path="res://application/controllers/main_controller.gd" id="2_v2gni"]
+[ext_resource type="Script" uid="uid://dek1jykhwsnrs" path="res://presentation/main_dialog.gd" id="2_wrw60"]
 [ext_resource type="PackedScene" uid="uid://ck414t0qevlux" path="res://presentation/scenes/ui_service.tscn" id="3_w6dai"]
 [ext_resource type="Script" uid="uid://cep7oo0qpqw4q" path="res://application/controllers/dialog_controller.gd" id="4_uu6ay"]
 [ext_resource type="Script" uid="uid://btw132w4jr4p7" path="res://infrastructure/services/player_light_service.gd" id="5_08630"]
@@ -22,14 +23,14 @@
 [ext_resource type="Shader" uid="uid://bxsh201bxhly8" path="res://presentation/shaders/water.gdshader" id="15_uh2eo"]
 [ext_resource type="Texture2D" uid="uid://b5bf6fgy7mj5q" path="res://Assets/Scenarios/Enviroment/Water.png" id="15_wrx63"]
 [ext_resource type="Script" uid="uid://dyost3oti3eys" path="res://domain/player/player_inventory.gd" id="16_5bsxs"]
-[ext_resource type="Texture2D" uid="uid://csk7jw0avavwe" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
+[ext_resource type="Texture2D" uid="uid://bhd7spqexayhh" path="res://Assets/Scenarios/Enviroment/snowFloor2.png" id="16_mqfxr"]
 [ext_resource type="PackedScene" uid="uid://cch7o06d0bsr0" path="res://presentation/enviroment/tall_grass.tscn" id="16_mrjo7"]
 [ext_resource type="PackedScene" uid="uid://48pqockt0kqd" path="res://presentation/enviroment/grassSnow.tscn" id="18_boirm"]
 [ext_resource type="MeshLibrary" uid="uid://b1o2dbkvdahbp" path="res://presentation/enviroment/grassFloor.tres" id="18_daoup"]
 [ext_resource type="Script" uid="uid://ccm1b4xrjwd7j" path="res://presentation/npc_view.gd" id="18_oi7nq"]
 [ext_resource type="MeshLibrary" uid="uid://8ftmod2fb0ha" path="res://presentation/enviroment/snowFloor.tres" id="19_bofyi"]
 [ext_resource type="Script" uid="uid://caobcdhitibqe" path="res://presentation/player_view.gd" id="21_mrjo7"]
-[ext_resource type="PackedScene" uid="uid://bganrxh0ai0su" path="res://presentation/components/chair.tscn" id="24_l42ic"]
+[ext_resource type="PackedScene" path="res://presentation/components/chair.tscn" id="24_l42ic"]
 [ext_resource type="Texture2D" uid="uid://bwol3optg0fh0" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Shop.png" id="24_swlrs"]
 [ext_resource type="Texture2D" uid="uid://c5ucp7myk2rj2" path="res://Assets/Scenarios/Buildings/Simple Biuldings/Police_station.png" id="26_sc685"]
 [ext_resource type="MeshLibrary" uid="uid://dl2rh1em6la4l" path="res://presentation/enviroment/cityFloor.tres" id="27_78jh6"]
@@ -172,16 +173,16 @@ size = Vector3(11.730316, 3.7212524, 15.429067)
 [sub_resource type="BoxShape3D" id="BoxShape3D_w1dup"]
 size = Vector3(18.10141, 3.7212524, 9.116124)
 
-[sub_resource type="Resource" id="Resource_ekaqe"]
-script = ExtResource("11_iypob")
-metadata/_custom_type_script = "uid://nxieygehmgh6"
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_4djc3"]
 size = Vector3(0.13036346, 0.54956055, 0.47633266)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvydw"]
 radius = 0.21191406
 height = 0.53894997
+
+[sub_resource type="Resource" id="Resource_ekaqe"]
+script = ExtResource("11_iypob")
+metadata/_custom_type_script = "uid://nxieygehmgh6"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ekaqe"]
 size = Vector3(0.42242432, 0.54086304, 0.5488281)
@@ -230,7 +231,15 @@ zone_controller = NodePath("EnviromentNode/ZoneController")
 player_light_service = NodePath("PlayerNode/PlayerController/PlayerLightService")
 npc_entity_path = NodePath("MainDialog/MainNpcEntity")
 
-[node name="MainDialog" type="Node3D" parent="."]
+[node name="MainDialog" type="Node3D" parent="." node_paths=PackedStringArray("bus", "fazendeiro", "vanGogh", "florista", "bordeaux", "player", "npc_entity_path")]
+script = ExtResource("2_wrw60")
+bus = NodePath("../BusPath/PathFollow3D/Bus")
+fazendeiro = NodePath("../Fazendeiro")
+vanGogh = NodePath("../Van Gogh")
+florista = NodePath("../Florista")
+bordeaux = NodePath("../Bordeaux")
+player = NodePath("../Scot")
+npc_entity_path = NodePath("MainNpcEntity")
 
 [node name="MainNpcController" type="Node3D" parent="MainDialog"]
 script = ExtResource("14_4djc3")
@@ -241,7 +250,7 @@ script = ExtResource("9_ekaqe")
 inventory = SubResource("Resource_7qotr")
 drop_point = NodePath("../../Fazendeiro/Marker3D")
 nome_npc = "Main"
-timelines = Array[String](["Start_01"])
+timelines = Array[String](["Start_01", "Final_01", "Final_02"])
 
 [node name="Interacao" type="Area3D" parent="MainDialog"]
 
@@ -1334,28 +1343,12 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="Chair" parent="." node_paths=PackedStringArray("dialogCameraService", "dialogService", "npc_entity_path", "player", "bus", "fazendeiro", "vanGogh", "florista", "bordeaux") instance=ExtResource("24_l42ic")]
+[node name="Chair" parent="." node_paths=PackedStringArray("dialogCameraService", "dialogService", "player", "mainDialog") instance=ExtResource("24_l42ic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.8687551)
 dialogCameraService = NodePath("../DialogNode/DialogCameraService")
 dialogService = NodePath("../DialogNode/DialogService")
-npc_entity_path = NodePath("NpcEntity")
 player = NodePath("../Scot")
-bus = NodePath("../BusPath/PathFollow3D/Bus")
-fazendeiro = NodePath("../Fazendeiro")
-vanGogh = NodePath("../Van Gogh")
-florista = NodePath("../Florista")
-bordeaux = NodePath("../Bordeaux")
-
-[node name="NpcController" type="Node3D" parent="Chair"]
-script = ExtResource("14_4djc3")
-npc_entity_path = NodePath("../NpcEntity")
-
-[node name="NpcEntity" type="Node3D" parent="Chair" node_paths=PackedStringArray("drop_point")]
-script = ExtResource("9_ekaqe")
-inventory = SubResource("Resource_ekaqe")
-drop_point = NodePath("../../Flint/DropPoint")
-nome_npc = "Chair"
-timelines = Array[String](["Final_01", "Final_02"])
+mainDialog = NodePath("../MainDialog")
 
 [node name="Interacao" type="Area3D" parent="Chair"]
 

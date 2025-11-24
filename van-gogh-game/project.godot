@@ -111,7 +111,7 @@ variables={
 "count_flores_de_inverno": "",
 "count_legumes": "",
 "final_dialog": false,
-"final_status": false,
+"final_status": true,
 "has_estrela": false,
 "has_flores_de_inverno": false,
 "has_legumes": false,
@@ -139,7 +139,6 @@ variables={
 
 [display]
 
-window/size/mode=3
 window/size/initial_screen=2
 window/size/resizable=false
 
