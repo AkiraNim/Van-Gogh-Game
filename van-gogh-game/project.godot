@@ -15,7 +15,7 @@ recent_projects=["res://QuestManager/NPC_Teste.quest"]
 config/name="Van Gogh Game"
 run/main_scene="uid://ctpo7yejgohfx"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="uid://dwgdtqhq68tvc"
+config/icon="uid://blt8bw5j6hxlg"
 
 [aseprite_importers]
 
